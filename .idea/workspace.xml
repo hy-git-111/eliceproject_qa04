@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="376d1882-fb8a-449e-81e4-f068a02a5426" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../무제/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../무제/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../무제/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../무제/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../무제/src/pages/my_page.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../무제/src/utils/helpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/../무제/src/utils/helpers.py" afterDir="false" />
+    <list default="true" id="376d1882-fb8a-449e-81e4-f068a02a5426" name="Changes" comment="mypage profile update">
+      <change afterPath="$PROJECT_DIR$/../무제/tests/test_my_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../무제/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../무제/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../무제/src/pages/my_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/../무제/src/pages/my_page.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,7 +38,6 @@
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "feature/0325__DY",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
@@ -62,6 +58,19 @@
       <option name="presentableId" value="Default" />
       <updated>1742888358409</updated>
     </task>
+    <task id="LOCAL-00001" summary="mypage profile update">
+      <option name="closed" value="true" />
+      <created>1742897338647</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1742897338647</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="mypage profile update" />
+    <option name="LAST_COMMIT_MESSAGE" value="mypage profile update" />
   </component>
 </project>
