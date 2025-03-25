@@ -38,14 +38,12 @@ user_agents = [
 @pytest.fixture(scope="function")
 def driver():
     # 크롬 옵션 설정
-
-    user_agent = random.choice(user_agents)
-
     chrome_options = Options() 
+
     # 1) User-Agent 변경
+    user_agent = random.choice(user_agents)
     chrome_options.add_argument(f'user-agent={user_agent}')
 
-    
     # 2) SSL 인증서 에러 무시
     chrome_options.add_argument("--ignore-certificate-errors")
     chrome_options.add_argument("--ignore-ssl-errors")
@@ -63,7 +61,7 @@ def driver():
     # 6) Sandbox나 DevShm 사이즈 문제 우회 (리눅스 환경에서 발생 가능)
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")    
-#추가
+    # 추가
     chrome_options.add_argument('--disable-extensions')
     chrome_options.add_argument('--start-maximized')
     chrome_options.add_argument('--disable-popup-blocking')
@@ -71,18 +69,17 @@ def driver():
     chrome_options.page_load_strategy = "eager"  # 빠른 페이지 로드
 
 
-   
     # 드라이버 객체 생성
     driver = webdriver.Chrome(service=Service(), options=chrome_options)
         # instantiate a Chrome browser and add the options
-    #추가
+    # 추가
     driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
-    driver.execute_cdp_cmd("Network.setExtraHTTPHeaders", {"headers": {"Referer": ""}}) #분석 웹 사이트 링크 추가
+    driver.execute_cdp_cmd("Network.setExtraHTTPHeaders", {"headers": {"Referer": "https://kdt-pt-1-pj-2-team03.elicecoding.com/"}}) #분석 웹 사이트 링크 추가
     driver.execute_cdp_cmd("Network.clearBrowserCache", {})
 
     # Step 4: Scrape using Stealth
-#enable stealth mode
-#추가
+    #enable stealth mode
+    # 추가
     stealth(driver,
         languages=["ko-KR", "ko"],
         vendor="Google Inc.",
