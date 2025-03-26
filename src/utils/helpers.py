@@ -1,6 +1,8 @@
 import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.webdriver import WebDriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from ..resources.testdata.user_data import user_data
 
 class WebUtils():
@@ -12,6 +14,18 @@ class WebUtils():
         url = "https://kdt-pt-1-pj-2-team03.elicecoding.com/"
         self.driver.get(url)
         self.driver.implicitly_wait(5)
+
+    def click_element(self, by, value):
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((by, value))
+        )
+        element.click()
+
+    def scroll_to_element(self, by, value):
+        element = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((by, value))
+        )
+        self.driver.execute_script("arguments[0].scrollIntoView();", element)  
 
     def click_back(self):
         back_btn = self.driver.find_element(By.XPATH, '//*[@id="root"]/div[1]/header/div/svg')
