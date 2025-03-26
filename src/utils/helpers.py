@@ -59,13 +59,4 @@ class WebUtils():
 
         btn_submit = self.driver.find_element(By.NAME, 'action')
         btn_submit.click()
-
-        return self.driver.get_cookies()
-
-    # 쿠키를 입력해서 자동 로그인하는 함수
-    # login() 1회 실행 후 return되는 쿠키값 클래스변수에 넣어두면 단위테스트할때 자동 로그인 가능
-    def login_auto(self, cookies: list):
-        for cookie in cookies:
-            self.driver.add_cookie(cookie)
-
-        time.sleep(2)
+        time.sleep(1)
