@@ -46,4 +46,4 @@ class MyPage():
         same_food_review_btn = self.driver.find_element(By.XPATH, '//*[@id="root"]/div[1]/main/section/section/div[2]/div[2]/div[1]/div[2]/button')
         same_food_review_btn.click()
 
-    # 또 먹은 후기 등록하기 페이지
+
