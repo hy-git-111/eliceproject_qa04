@@ -1,6 +1,5 @@
 import pytest
 import logging
-import time
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait as ws
 from selenium.webdriver.support import expected_conditions as EC
@@ -23,6 +22,7 @@ if not logger.handlers:  # 중복 방지
     logger.addHandler(file_handler)
 
 
+# 테스트. 추후 EXCEPTION 처리하는 공통 함수 추가 예정
 @pytest.mark.usefixtures("driver")
 class TestHomePage(Directories):
     header_title_css_selector = "header span.text-title"
@@ -31,8 +31,10 @@ class TestHomePage(Directories):
         try:
             logger.info("테스트 시작: HOME-001")
 
-            self.open_url()
-            self.login()
+            web_utils = WebUtils(driver)
+
+            web_utils.open_url()
+            web_utils.login()
             ws(driver, 5).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, self.header_title_css_selector))
             )
@@ -40,25 +42,70 @@ class TestHomePage(Directories):
             header_title = driver.find_element(By.CSS_SELECTOR, self.header_title_css_selector)
             assert "오늘 뭐 먹지 ?" == header_title.text.strip()
 
-            time.sleep(15)
+            # ui 전부 추가 필요
+
             logger.info("✅ HOME-001 테스트 성공")
 
         except AssertionError:
-            screenshot_path = self.screenshots_path("HOME-001 실패_AssertionError.png")
+            screenshot_path = self.screenshots_path("HOME_001_Fail_AssertionError.png")
             driver.save_screenshot(screenshot_path)
             logger.error(f"🚨 [ERROR] AssertionError 발생 - 스크린샷 저장: {screenshot_path}")
 
         except TimeoutException:
-            screenshot_path = self.screenshots_path("HOME-001 실패_Timeout.png")
+            screenshot_path = self.screenshots_path("HOME_001_Fail_Timeout.png")
             driver.save_screenshot(screenshot_path)
             logger.error(f"⏳ [ERROR] Timeout 발생 - 스크린샷 저장: {screenshot_path}", exc_info=True)
 
         except NoSuchElementException:
-            screenshot_path = self.screenshots_path("HOME-001 실패_NoSuchElement.png")
+            screenshot_path = self.screenshots_path("HOME_001_Fail_NoSuchElement.png")
             driver.save_screenshot(screenshot_path)
             logger.error(f"🔍 [ERROR] 요소 없음 - 스크린샷 저장: {screenshot_path}", exc_info=True)
 
         except Exception:
-            screenshot_path = self.screenshots_path("HOME-001 실패_Others.png")
+            screenshot_path = self.screenshots_path("HOME_001_Fail_Others.png")
+            driver.save_screenshot(screenshot_path)
+            logger.error(f"❗ [ERROR] 알 수 없는 예외 발생 - 스크린샷 저장: {screenshot_path}", exc_info=True)
+
+
+    def test_home_003(self, driver: WebDriver):
+        try:
+            logger.info("테스트 시작: HOME-003")
+
+            web_utils = WebUtils(driver)
+            home = HomePage(driver)
+
+            web_utils.open_url()
+            web_utils.login()
+            ws(driver, 5).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, HomePage.eat_alone_btn_css_selector))
+            )
+
+            home.open_eat_alone()
+            ws(driver, 5).until(
+                EC.presence_of_element_located((By.XPATH, '//*[@id="root"]/div[1]/header/div/svg'))
+            )
+
+            web_utils.click_back()
+            assert "https://kdt-pt-1-pj-2-team03.elicecoding.com/" == driver.current_url
+
+            logger.info("✅ HOME-003 테스트 성공")
+
+        except AssertionError:
+            screenshot_path = self.screenshots_path("HOME_001_Fail_AssertionError.png")
+            driver.save_screenshot(screenshot_path)
+            logger.error(f"🚨 [ERROR] AssertionError 발생 - 스크린샷 저장: {screenshot_path}")
+
+        except TimeoutException:
+            screenshot_path = self.screenshots_path("HOME_001_Fail_Timeout.png")
+            driver.save_screenshot(screenshot_path)
+            logger.error(f"⏳ [ERROR] Timeout 발생 - 스크린샷 저장: {screenshot_path}", exc_info=True)
+
+        except NoSuchElementException:
+            screenshot_path = self.screenshots_path("HOME_001_Fail_NoSuchElement.png")
+            driver.save_screenshot(screenshot_path)
+            logger.error(f"🔍 [ERROR] 요소 없음 - 스크린샷 저장: {screenshot_path}", exc_info=True)
+
+        except Exception:
+            screenshot_path = self.screenshots_path("HOME_001_Fail_Others.png")
             driver.save_screenshot(screenshot_path)
             logger.error(f"❗ [ERROR] 알 수 없는 예외 발생 - 스크린샷 저장: {screenshot_path}", exc_info=True)
