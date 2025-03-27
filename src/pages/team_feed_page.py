@@ -1,5 +1,5 @@
 # 팀 피드 페이지
-import time
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.webdriver import WebDriver
 
@@ -29,7 +29,7 @@ class TeamFeed:
 
     # 음식 성향 - 단 맛 슬라이더 변경
     def modify_team_sweet(self):
-        print("아직 구현 전입니다.")
+       print("아직 구현 전입니다.")
 
     # 음식 성향 - 짠 맛 슬라이더 변경
     def modify_team_salty(self):
