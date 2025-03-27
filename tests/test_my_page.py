@@ -22,9 +22,10 @@ class TestMyPage:
         current_url = driver.current_url
         assert current_url == mypage_url, f"URL 불일치"
 
-
-
-
+    @pytest.mark.order(2)
+    def test_my_page_002(self, driver):
+        header_text = driver.find_element(By.XPATH, '//*[@id="root"]/div[1]/header/div/span').text
+        assert header_text == "내 피드", f"헤더 텍스트 불일치"
 
 
 
