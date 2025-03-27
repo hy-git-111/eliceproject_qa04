@@ -4,3 +4,5 @@ user_data.py
 __pycache__/
 *.pyc
 *.pyo
+
+.DS_Store
