@@ -38,89 +38,89 @@ class WebUtils():
         time.sleep(1)
 
     # 새로운 후기 등록하기 - 식사 유형 그룹
-    def ate_group(self, driver):
-        atd_group_btn = driver.find_element(By.XPATH, '//*[@id="그룹"]')
+    def ate_group(self):
+        atd_group_btn = self.driver.find_element(By.XPATH, '//*[@id="그룹"]')
         atd_group_btn.click()
 
     # 새로운 후기 등록하기 - 식사 유형 회식
-    def ate_party(self, driver):
-        ate_party_btn = driver.find_element(By.XPATH, '//*[@id="회식"]')
+    def ate_party(self):
+        ate_party_btn = self.driver.find_element(By.XPATH, '//*[@id="회식"]')
         ate_party_btn.click()
 
     # 새로운 후기 등록하기 - 후기 사진 추가
-    def review_image_attach(self, driver):
-        review_image_attach = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[2]/div/button')
+    def review_image_attach(self):
+        review_image_attach = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[2]/div/button')
         review_image_attach.click()
 
     # 새로운 후기 등록하기 - 카테고리 드롭다운 클릭
-    def review_category(self, driver):
-        review_category_btn = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/button')
+    def review_category(self):
+        review_category_btn = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/button')
         review_category_btn.click()
 
     # 새로운 후기 등록하기 - 카텍고리 드롭다운 한식
-    def category_korean_food(self, driver):
-        korean_food_btn = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/select/option[1]')
+    def category_korean_food(self):
+        korean_food_btn = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/select/option[1]')
         korean_food_btn.click()
 
     # 새로운 후기 등록하기 - 카텍고리 드롭다운 중식
-    def category_chinese_food(self, driver):
-        chinese_food_btn = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/select/option[2]')
+    def category_chinese_food(self):
+        chinese_food_btn = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/select/option[2]')
         chinese_food_btn.click()
 
     # 새로운 후기 등록하기 - 카텍고리 드롭다운 양식
-    def category_western_food(self, driver):
-        western_food_btn = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/select/option[3]')
+    def category_western_food(self):
+        western_food_btn = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/select/option[3]')
         western_food_btn.click()
 
     # 새로운 후기 등록하기 - 카텍고리 드롭다운 일식
-    def category_japan_food(self, driver):
-        japan_food_btn = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/select/option[4]')
+    def category_japan_food(self):
+        japan_food_btn = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/select/option[4]')
         japan_food_btn.click()
 
     # 새로운 후기 등록하기 - 카텍고리 드롭다운 분식
-    def category_school_food(self, driver):
-        school_food_btn = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/select/option[6]')
+    def category_school_food(self):
+        school_food_btn = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/select/option[6]')
         school_food_btn.click()
 
     # 새로운 후기 등록하기 - 카텍고리 드롭다운 아시안
-    def category_asian_food(self, driver):
-        asian_food_btn = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/select/option[5]')
+    def category_asian_food(self):
+        asian_food_btn = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/select/option[5]')
         asian_food_btn.click()
 
     # 새로운 후기 등록하기 - 카텍고리 드롭다운 패스트푸드
-    def category_fast_food(self, driver):
-        fast_food_btn = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/select/option[7]')
+    def category_fast_food(self):
+        fast_food_btn = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/select/option[7]')
         fast_food_btn.click()
 
     # 새로운 후기 등록하기 - 카텍고리 드롭다운 기타
-    def category_etc_food(self, driver):
-        etc_food_btn = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/select/option[8]')
+    def category_etc_food(self):
+        etc_food_btn = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/select/option[8]')
         etc_food_btn.click()
 
     # 새로운 후기 등록하기 - 별점 1~5 버튼 클릭
-    def star_review_one_click(self, driver):
-        star_review_one = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[6]/div/div[1]')
+    def star_review_one_click(self):
+        star_review_one = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[6]/div/div[1]')
         star_review_one.click()
 
-    def star_review_two_click(self, driver):
-        star_review_two = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[6]/div/div[2]')
+    def star_review_two_click(self):
+        star_review_two = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[6]/div/div[2]')
         star_review_two.click()
 
-    def star_review_three_click(self, driver):
-        star_review_three = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[6]/div/div[3]')
+    def star_review_three_click(self):
+        star_review_three = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[6]/div/div[3]')
         star_review_three.click()
 
-    def star_review_four_click(self, driver):
-        star_review_four = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[6]/div/div[4]')
+    def star_review_four_click(self):
+        star_review_four = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[6]/div/div[4]')
         star_review_four.click()
 
-    def star_review_five_click(self, driver):
-        star_review_five = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[6]/div/div[5]')
+    def star_review_five_click(self):
+        star_review_five = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[6]/div/div[5]')
         star_review_five.click()
 
     # 새로운 후기 등록하기 - 후기 작성 완료 버튼 클릭
-    def review_completed(self, driver):
-        review_completed_btn = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/button')
+    def review_completed(self):
+        review_completed_btn = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/button')
         review_completed_btn.click()
 
     def click_tab_home(self):
