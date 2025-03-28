@@ -28,7 +28,7 @@ class WebUtils():
         self.driver.execute_script("arguments[0].scrollIntoView();", element)  
 
     def click_back(self):
-        back_btn = self.driver.find_element(By.XPATH, '//*[@id="root"]/div[1]/header/div/svg')
+        back_btn = self.driver.find_element(By.CSS_SELECTOR, '.rounded-full.cursor-pointer')
         back_btn.click()
         time.sleep(1)
 
