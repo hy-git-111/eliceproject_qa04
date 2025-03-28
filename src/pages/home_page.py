@@ -27,7 +27,7 @@ class HomePage(WebUtils):
 # [추천 옵션 선택 페이지]
 class SelectOptionPage(WebUtils):
     dropdown_css_selector = "button[role='combobox']"
-    options_css_selector = "button[role='option']"
+    options_css_selector = "div[role='option']"
     colleague_css_selector = "div.flex.flex-col.gap-2.py-2"
     search_field_css_selector = "input.text-body"
     done_btn_xpath = "//button[text()='선택 완료']"
