@@ -26,7 +26,7 @@ class TeamFeed:
     def click_team_profile_modify_done(self):
         team_modify_done_btn = self.driver.find_element(By.CSS_SELECTOR, "[type='submit']")
         team_modify_done_btn.click()
-
+    '''
     # 음식 성향 - 단 맛 슬라이더 변경
     def modify_team_sweet(self):
        print("아직 구현 전입니다.")
@@ -38,7 +38,7 @@ class TeamFeed:
     # 음식 성향 - 매운 맛 슬라이더 변경
     def modify_team_hot(self):
         print("아직 구현 전입니다.")
-
+    '''
     # 😃 이런 음식은 좋아요! 텍스트 변경
     def modify_team_favorite_text(self, favor_text):
         favorite_text_area = self.driver.find_element(By.CSS_SELECTOR, "[name='pros']")
