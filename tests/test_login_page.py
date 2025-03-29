@@ -1,398 +1,377 @@
-from selenium.common.exceptions import NoSuchElementException, TimeoutException, StaleElementReferenceException, ElementNotSelectableException
-from selenium import webdriver
-from src.utils.helpers import WebUtils
+from src.utils.helpers import WebUtils, CheckElement
 from src.pages.login_page import LoginPage
-from src.utils.directory_util import Directories
-from src.resources.testdata.locators import LOCATORS, EXPECTED_TEXTS
+from src.resources.testdata.locators import LOCATORS
+from src.utils.log_util import LogUtils
 from functools import wraps
 
 import time
 import pytest
-import logging
-import datetime
-import os
 
-
+@pytest.mark.usefixtures("driver")
 class TestLoginPage:
-    # 로그 레벨 DEBUG: 10 / INFO: 20 / WARNING: 30 / ERROR: 40 / CRITICAL: 50
-    # 로그파일 설정
-    dir_util = Directories()
-    file_name = datetime.date.today().strftime("%Y%m%d") + ".txt"
-    log_file = dir_util.logs_path(file_name)
-    log_dir = dir_util.logs_path("")
-
-    # 루트로거대신 myTestLogger 생성
-    if not os.path.exists(log_dir):
-        os.makedirs(log_dir, exist_ok=True)
-
-    logger = logging.getLogger("myTestLogger")
-    logger.setLevel(logging.INFO)
-
-    formatter = logging.Formatter("%(asctime)s : %(levelname)s - %(message)s")   # 핸들러를 사용하기 위한 포메터
-
-    fh = logging.FileHandler(log_file, mode="a", encoding="utf-8")  # 파일핸들러 : 로깅 출력을 디스크 파일로 보냄
-    fh.setFormatter(formatter)
-
-    ch = logging.StreamHandler()    # 소켓 핸들러 : 로깅 출력을 네트워크 소켓에 보냄
-    ch.setFormatter(formatter)
-
-    logger.addHandler(fh)
-    logger.addHandler(ch)
-
-    # 래퍼함수
-    def action_exception(test_func):
-        func_name = test_func.__name__  # wraper 실행 시 내부 wrapper에 의해 name 속성이 변경되므로, wraper함수 호출 전에 메서드명을 정의
-
-        @wraps(test_func)
-        def wrapper(self, **kwargs):
-            try:
-                logger = logging.getLogger("myTestLogger")
-                driver = kwargs.get("driver", None)
-                logger.info(f"{func_name} - 테스트 완료")
-                return test_func(self, **kwargs)
-# 시간나면 중복코드 최소화하기
-            except AssertionError as e:
-                driver.save_screenshot(self.dir_util.screenshots_path(f"{func_name}_AssertionError.png"))
-                print(driver.current_url)
-                logger.error(f"{func_name} - {e}")
-                raise
-
-            except NoSuchElementException as e:
-                driver.save_screenshot(self.dir_util.screenshots_path(f"{func_name}_NoSuchElementException.png"))
-                logger.error(f"{func_name} - {e}")
-                raise
-
-            except TimeoutException as e:
-                driver.save_screenshot(self.dir_util.screenshots_path(f"{func_name}_TimeoutException.png"))
-                logger.error(f"{func_name} - {e}")
-                raise
-
-            except StaleElementReferenceException as e:
-                driver.save_screenshot(self.dir_util.screenshots_path(f"{func_name}_InvalidElementStateException.png"))
-                logger.error(f"{func_name} - StaleElementReferenceException")
-                raise
-
-            except ElementNotSelectableException as e:
-                driver.save_screenshot(self.dir_util.screenshots_path(f"{func_name}_ElementNotSelectableException.png"))
-                logger.error(f"{func_name} - {e}")
-                raise
-
-            except Exception as e:
-                driver.save_screenshot(self.dir_util.screenshots_path(f"{func_name}_Other_Exception.png"))
-                logger.error(f"{func_name} - Other Exception: {e}")
-                raise
-
-        return wrapper
-    
-    # 헬퍼함수 / elems = [d,d,d,d] 선언하고 사용
-    def check_elem_exist(self, driver, elems):
-        elements = []
-        for elem in elems:
-            locator = LOCATORS.get(elem)
-            element = driver.find_element(*locator)
-            elements.append(element)
-        return elements
-        
-    def extract_elem_text(self, title_elems):
-        texts = []
-        for elem in title_elems:
-            texts.append(elem.text)
-        return texts
-
-    def extract_expected_text(self, keys):
-        titles = []
-        for key in keys:
-            text = EXPECTED_TEXTS.get(key)
-            titles.append(text)
-            print(titles)
-        return titles
-        
-
 # [로그인 페이지] UI 확인
     @pytest.mark.skip(reason="test pass")
-    @action_exception
     def test_login_001(self, driver):
-        web_utils = WebUtils(driver)
-        web_utils.open_url()    # 웹사이트 진입
+        try:
+            web_utils = WebUtils(driver)
+            check_elems = CheckElement(driver)
 
-        confirm_titles = ["login_pg_title", "login_pg_title_sub"]   # 타이틀 확인
-        title_elems = self.check_elem_exist(driver, confirm_titles)
-        titles = self.extract_elem_text(title_elems)
-        expected_titles = self.extract_expected_text(confirm_titles)
+            titles_keys = ["login_pg_title", "login_pg_title_sub"]
+            btns_keys = ["login_pg_login_btn", "login_pg_signin_btn"]
 
-        assert titles == expected_titles
-       
-        confirm_btns = ["login_pg_login_btn", "login_pg_signin_btn"] # 버튼 확인
-        btn_elems = self.check_elem_exist(driver, confirm_btns)
+            web_utils.open_url()    # 웹사이트 진입
 
-        assert btn_elems != None
+            titles_elems = check_elems.existence_check(driver, titles_keys)
+            titles_texts = check_elems.get_elems_texts(titles_elems)
+            btns_elemss = check_elems.existence_check(btns_keys)
+
+            expected_texts = check_elems.get_expected_texts(titles_keys)
+
+            assert titles_texts != expected_texts
+            assert btns_elemss != None
+
+        except Exception as e:
+            LogUtils.log_error(e, driver)
+            raise
 
 # [로그인 정보 입력 페이지] UI확인
     @pytest.mark.skip(reason="test pass")
-    @action_exception
     def test_login_002(self, driver):
-        web_utils = WebUtils(driver)
-        web_utils.open_url()    # 웹사이트 진입
-        
-        locator = LOCATORS.get("login_pg_login_btn")
-        web_utils.click_element(*locator)   # 로그인 버튼 클릭
+        try:
+            web_utils = WebUtils(driver)
+            check_elems = CheckElement(driver)
 
-        confirm_titles = ["login_input_pg_title", "login_input_pg_title_sub"]   # 타이틀 확인
-        title_elems = self.check_elem_exist(driver, confirm_titles)
-        titles = self.extract_elem_text(title_elems)
-        expected_titles = self.extract_expected_text(confirm_titles)
+            titles_keys = ["login_input_pg_title", "login_input_pg_title_sub"]
+            input_boxes_keys = ["login_input_pg_input_email", "login_input_pg_input_pwd"]
+            placeholders_keys = ["login_input_pg_placeholder_email", "login_input_pg_placeholder_pwd"]
 
-        assert titles == expected_titles
+            web_utils.open_url()    # 웹사이트 진입
+            web_utils.click_element(*LOCATORS.get("login_pg_login_btn"))   # 로그인 버튼 클릭
 
-        confirm_input = ["login_input_pg_input_email", "login_input_pg_input_pwd"]  # input box 확인
-        input_elems = self.check_elem_exist(driver, confirm_input)
+            titles_elems = check_elems.existence_check(titles_keys)
+            titles = check_elems.get_elems_texts(titles_elems)
 
-        assert input_elems != None
+            input_boxes_elems = check_elems.existence_check(input_boxes_keys)
 
-        confirm_placeholders = ["login_input_pg_placeholder_email", "login_input_pg_placeholder_pwd"]   # placeholder 확인
-        placeholder_elem = self.check_elem_exist(driver, confirm_placeholders)
-        placeholders = self.extract_elem_text(placeholder_elem)
-        expected_placeholders = self.extract_expected_text(confirm_placeholders)
+            placeholders_elems = check_elems.existence_check(placeholders_keys)
+            placeholders = check_elems.get_elems_texts(placeholders_elems)
 
-        assert placeholders == expected_placeholders
+            expected_titles = check_elems.get_expected_texts(titles_keys)
+            expected_placeholders = check_elems.get_expected_texts(placeholders_keys)
+
+            assert titles == expected_titles
+            assert input_boxes_elems != None
+            assert placeholders == expected_placeholders
+
+        except Exception as e:
+            LogUtils.log_error(e, driver)
+            raise
 
 # [로그인 정보 입력 페이지] UI확인
     @pytest.mark.skip(reason="test pass")
-    @action_exception
     def test_login_003(self, driver):
-        web_utils = WebUtils(driver)
-        web_utils.open_url()    # 웹사이트 진입
+        try:
+            web_utils = WebUtils(driver)
+            check_elems = CheckElement(driver)
 
-        locator_btn_login = LOCATORS.get("login_pg_login_btn")
-        web_utils.click_element(*locator_btn_login)   # "로그인 하기 버튼" 클릭
+            titles_keys = ["pwd_reset_pg_title", "pwd_reset_pg_title_sub"]
+            input_box_key = ["pwd_reset_pg_placeholder_email"]
+            placeholder_key = ["pwd_reset_pg_placeholder_email"]
+            btns_keys = ["pwd_reset_pg_btn_continue", "pwd_reset_pg_link_login"]
 
-        locator_link_reset = LOCATORS.get("login_input_pg_link_reset_pwd")
-        web_utils.click_element(*locator_link_reset)    # '비밀번호를 잊으셨나요? 링크' 클릭
+            web_utils.open_url()    # 웹사이트 진입
+            web_utils.click_element(*LOCATORS.get("login_pg_login_btn"))   # "로그인 하기 버튼" 클릭
+            web_utils.click_element(*LOCATORS.get("login_input_pg_link_reset_pwd"))    # '비밀번호를 잊으셨나요? 링크' 클릭
 
-        confirm_titles = ["pwd_reset_pg_title", "pwd_reset_pg_title_sub"]   # 타이틀 확인
-        title_elems = self.check_elem_exist(driver, confirm_titles)
-        titles = self.extract_elem_text(title_elems)
-        expected_titles = self.extract_expected_text(confirm_titles)
+            titles_elems = check_elems.existence_check(driver, titles_keys)
+            titles = check_elems.get_elems_texts(titles_elems)
 
-        assert titles == expected_titles
+            input_boxes_elems = check_elems.existence_check(driver, input_box_key)
 
-        confirm_input = ["pwd_reset_pg_placeholder_email"]  # input box 확인
-        input_elems = self.check_elem_exist(driver, confirm_input)
+            placeholders_elems = check_elems.existence_check(driver, placeholder_key)
+            placeholders = check_elems.get_elems_texts(placeholders_elems)
 
-        assert input_elems != None
+            btns_elems = check_elems.existence_check(driver, btns_keys)
 
-        confirm_placeholders = ["pwd_reset_pg_placeholder_email"]   # placeholder 확인
-        placeholder_elem = self.check_elem_exist(driver, confirm_placeholders)
-        placeholders = self.extract_elem_text(placeholder_elem)
-        expected_placeholders = self.extract_expected_text(confirm_placeholders)
+            expected_titles = check_elems.get_expected_texts(titles_keys)
+            expected_placeholders = check_elems.get_expected_texts(placeholder_key)
 
-        assert placeholders == expected_placeholders
+            assert titles == expected_titles
+            assert input_boxes_elems != None
+            assert placeholders == expected_placeholders
+            assert btns_elems != None
 
-        confirm_btns = ["pwd_reset_pg_btn_continue", "pwd_reset_pg_link_login"] # 버튼 확인
-        btn_elem = self.check_elem_exist(driver, confirm_btns)
+        except Exception as e:
+            LogUtils.log_error(e, driver)
+            raise
 
-        assert btn_elem != None
-        
 # [이메일 전송 완료 페이지] UI 확인
     @pytest.mark.skip(reason="test pass")
-    @action_exception
     def test_login_004(self, driver):
-        web_utils = WebUtils(driver)
-        login_page = LoginPage(driver)
-        web_utils.open_url()    # 웹사이트 진입
+        try:
+            web_utils = WebUtils(driver)
+            login_page = LoginPage(driver)
+            check_elems = CheckElement(driver)
 
-        web_utils.click_element(*LOCATORS.get("login_pg_login_btn"))   # "로그인 하기 버튼" 클릭
+            titles_keys = ["send_mail_pg_title", "send_mail_pg_title_sub"]
+            btn_key = ["send_mail_pg_btn_resend"]
 
-        web_utils.click_element(*LOCATORS.get("login_input_pg_link_reset_pwd"))    # '비밀번호를 잊으셨나요? 링크' 클릭
+            web_utils.open_url()    # 웹사이트 진입
+            web_utils.click_element(*LOCATORS.get("login_pg_login_btn"))   # "로그인 하기 버튼" 클릭
+            web_utils.click_element(*LOCATORS.get("login_input_pg_link_reset_pwd"))    # '비밀번호를 잊으셨나요? 링크' 클릭
 
-        login_page.input_email(*LOCATORS.get("pwd_reset_pg_input_email"))
-        web_utils.click_element(*LOCATORS.get("pwd_reset_pg_btn_continue"))    # 이메일 전송
+            login_page.input_email(*LOCATORS.get("pwd_reset_pg_input_email"))
+            web_utils.click_element(*LOCATORS.get("pwd_reset_pg_btn_continue"))    # 이메일 전송
 
-        confirm_titles = ["send_mail_pg_title", "send_mail_pg_title_sub"]   # 타이틀 확인
-        title_elems = self.check_elem_exist(driver, confirm_titles)
-        titles = self.extract_elem_text(title_elems)
-        expected_titles = self.extract_expected_text(confirm_titles)
+            titles_elems = check_elems.existence_check(driver, titles_keys)
+            titles = check_elems.get_elems_texts(titles_elems)
+            expected_titles = check_elems.get_expected_texts(titles_keys)
 
-        assert titles == expected_titles
+            btns_elems = check_elems.existence_check(driver, btn_key)
 
-        confirm_btns = ["send_mail_pg_btn_resend"]  # 버튼 확인
-        btn_elem = self.check_elem_exist(driver, confirm_btns)
+            assert titles == expected_titles
+            assert btns_elems != None
 
-        assert btn_elem != None
+        except Exception as e:
+            LogUtils.log_error(e, driver)
+            raise
 
 # TC LOGIN-005 누락
 
 # [회원가입 페이지] UI 확인
     @pytest.mark.skip(reason="test pass")
-    @action_exception
     def test_login_006(self, driver):
-        web_utils = WebUtils(driver)
+        try:
+            web_utils = WebUtils(driver)
+            check_elems = CheckElement(driver)
 
-        web_utils.open_url()    # 웹사이트 진입
+            titles_keys = ["signin_pg_title", "signin_pg_title_sub"]   # 타이틀 확인
+            input_boxes_keys = ["signin_pg_input_email", "signin_pg_input_pwd"]  # input box 확인
+            placeholders_keys = ["signin_pg_placeholder_email", "signin_pg_placeholder_pwd"]   # placeholder 확인
+            btns_keys = ["signin_pg_pg_btn_continue", "signin_pg_link_login"]
 
-        web_utils.click_element(*LOCATORS.get("login_pg_signin_btn"))   # "회원가입 버튼" 클릭
+            web_utils.open_url()    # 웹사이트 진입
+            web_utils.click_element(*LOCATORS.get("login_pg_signin_btn"))   # "회원가입 버튼" 클릭
 
-        confirm_titles = ["signin_pg_title", "signin_pg_title_sub"]   # 타이틀 확인
-        title_elems = self.check_elem_exist(driver, confirm_titles)
-        titles = self.extract_elem_text(title_elems)
-        expected_titles = self.extract_expected_text(confirm_titles)
+            titles_elems = check_elems.existence_check(driver, titles_keys)
+            titles = check_elems.get_elems_texts(titles_elems)
 
-        assert titles == expected_titles
+            input_boxes_elems = check_elems.existence_check(driver, input_boxes_keys)
 
-        confirm_input = ["signin_pg_input_email", "signin_pg_input_pwd"]  # input box 확인
-        input_elems = self.check_elem_exist(driver, confirm_input)
+            placeholders_elems = check_elems.existence_check(driver, placeholders_keys)
+            placeholders = check_elems.get_elems_texts(placeholders_elems)
 
-        assert input_elems != None
+            btns_elems = check_elems.existence_check(driver, btns_keys)
 
-        confirm_placeholders = ["signin_pg_placeholder_email", "signin_pg_placeholder_pwd"]   # placeholder 확인
-        placeholder_elem = self.check_elem_exist(driver, confirm_placeholders)
-        placeholders = self.extract_elem_text(placeholder_elem)
-        expected_placeholders = self.extract_expected_text(confirm_placeholders)
+            expected_placeholders = check_elems.get_expected_texts(placeholders_keys)
+            expected_titles = check_elems.get_expected_texts(titles_keys)
+            
+            assert titles == expected_titles
+            assert input_boxes_elems != None
+            assert placeholders == expected_placeholders
+            assert btns_elems != None
 
-        assert placeholders == expected_placeholders
-
-        cofirm_btns = ["signin_pg_pg_btn_continue", "signin_pg_link_login"]
-        btns_elems = self.check_elem_exist(driver, cofirm_btns)
-        
-        assert btns_elems != None
+        except Exception as e:
+            LogUtils.log_error(e, driver)
+            raise
 
 # [로그인 페이지] 진입 확인
     @pytest.mark.skip(reason="test pass")
-    @action_exception
     def test_login_010(self, driver):
-        web_utils = WebUtils(driver)
+        try:
+            web_utils = WebUtils(driver)
 
-        web_utils.open_url()    # 웹사이트 진입
+            web_utils.open_url()    # 웹사이트 진입
 
-        time.sleep(1)   # 없으면 에러남
-        assert "signin" in driver.current_url
+            time.sleep(1)   # 없으면 에러남
+            assert "signin" in driver.current_url
+            
+        except Exception as e:
+            LogUtils.log_error(e, driver)
+            raise
 
 # [로그인 페이지] 진입 확인
     @pytest.mark.skip(reason="test pass")
-    @action_exception
     def test_login_011(self, driver):
-        web_utils = WebUtils(driver)
+        try:
+            web_utils = WebUtils(driver)
 
-        web_utils.open_url()    # 웹사이트 진입
-        
-        locator = LOCATORS.get("login_pg_login_btn")
-        web_utils.click_element(*locator)   # 로그인 버튼 클릭
+            web_utils.open_url()    # 웹사이트 진입
+            web_utils.click_element(*LOCATORS.get("login_pg_login_btn"))   # 로그인 버튼 클릭
 
-        time.sleep(1)   # 없으면 오류남
-        assert "login?" in driver.current_url
+            time.sleep(1)   # 없으면 오류남
+            assert "login?" in driver.current_url
+
+        except Exception as e:
+            LogUtils.log_error(e, driver)
+            raise
 
 # TC LOGIN-012 ~ LOGIN-013 누락
 
 # [로그인 정보 입력 페이지] 로그인
     @pytest.mark.skip(reason="test pass")
-    @action_exception
     def test_login_014(self, driver):
-        web_utils = WebUtils(driver)
-        web_utils.open_url()    # 웹사이트 진입
-        
-        locator = LOCATORS.get("login_pg_login_btn")
-        web_utils.click_element(*locator)   # 로그인 버튼 클릭
+        try:
+            web_utils = WebUtils(driver)
 
-        web_utils.login()   # 로그인
-        time.sleep(1)
+            web_utils.open_url()    # 웹사이트 진입
+            web_utils.click_element(*LOCATORS.get("login_pg_login_btn"))   # 로그인 버튼 클릭
 
-        assert not "login" in driver.current_url and not "signin" in driver.current_url
+            web_utils.login()   # 로그인
+            time.sleep(1)
+
+            assert not "login" in driver.current_url and not "signin" in driver.current_url   
+
+        except Exception as e:
+            LogUtils.log_error(e, driver)
+            raise                      
 
 # [비밀번호 초기화 페이지] 진입 확인
     @pytest.mark.skip(reason="test pass")
-    @action_exception
     def test_login_015(self, driver):
-        web_utils = WebUtils(driver)
-        web_utils.open_url()    # 웹사이트 진입
+        try:
+            web_utils = WebUtils(driver)
 
-        locator_btn_login = LOCATORS.get("login_pg_login_btn")
-        web_utils.click_element(*locator_btn_login)   # "로그인 하기 버튼" 클릭
+            web_utils.open_url()    # 웹사이트 진입
+            web_utils.click_element(*LOCATORS.get("login_pg_login_btn"))   # "로그인 하기 버튼" 클릭
+            web_utils.click_element(*LOCATORS.get("login_input_pg_link_reset_pwd"))    # '비밀번호를 잊으셨나요? 링크' 클릭
 
-        locator_link_reset = LOCATORS.get("login_input_pg_link_reset_pwd")
-        web_utils.click_element(*locator_link_reset)    # '비밀번호를 잊으셨나요? 링크' 클릭
-
-        assert "reset-password/request" in driver.current_url
+            assert "reset-password/request" in driver.current_url
+        
+        except Exception as e:
+            LogUtils.log_error(e, driver)
+            raise
 
 # TC LOGIN-016 누락
 
 # 이메일 재 전송
     @pytest.mark.skip(reason="test fail")
-    @action_exception
     def test_login_017(self, driver):
-        web_utils = WebUtils(driver)
-        login_page = LoginPage(driver)
-        web_utils.open_url()    # 웹사이트 진입
+        try:
+            web_utils = WebUtils(driver)
+            login_page = LoginPage(driver)
 
-        web_utils.click_element(*LOCATORS.get("login_pg_login_btn"))   # "로그인 하기 버튼" 클릭
+            web_utils.open_url()    # 웹사이트 진입
+            web_utils.click_element(*LOCATORS.get("login_pg_login_btn"))   # "로그인 하기 버튼" 클릭
+            web_utils.click_element(*LOCATORS.get("login_input_pg_link_reset_pwd"))    # '비밀번호를 잊으셨나요? 링크' 클릭
 
-        web_utils.click_element(*LOCATORS.get("login_input_pg_link_reset_pwd"))    # '비밀번호를 잊으셨나요? 링크' 클릭
+            login_page.input_email(*LOCATORS.get("pwd_reset_pg_input_email"))
+            web_utils.click_element(*LOCATORS.get("pwd_reset_pg_btn_continue"))    # 이메일 전송
+            
+            web_utils.click_element(*LOCATORS.get("send_mail_pg_btn_resend"))   # 이메일 재 전송
 
-        login_page.input_email(*LOCATORS.get("pwd_reset_pg_input_email"))
-        web_utils.click_element(*LOCATORS.get("pwd_reset_pg_btn_continue"))    # 이메일 전송
-        
-        web_utils.click_element(*LOCATORS.get("send_mail_pg_btn_resend"))   # 이메일 재 전송
-        time.sleep(1)
+            input_boxes_keys_value = driver.find_element(*LOCATORS.get("pwd_reset_pg_input_email")).get_attribute("value")
+            
+            assert input_boxes_keys_value == ""
 
-        confirm_input_value = driver.find_element(*LOCATORS.get("pwd_reset_pg_input_email")).get_attribute("value")
-        
-        assert confirm_input_value == ""
+        except Exception as e:
+            LogUtils.log_error(e, driver)
+            raise
 
 # TC LOGIN-018 ~ LOGIN-019 누락
 
 # [비밀번호 초기화 페이지]에서 [로그인 정보 입력 페이지] 진입 확인
     @pytest.mark.skip(reason="test pass")
-    @action_exception
     def test_login_020(self, driver):
-        web_utils = WebUtils(driver)
+        try:
+            web_utils = WebUtils(driver)
 
-        web_utils.open_url()    # 웹사이트 진입
+            web_utils.open_url()    # 웹사이트 진입
+            web_utils.click_element(*LOCATORS.get("login_pg_login_btn"))   # "로그인 하기 버튼" 클릭
+            web_utils.click_element(*LOCATORS.get("login_input_pg_link_reset_pwd"))    # '비밀번호를 잊으셨나요? 링크' 클릭
+            
+            web_utils.click_element(*LOCATORS.get("pwd_reset_pg_link_login"))   #  '로그인 화면으로 돌아가기 링크' 클릭
 
-        web_utils.click_element(*LOCATORS.get("login_pg_login_btn"))   # "로그인 하기 버튼" 클릭
+            time.sleep(1)   # 없으면 에러남
+            assert "login?" in driver.current_url
 
-        web_utils.click_element(*LOCATORS.get("login_input_pg_link_reset_pwd"))    # '비밀번호를 잊으셨나요? 링크' 클릭
-
-        web_utils.click_element(*LOCATORS.get("pwd_reset_pg_link_login"))   #  '로그인 화면으로 돌아가기 링크' 클릭
-
-        time.sleep(1)   # 없으면 에러남
-        assert "login?" in driver.current_url
+        except Exception as e:
+            LogUtils.log_error(e, driver)
+            raise
 
 # [로그인 정보 입력 페이지]에서 [회원가입 페이지]로 이동 확인
     @pytest.mark.skip(reason="test pass")
-    @action_exception
     def test_login_021(self, driver):
-        web_utils = WebUtils(driver)
+        try:
+            web_utils = WebUtils(driver)
 
-        web_utils.open_url()    # 웹사이트 진입
+            web_utils.open_url()    # 웹사이트 진입
+            web_utils.click_element(*LOCATORS.get("login_pg_login_btn"))   # "로그인 하기 버튼" 클릭
+            web_utils.click_element(*LOCATORS.get("login_input_pg_link_signin"))    # '회원가입 링크' 클릭
 
-        web_utils.click_element(*LOCATORS.get("login_pg_login_btn"))   # "로그인 하기 버튼" 클릭
+            time.sleep(1)   # 없으면 에러남
+            assert "signup?" in driver.current_url
 
-        web_utils.click_element(*LOCATORS.get("login_input_pg_link_signin"))    # '회원가입 링크' 클릭
-
-        time.sleep(1)   # 없으면 에러남
-        assert "signup?" in driver.current_url
+        except Exception as e:
+            LogUtils.log_error(e, driver)
+            raise
 
 # [로그인 페이지]에서 [회원가입 페이지] 진입 확인
     @pytest.mark.skip(reason="test pass")
-    @action_exception
     def test_login_022(self, driver):
-        web_utils = WebUtils(driver)
+        try:
+            web_utils = WebUtils(driver)
 
-        web_utils.open_url()    # 웹사이트 진입
+            web_utils.open_url()    # 웹사이트 진입
+            web_utils.click_element(*LOCATORS.get("login_pg_signin_btn"))   # "회원가입 버튼" 클릭
 
-        web_utils.click_element(*LOCATORS.get("login_pg_signin_btn"))   # "회원가입 버튼" 클릭
+            time.sleep(1)   # 없으면 에러남
+            assert "signup?" in driver.current_url
+            
+        except Exception as e:
+                LogUtils.log_error(e, driver)
+                raise
 
-        time.sleep(1)   # 없으면 에러남
-        assert "signup?" in driver.current_url
-
-# [로그인 페이지]에서 [회원가입 페이지] 진입 확인 >> 미완료
+# [회원가입 페이지] 비밀번호 입력
     @pytest.mark.skip(reason="test pass")
-    @action_exception
-    def test_login_023(self, driver):
-        web_utils = WebUtils(driver)
-        login_page = LoginPage(driver)
+    def test_login_025(self, driver):
+        try:
+            web_utils = WebUtils(driver)
+            login_page = LoginPage(driver)
+            check_elems = CheckElement(driver)
 
-        web_utils.open_url()    # 웹사이트 진입
+            text_section_key = "signin_pg_pw_rule_section"
+            rules_keys = ["signin_pg_pw_rule_title", "signin_pg_pw_rule_char_num", "signin_pg_pw_rule_following", 
+                          "signin_pg_pw_rule_following_Lower_letters", "signin_pg_pw_rule_following_upper_letters",
+                          "signin_pg_pw_rule_following_num", "signin_pg_pw_rule_following_special_char"]
+            
+            web_utils.open_url()    # 웹사이트 진입
+            web_utils.click_element(*LOCATORS.get("login_pg_signin_btn"))   # "회원가입 버튼" 클릭
+            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"))  # 비밀번호 입력
 
-        web_utils.click_element(*LOCATORS.get("login_pg_signin_btn"))   # "회원가입 버튼" 클릭
+            rules = check_elems.get_texts_for_children(text_section_key, rules_keys)
+            
+            expected_rules = check_elems.get_expected_texts(rules_keys)
 
-        login_page.input_password
+            assert rules == expected_rules
+
+        except Exception as e:
+            LogUtils.log_error(e, driver)
+            raise
+
+# [회원가입 페이지] 비밀번호 입력
+    #@pytest.mark.skip(reason="test pass")
+    def test_login_026(self, driver):
+        try:
+            web_utils = WebUtils(driver)
+            login_page = LoginPage(driver)
+            check_elems = CheckElement(driver)
+
+            text_section_key = "signin_pg_pw_rule_section"
+            rules_keys = ["signin_pg_pw_rule_title", "signin_pg_pw_rule_char_num", "signin_pg_pw_rule_following", 
+                          "signin_pg_pw_rule_following_Lower_letters", "signin_pg_pw_rule_following_upper_letters",
+                          "signin_pg_pw_rule_following_num", "signin_pg_pw_rule_following_special_char"]
+            
+            web_utils.open_url()    # 웹사이트 진입
+            web_utils.click_element(*LOCATORS.get("login_pg_signin_btn"))   # "회원가입 버튼" 클릭
+            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"))  # 비밀번호 입력
+
+            rules = check_elems.get_texts_for_children(text_section_key, rules_keys)
+
+            expected_rules = check_elems.get_expected_texts(rules_keys)
+
+            assert rules == expected_rules
+
+        except Exception as e:
+            LogUtils.log_error(e, driver)
+            raise
