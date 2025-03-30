@@ -3,7 +3,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from ..resources.testdata.user_data import user_data
 
 class WebUtils():
 
@@ -61,15 +60,14 @@ class WebUtils():
         tab_home.click()
         time.sleep(1)
 
-    # email, password를 입력해서 로그인하는 함수
-    def login(self):
+    def login(self, id, pw):
         btn_login = self.driver.find_element(By.XPATH, '//button[contains(@class, "bg-main")]')
         btn_login.click()
 
         input_email = self.driver.find_element(By.ID, 'username')
-        input_email.send_keys(user_data["email"])
+        input_email.send_keys(id)
         input_password = self.driver.find_element(By.ID, 'password')
-        input_password.send_keys(user_data["password"])
+        input_password.send_keys(pw)
 
         btn_submit = self.driver.find_element(By.NAME, 'action')
         btn_submit.click()
