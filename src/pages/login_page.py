@@ -9,12 +9,6 @@ class LoginPage(WebUtils):
 
     def __init__(self, driver: WebDriver):
         self.driver = driver
-    
-    def click_element(self, by, value):
-        element = WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((by, value))
-        )
-        element.click()
 
     def input_email(self, by, value):
         element = WebDriverWait(self.driver, 10).until(
