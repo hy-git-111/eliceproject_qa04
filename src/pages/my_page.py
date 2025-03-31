@@ -51,7 +51,7 @@ class MyPage():
 
     # 내가 먹은 메뉴 추가하기 버튼 클릭
     def my_food_review(self):
-        my_food_add_btn = self.driver.find_element(By.XPATH, '//*[@id="root"]/div[1]/main/section/section/div[2]/div[1]/button')
+        my_food_add_btn = self.driver.find_element(By.XPATH, '//*[@id="root"]/div[1]/main/section/section/div[2]/div[1]/span')
         my_food_add_btn.click()
 
     # 같은 메뉴 먹기 버튼 클릭

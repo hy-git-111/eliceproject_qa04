@@ -17,7 +17,7 @@ class TestMyPage:
 
         web_utils = WebUtils(driver)
         web_utils.open_url()
-        web_utils.login()
+        web_utils.login("qa04@ruu.kr", "1234Qwer!")
 
         web_utils.click_tab_personal()
 
@@ -93,7 +93,7 @@ class TestMyPage:
     def test_my_page_002(self, driver):
         web_utils = WebUtils(driver)
         web_utils.open_url()
-        web_utils.login()
+        web_utils.login("qa04@ruu.kr", "1234Qwer!")
         web_utils.click_tab_personal()
         time.sleep(1)
 
@@ -155,11 +155,11 @@ class TestMyPage:
 
 
     @pytest.mark.skip
-    # @pytest.mark.order(3)
+    # @pytest.mark.order
     def test_my_page_003(self, driver):
         web_utils = WebUtils(driver)
         web_utils.open_url()
-        web_utils.login()
+        web_utils.login("qa04@ruu.kr", "1234Qwer!")
         web_utils.click_tab_personal()
 
         my_page = MyPage(driver)
@@ -238,16 +238,18 @@ class TestMyPage:
         # 프로필 수정 진입 불가
 
 
-    @pytest.mark.order
+    @pytest.mark.skip
     def test_my_page_005(self, driver):
         web_utils = WebUtils(driver)
         web_utils.open_url()
-        web_utils.login()
+        web_utils.login("qa04@ruu.kr", "1234Qwer!")
         web_utils.click_tab_personal()
 
         my_page = MyPage(driver)
-        my_page.my_food_review()
         time.sleep(1)
+        web_utils.scroll_to_element(By.CSS_SELECTOR, "button.bg-main-black.text-white:nth-of-type(1)")
+        # my_page.my_food_review()
+
 
         food_name = "메뉴명 입력"
         food_review_detail = "후기를 입력해보자"
@@ -256,7 +258,7 @@ class TestMyPage:
         review_food_name.send_keys(food_name)
 
         # 이미지 업로드
-
+        web_utils.review_image_upload()
 
         web_utils.review_category()
         web_utils.category_korean_food()
@@ -271,12 +273,105 @@ class TestMyPage:
         # 메뉴 정보 확인
         menu_info = my_page.get_menu_info()
         expected_data = {
-            "image_src": "https://elice-assign-bucket.s3.ap-northeast-2.amazonaws.com/uploads/db111fd4-c9d7-4806-b625-644650b268cf_300_300_20230902021820639_photo_3cfebe345c18.webp",
-            "tags": ["회식", "중식", "AI 추천"],
-            "title": "사천해물탕",
+            "image_src": "Users/kimdongyeon/Desktop/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202025-03-21%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%208.44.18.pngp",
+            "tags": ["혼밥", "한식"],
+            "title": "메뉴명 입력",
             "rating": "★☆☆☆☆",
-            "review": "이번에 부장님을 모셨는데 비린 맛이 난다고 싫어하시더라구요 여긴 다시 안 가야겠습니다",
+            "review": "후기를 입력해보자",
         }
 
         assert menu_info == expected_data, f"Expected {expected_data}, but got {menu_info}"
 
+    @pytest.mark.order
+    def test_my_page_006(self, driver):
+        web_utils = WebUtils(driver)
+        web_utils.open_url()
+        web_utils.login("qa04@ruu.kr", "1234Qwer!")
+        web_utils.click_tab_personal()
+
+        my_page = MyPage(driver)
+        time.sleep(1)
+        web_utils.scroll_to_element(By.CSS_SELECTOR, "button.bg-main-black.text-white:nth-of-type(1)")
+        # my_page.my_food_review()
+
+        web_utils.ate_group()
+        group_name_title = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[3]/h1').text
+        assert group_name_title == "같이 먹은 사람 등록", "같이 먹은 사람 등록 미노출"
+        group_name_input = driver.find_element(By.CSS_SELECTOR, '[placeholder="이름을 검색해주세요"]')
+        assert group_name_input.is_displayed(), "같이 먹은 사람 입력란 미노출"
+        group_name_input.send_keys("누구인가")
+
+        food_name = "메뉴명 입력"
+        food_review_detail = "후기를 입력해보자"
+
+        review_food_name = driver.find_element(By.CSS_SELECTOR, '.flex w-full.rounded-md.border.border-[#E4E4E7]')
+        review_food_name.send_keys(food_name)
+
+        # 이미지 업로드
+        web_utils.review_image_upload()
+
+        web_utils.review_category()
+        web_utils.category_korean_food()
+
+        review_food_detail = driver.find_element(By.CSS_SELECTOR, '[name="comment"]')
+        review_food_detail.send_keys(food_review_detail)
+
+        web_utils.star_review_one_click()
+        web_utils.review_completed()
+        time.sleep(1)
+
+        # 메뉴 정보 확인
+        menu_info = my_page.get_menu_info()
+        expected_data = {
+            "image_src": "Users/kimdongyeon/Desktop/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202025-03-21%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%208.44.18.pngp",
+            "tags": ["혼밥", "한식"],
+            "title": "메뉴명 입력",
+            "rating": "★☆☆☆☆",
+            "review": "후기를 입력해보자",
+        }
+
+        assert menu_info == expected_data, f"Expected {expected_data}, but got {menu_info}"
+
+    @pytest.mark.skip
+    def test_my_page_007(self, driver):
+        web_utils = WebUtils(driver)
+        web_utils.open_url()
+        web_utils.login("qa04@ruu.kr", "1234Qwer!")
+        web_utils.click_tab_personal()
+
+        my_page = MyPage(driver)
+        time.sleep(1)
+        web_utils.scroll_to_element(By.CSS_SELECTOR, "button.bg-main-black.text-white:nth-of-type(1)")
+        # my_page.my_food_review()
+
+        web_utils.ate_party()
+        food_name = "메뉴명 입력"
+        food_review_detail = "후기를 입력해보자"
+
+        review_food_name = driver.find_element(By.CSS_SELECTOR, '.flex w-full.rounded-md.border.border-[#E4E4E7]')
+        review_food_name.send_keys(food_name)
+
+        # 이미지 업로드
+        web_utils.review_image_upload()
+
+        web_utils.review_category()
+        web_utils.category_korean_food()
+
+        review_food_detail = driver.find_element(By.CSS_SELECTOR, '[name="comment"]')
+        review_food_detail.send_keys(food_review_detail)
+
+        web_utils.star_review_one_click()
+        web_utils.review_completed()
+        time.sleep(1)
+
+        # 메뉴 정보 확인
+        menu_info = my_page.get_menu_info()
+        expected_data = {
+            "image_src": "Users/kimdongyeon/Desktop/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202025-03-21%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%208.44.18.pngp",
+            "tags": ["혼밥", "한식"],
+            "title": "메뉴명 입력",
+            "rating": "★☆☆☆☆",
+            "review": "후기를 입력해보자",
+        }
+
+        assert menu_info == expected_data, f"Expected {expected_data}, but got {menu_info}"
