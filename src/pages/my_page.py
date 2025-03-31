@@ -1,4 +1,6 @@
 import time
+
+from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.webdriver import WebDriver
 from tests.conftest import driver
@@ -12,7 +14,6 @@ class MyPage():
     def open_mypage(self):
         mypage_btn = self.driver.find_element(By.XPATH, '//*[@id="root"]/div[1]/div/ul/li[4]/a')
         mypage_btn.click()
-        time.sleep(2)
 
     # def profile_image(self):
         # try:
@@ -27,8 +28,9 @@ class MyPage():
 
     # 프로필 수정하기 버튼 클릭
     def profile_setup(self):
-        porfile_setup_btn = self.driver.find_element(By.XPATH, '//*[@id="root"]/div[1]/main/section/section/section/div[1]/div[2]/div/svg/path')
-        porfile_setup_btn.click()
+        profile_div = self.driver.find_element(By.CSS_SELECTOR, "flex.items-center.w-full.gap-4")
+        profile_setup_btn = profile_div.find_element(By.CSS_SELECTOR, 'svg[viewBox="0 -960 960 960"]')
+        profile_setup_btn.click()
 
     # 프로필 정보 수정 - 이미지 첨부 버튼 클릭
     def image_attach(self):
@@ -51,7 +53,6 @@ class MyPage():
     def my_food_review(self):
         my_food_add_btn = self.driver.find_element(By.XPATH, '//*[@id="root"]/div[1]/main/section/section/div[2]/div[1]/button')
         my_food_add_btn.click()
-        time.sleep(2)
 
     # 같은 메뉴 먹기 버튼 클릭
     def same_food_review(self):
@@ -69,7 +70,7 @@ class MyPage():
 
     # 페이지 스크롤
     def scroll_to_top(self):
-        self.scroll_handler.scroll_to_top()
+        self.driver.execute_script("window.scrollTo(0, 0);")
 
     def scroll_to_bottom(self):
-        return self.scroll_handler.scroll_to_bottom()
+        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")

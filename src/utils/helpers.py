@@ -39,8 +39,8 @@ class WebUtils():
 
     # 새로운 후기 등록하기 - 식사 유형 그룹
     def ate_group(self):
-        atd_group_btn = self.driver.find_element(By.XPATH, '//*[@id="그룹"]')
-        atd_group_btn.click()
+        ate_group_btn = self.driver.find_element(By.XPATH, '//*[@id="그룹"]')
+        ate_group_btn.click()
 
     # 새로운 후기 등록하기 - 식사 유형 회식
     def ate_party(self):
