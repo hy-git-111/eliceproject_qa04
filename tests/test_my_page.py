@@ -6,17 +6,18 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from src.pages.my_page import MyPage
 from src.utils.helpers import WebUtils
+from tests.conftest import driver
 
 
 class TestMyPage:
-    # 웹 오픈 후 개인 피드 페이지 이동
-    @pytest.mark.order(1)
+    @pytest.mark.skip
+    # @pytest.mark.order(1)
     def test_my_page_001(self, driver):
         mypage_url = "https://kdt-pt-1-pj-2-team03.elicecoding.com/my"
 
         web_utils = WebUtils(driver)
         web_utils.open_url()
-        web_utils.login()
+        web_utils.login("qa04@ruu.kr", "1234Qwer!")
 
         web_utils.click_tab_personal()
 
@@ -72,38 +73,314 @@ class TestMyPage:
         assert statistics_text == "📊 내 통계", "내 통계 텍스트 미노출"
 
         statistics_canvas = driver.find_element(By.XPATH, '//*[@id="root"]/div[1]/main/section/section/div[1]/div/div/canvas')
-        assert statistics_canvas is not None, "내 통계 그래프 미노출"
+        assert statistics_canvas.is_displayed(), "내 통계 그래프 미노출"
 
         # 내가 먹은 메뉴
         my_food_review_title = driver.find_element(By.CSS_SELECTOR, "font-bold text-sub-2 text-title").text
         assert my_food_review_title == "🍽️ 내가 먹은 메뉴", "내가 먹은 메뉴 텍스트 미노출"
 
         my_food_review_add_btn = driver.find_element(By.XPATH, '//*[@id="root"]/div[1]/main/section/section/div[2]/div[1]/button')
-        assert my_food_review_add_btn is not None, "내가 먹은 메뉴 추가 버튼 미노출"
+        assert my_food_review_add_btn.is_displayed(), "내가 먹은 메뉴 추가 버튼 미노출"
 
         # 후기 있는 경우 진행 코드 따기(파일명 코드는 프로필)
         my_food_review_img = driver.find_element(By.XPATH, '//*[@id="root"]/div[1]/main/section/section/div[2]/div[2]/div[1]/div[1]/img')
-        assert my_food_review_img is not None, "후기 이미지 미노출"
+        assert my_food_review_img.is_displayed(), "후기 이미지 미노출"
 
         # UI 확인 > 하단 스크롤 > 목록 전체 불러오기
         # 목록 추가, 내용 리스트 받아오는 코드
 
-    @pytest.mark.order(2)
+    @pytest.mark.skip
     def test_my_page_002(self, driver):
+        web_utils = WebUtils(driver)
+        web_utils.open_url()
+        web_utils.login("qa04@ruu.kr", "1234Qwer!")
+        web_utils.click_tab_personal()
+        time.sleep(1)
+
+        my_page = MyPage(driver)
+        my_page.profile_setup()
+        time.sleep(1)
+
+        my_profile_modify_header = driver.find_element(By.XPATH, '//span[@class="text-main-black font-semibold" and text()="프로필 정보 수정"]').text
+        assert my_profile_modify_header == "프로필 정보 수정", "프로필 정보 수정 헤더 미노출"
+
+        my_profile_modify_close = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[1]/button')
+        assert my_profile_modify_close.is_displayed(), "프로필 정보 수정 닫기 버튼 미노출"
+
+        my_profile_img_title = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[1]/span').text
+        assert my_profile_img_title == "프로필 이미지 수정", "프로필 이미지 수정 텍스트 미노출"
+
+        profile_modify_img = driver.find_element(By.CSS_SELECTOR, 'img[alt="프로필 이미지"')
+        profile_image_src = profile_modify_img.get_attribute("src")
+        image_filename = os.path.basename(profile_image_src)
+        assert profile_modify_img is not None, "프로필 수정 페이지 이미지가 로드되지 않음"
+        assert image_filename, "프로필 수정 페이지 이미지가 존재하지 않음"
+        print(f"프로필 이미지 파일명: {image_filename}")
+
+        profile_img_change_btn = driver.find_element(By.CSS_SELECTOR, ".w-12.h-12.text-white.bg-main-black")
+        assert profile_img_change_btn.is_displayed(), "프로필 이미지 수정 버튼 미노출"
+
+        profile_modify_sweat_text = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[2]/div/section[1]/span').text
+        assert profile_modify_sweat_text == "단 맛", "프로필 수정 단 맛 텍스트 미노출"
+
+        profile_modify_sweat_slider = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[2]/div/section[1]/div/span[1]')
+        assert profile_modify_sweat_slider.is_displayed(), "프로필 수정 단 맛 슬리이드 미노출"
+
+        profile_modify_salty_text = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[2]/div/section[2]/span').text
+        assert profile_modify_salty_text == "짠 맛", "프로필 수정 짠 맛 텍스트 미노출"
+
+        profile_modify_salty_slider = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[2]/div/section[2]/div/span[1]')
+        assert profile_modify_salty_slider.is_displayed(), "프로필 수정 짠 맛 슬라이더 미노출"
+
+        profile_modify_spicy_text = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[2]/div/section[3]/span').text
+        assert profile_modify_spicy_text == "매운 맛", "프로필 수정 매운 맛 텍스트 미노출"
+
+        profile_modify_spicy_slider = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[2]/div/section[3]/div/span[1]')
+        assert profile_modify_spicy_slider.is_displayed(), "프로필 수정 매운 맛 슬라이더 미노출"
+
+        profile_modify_favorite_text = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[3]/span').text
+        assert profile_modify_favorite_text == "😃 이런 음식은 좋아요!", "프로필 수정 - 이런 음식은 좋아요! 미노출"
+
+        profile_modify_favorite_input = driver.find_element(By.CSS_SELECTOR, 'textarea[name="pros"]')
+        assert profile_modify_favorite_input.is_displayed(), "좋아하는 음식 입력란 미노출"
+
+        profile_modify_least_favorite_text = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/span').text
+        assert profile_modify_least_favorite_text == "☹️ 이런 음식은 싫어요!", "프로필 수정 - 이런 음식은 싫어요! 미노출"
+
+        profile_modify_least_favorite_input = driver.find_element(By.CSS_SELECTOR, 'textarea[name="cons"]')
+        assert profile_modify_least_favorite_input.is_displayed(), "싫어하는 음식 입력란 미노출"
+
+        profile_modify_completed_btn = driver.find_element(By.CSS_SELECTOR, 'button[type="submit"]')
+        assert profile_modify_completed_btn.is_displayed(), "프로필 수정 완료 버튼 미노출"
+
+
+    @pytest.mark.skip
+    # @pytest.mark.order
+    def test_my_page_003(self, driver):
+        web_utils = WebUtils(driver)
+        web_utils.open_url()
+        web_utils.login("qa04@ruu.kr", "1234Qwer!")
+        web_utils.click_tab_personal()
+
+        my_page = MyPage(driver)
+        my_page.my_food_review()
+        time.sleep(1)
+
+        my_food_review_title = driver.find_element(By.XPATH, '//span[@class="text-main-black font-semibold" and text()="새로운 후기 등록하기"]').text
+        assert my_food_review_title == "새로운 후기 등록하기", "새로운 후기 등록하기 타이틀 미노출"
+
+        # my_food_review_close_btn = driver.find_element(By.CSS_SELECTOR, "text-2xl.cursor-pointer")
+        # assert my_food_review_close_btn.is_displayed(), "닫기 버튼 미노출"
+
+        review_type_text = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[1]/h1').text
+        assert review_type_text == "식사 유형", "식사 유형 텍스트 미노출"
+
+        ate_alone_btn = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[1]/div/div[1]')
+        assert ate_alone_btn.is_displayed(), "혼밥 버튼 미노출"
+
+        ate_group_btn = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[1]/div/div[2]')
+        assert ate_group_btn.is_displayed(), "그룹 버튼 미노출"
+
+        ate_party_btn = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[1]/div/div[3]')
+        assert ate_party_btn.is_displayed(), "회식 버튼 미노출"
+
+        review_img_text = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[2]/h1').text
+        assert review_img_text == "후기 사진", "후기 사진 텍스트 미노출"
+
+        review_img = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[2]/div/div')
+        assert review_img.is_displayed(), "후기 사진 영역 미노출"
+
+        review_img_btn = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[2]/div/button')
+        assert review_img_btn.is_displayed(), "후기 사진 등록 버튼 미노출"
+
+        food_name_title = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[3]/h1').text
+        assert food_name_title == "메뉴 명", "메뉴 명 텍스트 미노출"
+
+        food_name_input = driver.find_element(By.CSS_SELECTOR, '[name="menu"]')
+        assert food_name_input.is_displayed(), "메뉴명 입력랑 미노출"
+
+        food_category = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/h1').text
+        assert food_category == "카테고리", "카테고리 텍스트 미노출"
+
+        food_category_dropdown = driver.find_element(By.CSS_SELECTOR, '[role="combobox"]')
+        assert food_category_dropdown.is_displayed(), "키테고리 드롭다운 미노출"
+
+        review_detail_title = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[5]/h1').text
+        assert review_detail_title == "후기", "후기 텍스트 미노출"
+
+        review_detail_input = driver.find_element(By.CSS_SELECTOR, '[name="comment"]')
+        assert review_detail_input.is_displayed(), "후기 입력란 미노출"
+
+        review_star_title = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[6]/h1').text
+        assert review_star_title == "별점", "별점 텍스트 미노출"
+
+        review_star_btn = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[6]/div')
+        assert review_star_btn.is_displayed(), "별점 버튼 미노출"
+
+        review_write_completed = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/button')
+        assert review_write_completed.is_displayed(), "후기 작성 완료 버튼 미노출"
+
+
+    @pytest.mark.skip
+    # 프로필 수정 기능 테스트
+    def test_my_page_004(self, driver):
         web_utils = WebUtils(driver)
         web_utils.open_url()
         web_utils.login()
         web_utils.click_tab_personal()
         time.sleep(1)
 
-        MyPage.profile_setup()
+        my_page = MyPage(driver)
+
+        my_page.profile_setup()
         time.sleep(1)
 
-        my_profile_modify_header = driver.find_element(By.CSS_SELECTOR, "text-main-black font-semibold").text
-        assert my_profile_modify_header == "프로필 정보 수정", "프로필 정보 수정 헤더 미노출"
+        # 프로필 수정 진입 불가
 
-        my_profile_modify_close = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[1]/button')
-        assert my_profile_modify_close is not None, "프로필 정보 수정 닫기 버튼 미노출"
 
-        my_profile_img_title = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[1]/span').text
-        assert my_profile_img_title == "프로필 이미지 수정", "프로필 이미지 수정 텍스트 미노출"
+    @pytest.mark.skip
+    def test_my_page_005(self, driver):
+        web_utils = WebUtils(driver)
+        web_utils.open_url()
+        web_utils.login("qa04@ruu.kr", "1234Qwer!")
+        web_utils.click_tab_personal()
+
+        my_page = MyPage(driver)
+        time.sleep(1)
+        web_utils.scroll_to_element(By.CSS_SELECTOR, "button.bg-main-black.text-white:nth-of-type(1)")
+        # my_page.my_food_review()
+
+
+        food_name = "메뉴명 입력"
+        food_review_detail = "후기를 입력해보자"
+
+        review_food_name = driver.find_element(By.CSS_SELECTOR, '.flex w-full.rounded-md.border.border-[#E4E4E7]')
+        review_food_name.send_keys(food_name)
+
+        # 이미지 업로드
+        web_utils.review_image_upload()
+
+        web_utils.review_category()
+        web_utils.category_korean_food()
+
+        review_food_detail = driver.find_element(By.CSS_SELECTOR, '[name="comment"]')
+        review_food_detail.send_keys(food_review_detail)
+
+        web_utils.star_review_one_click()
+        web_utils.review_completed()
+        time.sleep(1)
+
+        # 메뉴 정보 확인
+        menu_info = my_page.get_menu_info()
+        expected_data = {
+            "image_src": "Users/kimdongyeon/Desktop/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202025-03-21%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%208.44.18.pngp",
+            "tags": ["혼밥", "한식"],
+            "title": "메뉴명 입력",
+            "rating": "★☆☆☆☆",
+            "review": "후기를 입력해보자",
+        }
+
+        assert menu_info == expected_data, f"Expected {expected_data}, but got {menu_info}"
+
+    @pytest.mark.order
+    def test_my_page_006(self, driver):
+        web_utils = WebUtils(driver)
+        web_utils.open_url()
+        web_utils.login("qa04@ruu.kr", "1234Qwer!")
+        web_utils.click_tab_personal()
+
+        my_page = MyPage(driver)
+        my_page.scroll_to_element(By.XPATH, '//*[@id="root"]/div[1]/main/section/section/div[2]/div[1]/button')
+
+        # my_page.my_food_review()
+        time.sleep(1)
+
+        web_utils.ate_group()
+
+        group_name_title = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[3]/h1').text
+        assert group_name_title == "같이 먹은 사람 등록", "같이 먹은 사람 등록 미노출"
+        group_name_input = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[3]/div[1]/input')
+        assert group_name_input.is_displayed(), "같이 먹은 사람 입력란 미노출"
+        group_name_input.send_keys("누구인가")
+
+        food_name = "메뉴명 입력"
+        food_review_detail = "후기를 입력해보자"
+
+        review_food_name = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/input')
+        review_food_name.send_keys(food_name)
+
+
+        # 이미지 업로드
+        web_utils.review_image_upload()
+        time.sleep(1)
+
+        web_utils.review_category()
+        print("카테고리 클릭")
+        web_utils.category_korean_food()
+        print("한식 클릭")
+        time.sleep(2)
+
+        review_food_detail = driver.find_element(By.CSS_SELECTOR, 'textarea[name="comment"]')
+        print("텍스트 입력란 확인")
+        review_food_detail.send_keys(food_review_detail)
+
+
+        web_utils.star_review_one_click()
+        web_utils.review_completed()
+        time.sleep(1)
+
+        # 메뉴 정보 확인
+        menu_info = my_page.get_menu_info()
+        expected_data = {
+            "image_src": "Users/kimdongyeon/Desktop/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202025-03-21%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%208.44.18.pngp",
+            "tags": ["혼밥", "한식"],
+            "title": "메뉴명 입력",
+            "rating": "★☆☆☆☆",
+            "review": "후기를 입력해보자",
+        }
+
+        assert menu_info == expected_data, f"Expected {expected_data}, but got {menu_info}"
+
+    @pytest.mark.skip
+    def test_my_page_007(self, driver):
+        web_utils = WebUtils(driver)
+        web_utils.open_url()
+        web_utils.login("qa04@ruu.kr", "1234Qwer!")
+        web_utils.click_tab_personal()
+
+        my_page = MyPage(driver)
+        time.sleep(1)
+        web_utils.scroll_to_element(By.CSS_SELECTOR, "button.bg-main-black.text-white:nth-of-type(1)")
+        # my_page.my_food_review()
+
+        web_utils.ate_party()
+        food_name = "메뉴명 입력"
+        food_review_detail = "후기를 입력해보자"
+
+        review_food_name = driver.find_element(By.CSS_SELECTOR, '.flex w-full.rounded-md.border.border-[#E4E4E7]')
+        review_food_name.send_keys(food_name)
+
+        # 이미지 업로드
+        web_utils.review_image_upload()
+
+        web_utils.review_category()
+        web_utils.category_korean_food()
+
+        review_food_detail = driver.find_element(By.CSS_SELECTOR, '[name="comment"]')
+        review_food_detail.send_keys(food_review_detail)
+
+        web_utils.star_review_one_click()
+        web_utils.review_completed()
+        time.sleep(1)
+
+        # 메뉴 정보 확인
+        menu_info = my_page.get_menu_info()
+        expected_data = {
+            "image_src": "Users/kimdongyeon/Desktop/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202025-03-21%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%208.44.18.pngp",
+            "tags": ["혼밥", "한식"],
+            "title": "메뉴명 입력",
+            "rating": "★☆☆☆☆",
+            "review": "후기를 입력해보자",
+        }
+
+        assert menu_info == expected_data, f"Expected {expected_data}, but got {menu_info}"
