@@ -1,10 +1,10 @@
 import time
-
-from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.webdriver import WebDriver
+from selenium.webdriver.support import expected_conditions as EC
 from tests.conftest import driver
-from ..utils.helpers import WebUtils
+
+
 
 class MyPage():
     def __init__(self, driver:WebDriver):
@@ -26,10 +26,10 @@ class MyPage():
         # except:
         #     return None
 
-    # 프로필 수정하기 버튼 클릭
+    # 프로필 수정하기 버튼 클릭- 너무 안눌림..
     def profile_setup(self):
-        profile_div = self.driver.find_element(By.CSS_SELECTOR, "flex.items-center.w-full.gap-4")
-        profile_setup_btn = profile_div.find_element(By.CSS_SELECTOR, 'svg[viewBox="0 -960 960 960"]')
+        container = self.driver.find_element(By.CSS_SELECTOR, "div.container-class")
+        profile_setup_btn = container.find_elements(By.CSS_SELECTOR, "cursor-pointer")[1]
         profile_setup_btn.click()
 
     # 프로필 정보 수정 - 이미지 첨부 버튼 클릭
@@ -59,6 +59,25 @@ class MyPage():
         same_food_review_btn = self.driver.find_element(By.XPATH, '//*[@id="root"]/div[1]/main/section/section/div[2]/div[2]/div[1]/div[2]/button')
         same_food_review_btn.click()
 
+    def get_menu_info(self):
+        recent_review = self.driver.find_elements(By.CSS_SELECTOR, ".flex.w-full.gap-6.p-4.shadow-md.rounded-2xl")
+        if not recent_review:
+            return {}
+        first_review = recent_review[0]
+
+        return {
+            "image_src": first_review.find_element(By.CSS_SELECTOR, "img.object-cover").get_attribute("src"),
+            "tags": [
+                elem.text for elem in first_review.find_elements(By.CSS_SELECTOR, ".inline-flex.items-center")
+            ],
+            "title": first_review.find_element(By.CSS_SELECTOR, ".font-bold").text,
+            "rating": "".join(
+                elem.text for elem in first_review.find_elements(By.CSS_SELECTOR, ".flex.gap-0.5 span")
+            ),
+            "review": first_review.find_element(By.CSS_SELECTOR, ".text-description").text,
+        }
+
+
 # 후기 목록 가져오기
     # 하단 스크롤 > 요소 긁어오기 /> 로딩 > 다음 리스트 긁어오기 - 로딩까지 필요한가?
         # user_data에 비교할 기존 리스트 추가하기
@@ -68,9 +87,3 @@ class MyPage():
             # 가져온 텍스트와 기존 데이터 비교하기
 
 
-    # 페이지 스크롤
-    def scroll_to_top(self):
-        self.driver.execute_script("window.scrollTo(0, 0);")
-
-    def scroll_to_bottom(self):
-        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")

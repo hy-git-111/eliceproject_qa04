@@ -205,11 +205,11 @@ class TestMyPage:
         food_category_dropdown = driver.find_element(By.CSS_SELECTOR, '[role="combobox"]')
         assert food_category_dropdown.is_displayed(), "키테고리 드롭다운 미노출"
 
-        review_info_title = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[5]/h1').text
-        assert review_info_title == "후기", "후기 텍스트 미노출"
+        review_detail_title = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[5]/h1').text
+        assert review_detail_title == "후기", "후기 텍스트 미노출"
 
-        review_info_input = driver.find_element(By.CSS_SELECTOR, '[name="comment"]')
-        assert review_info_input.is_displayed(), "후기 입력란 미노출"
+        review_detail_input = driver.find_element(By.CSS_SELECTOR, '[name="comment"]')
+        assert review_detail_input.is_displayed(), "후기 입력란 미노출"
 
         review_star_title = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[6]/h1').text
         assert review_star_title == "별점", "별점 텍스트 미노출"
@@ -221,6 +221,62 @@ class TestMyPage:
         assert review_write_completed.is_displayed(), "후기 작성 완료 버튼 미노출"
 
 
-    @pytest.mark.order
+    @pytest.mark.skip
+    # 프로필 수정 기능 테스트
     def test_my_page_004(self, driver):
-        
+        web_utils = WebUtils(driver)
+        web_utils.open_url()
+        web_utils.login()
+        web_utils.click_tab_personal()
+        time.sleep(1)
+
+        my_page = MyPage(driver)
+
+        my_page.profile_setup()
+        time.sleep(1)
+
+        # 프로필 수정 진입 불가
+
+
+    @pytest.mark.order
+    def test_my_page_005(self, driver):
+        web_utils = WebUtils(driver)
+        web_utils.open_url()
+        web_utils.login()
+        web_utils.click_tab_personal()
+
+        my_page = MyPage(driver)
+        my_page.my_food_review()
+        time.sleep(1)
+
+        food_name = "메뉴명 입력"
+        food_review_detail = "후기를 입력해보자"
+
+        review_food_name = driver.find_element(By.CSS_SELECTOR, '.flex w-full.rounded-md.border.border-[#E4E4E7]')
+        review_food_name.send_keys(food_name)
+
+        # 이미지 업로드
+
+
+        web_utils.review_category()
+        web_utils.category_korean_food()
+
+        review_food_detail = driver.find_element(By.CSS_SELECTOR, '[name="comment"]')
+        review_food_detail.send_keys(food_review_detail)
+
+        web_utils.star_review_one_click()
+        web_utils.review_completed()
+        time.sleep(1)
+
+        # 메뉴 정보 확인
+        menu_info = my_page.get_menu_info()
+        expected_data = {
+            "image_src": "https://elice-assign-bucket.s3.ap-northeast-2.amazonaws.com/uploads/db111fd4-c9d7-4806-b625-644650b268cf_300_300_20230902021820639_photo_3cfebe345c18.webp",
+            "tags": ["회식", "중식", "AI 추천"],
+            "title": "사천해물탕",
+            "rating": "★☆☆☆☆",
+            "review": "이번에 부장님을 모셨는데 비린 맛이 난다고 싫어하시더라구요 여긴 다시 안 가야겠습니다",
+        }
+
+        assert menu_info == expected_data, f"Expected {expected_data}, but got {menu_info}"
+
