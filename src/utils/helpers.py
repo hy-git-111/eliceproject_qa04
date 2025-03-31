@@ -158,3 +158,54 @@ class WebUtils():
         btn_submit = self.driver.find_element(By.NAME, 'action')
         btn_submit.click()
         time.sleep(1)
+        
+class VerifyHelpers():
+    def __init__(self, driver: WebDriver):
+        self.driver = driver
+    
+    # 헬퍼함수 / elems = [d,d,d,d] 선언하고 사용
+    # 공통사용시 LOCATORS 부분, key 부분만 바꾸면 됨
+    def check_existence(self, keys):
+        elements = []
+        for key in keys:
+            element = WebDriverWait(self.driver, 5).until(
+                EC.presence_of_element_located(LOCATORS.get(key))
+            )
+            elements.append(element)
+        return elements
+    
+    def check_children_existence(self, parent_key: str, children_keys: list):
+        elements = []
+        parent = self.driver.find_element(*LOCATORS.get(parent_key))
+
+        for key in children_keys:
+            element = parent.find_element(*LOCATORS.get(key))
+            elements.append(element)
+        return elements
+        
+    def get_children_text(self, parent_key: list, children_keys: list):
+        texts = []
+        parent = self.driver.find_element(*LOCATORS.get(parent_key))
+
+        for key in children_keys:
+            element = parent.find_element(*LOCATORS.get(key))
+            texts.append(element.text)
+        return texts
+
+    def get_elems_texts(self, elems: list):
+        texts = []
+        for elem in elems:
+            texts.append(elem.text)
+        return texts
+    
+    def get_expected_texts(self, keys: list):
+        titles = []
+        for key in keys:
+            titles.append(EXPECTED_TEXTS.get(key))
+        return titles
+    
+    def cnt_elements(self, key: str):
+        elem = WebDriverWait(self.driver, 5).until(
+            EC.presence_of_all_elements_located(LOCATORS.get(key))
+        )
+        return len(elem)
