@@ -1,8 +1,11 @@
+import os
 import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from src.resources.testdata.expected_texts import EXPECTED_TEXTS
+from src.utils.locators import LOCATORS
 
 class WebUtils():
 
@@ -158,7 +161,14 @@ class WebUtils():
         btn_submit = self.driver.find_element(By.NAME, 'action')
         btn_submit.click()
         time.sleep(1)
-        
+
+    def review_image_upload(self):
+        current_file_dir = os.path.dirname(os.path.abspath(__file__))
+        img_source = os.path.abspath(os.path.join(current_file_dir,"../resources/testdata/review_photo.jpg")) # 이미지 소스 경로
+
+        upload_input = self.driver.find_element(By. CSS_SELECTOR, 'input.hidden')
+        upload_input.send_keys(img_source)
+
 class VerifyHelpers():
     def __init__(self, driver: WebDriver):
         self.driver = driver
