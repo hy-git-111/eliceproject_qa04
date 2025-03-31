@@ -1,6 +1,9 @@
-# 팀 피드 페이지
-
+# 팀 피드 페이지 기능
+from src.utils.helpers import WebUtils
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.webdriver import WebDriver
 
 class TeamFeed:
@@ -26,19 +29,19 @@ class TeamFeed:
     def click_team_profile_modify_done(self):
         team_modify_done_btn = self.driver.find_element(By.CSS_SELECTOR, "[type='submit']")
         team_modify_done_btn.click()
-    '''
+    
     # 음식 성향 - 단 맛 슬라이더 변경
     def modify_team_sweet(self):
-       print("아직 구현 전입니다.")
+       print("코드 삽입 예정")
 
     # 음식 성향 - 짠 맛 슬라이더 변경
     def modify_team_salty(self):
-        print("아직 구현 전입니다.")
-        
+        print("코드 삽입 예정")
+            
     # 음식 성향 - 매운 맛 슬라이더 변경
     def modify_team_hot(self):
-        print("아직 구현 전입니다.")
-    '''
+        print("코드 삽입 예정")
+
     # 😃 이런 음식은 좋아요! 텍스트 변경
     def modify_team_favorite_text(self, favor_text):
         favorite_text_area = self.driver.find_element(By.CSS_SELECTOR, "[name='pros']")
@@ -59,3 +62,16 @@ class TeamFeed:
         self.driver.execute_script("window.scrollTo(0,600);")    # 버튼이 보이는 위치로 스크롤 이동
         team_add_menu_btn = self.driver.find_elements(By.CLASS_NAME, "cursor-pointer")[2]
         team_add_menu_btn.click()
+
+    # 로그인 후 팀피드까지 진입하는 동작
+    def into_team_feed(self):
+        webutils = WebUtils(self.driver)
+        # directories = Directories(driver)
+        webutils.open_url()
+        WebDriverWait(self.driver, 5).until(EC.url_contains("signin"))
+
+        webutils.login("drowsy.work@gmail.com","Qwer1234!@")
+        WebDriverWait(self.driver, 5).until(    # 페이지 타이틀 & 차트 떴는지 확인
+            lambda _: EC.text_to_be_present_in_element((By.CSS_SELECTOR,"[class *= 'text-title']"), "오늘 뭐먹지 ?")(self.driver)
+            and EC.visibility_of_element_located((By.CSS_SELECTOR, "[role='img']"))(self.driver))
+        webutils.click_tab_team()
