@@ -290,31 +290,40 @@ class TestMyPage:
         web_utils.click_tab_personal()
 
         my_page = MyPage(driver)
-        time.sleep(1)
-        web_utils.scroll_to_element(By.CSS_SELECTOR, "button.bg-main-black.text-white:nth-of-type(1)")
+        my_page.scroll_to_element(By.XPATH, '//*[@id="root"]/div[1]/main/section/section/div[2]/div[1]/button')
+
         # my_page.my_food_review()
+        time.sleep(1)
 
         web_utils.ate_group()
+
         group_name_title = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[3]/h1').text
         assert group_name_title == "같이 먹은 사람 등록", "같이 먹은 사람 등록 미노출"
-        group_name_input = driver.find_element(By.CSS_SELECTOR, '[placeholder="이름을 검색해주세요"]')
+        group_name_input = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[3]/div[1]/input')
         assert group_name_input.is_displayed(), "같이 먹은 사람 입력란 미노출"
         group_name_input.send_keys("누구인가")
 
         food_name = "메뉴명 입력"
         food_review_detail = "후기를 입력해보자"
 
-        review_food_name = driver.find_element(By.CSS_SELECTOR, '.flex w-full.rounded-md.border.border-[#E4E4E7]')
+        review_food_name = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/input')
         review_food_name.send_keys(food_name)
+
 
         # 이미지 업로드
         web_utils.review_image_upload()
+        time.sleep(1)
 
         web_utils.review_category()
+        print("카테고리 클릭")
         web_utils.category_korean_food()
+        print("한식 클릭")
+        time.sleep(2)
 
-        review_food_detail = driver.find_element(By.CSS_SELECTOR, '[name="comment"]')
+        review_food_detail = driver.find_element(By.CSS_SELECTOR, 'textarea[name="comment"]')
+        print("텍스트 입력란 확인")
         review_food_detail.send_keys(food_review_detail)
+
 
         web_utils.star_review_one_click()
         web_utils.review_completed()

@@ -2,6 +2,8 @@ import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+
 from tests.conftest import driver
 
 
@@ -51,12 +53,24 @@ class MyPage():
 
     # 내가 먹은 메뉴 추가하기 버튼 클릭
     def my_food_review(self):
-        my_food_add_btn = self.driver.find_element(By.XPATH, '//*[@id="root"]/div[1]/main/section/section/div[2]/div[1]/span')
+        my_food_add_btn = WebDriverWait(self.driver, 5).until(
+            EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/div[1]/main/section/section/div[2]/div[1]/button'))
+        )
+        # my_food_add_btn = self.driver.find_element(By.CSS_SELECTOR, "button.bg-main-black.text-white")
         my_food_add_btn.click()
+
+        # 요소를 중앙에 위치하게 스크롤
+    def scroll_to_element(self, by, value):
+        element = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((by, value))
+        )
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
+        WebDriverWait(self.driver, 5).until(EC.element_to_be_clickable((by, value))).click()
+
 
     # 같은 메뉴 먹기 버튼 클릭
     def same_food_review(self):
-        same_food_review_btn = self.driver.find_element(By.XPATH, '//*[@id="root"]/div[1]/main/section/section/div[2]/div[2]/div[1]/div[2]/button')
+        same_food_review_btn = self.driver.find_element(By.XPATH, '//*[@id="root"]/div[1]/main/section/section/div[2]/div[1]/button')
         same_food_review_btn.click()
 
     def get_menu_info(self):
