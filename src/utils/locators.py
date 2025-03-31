@@ -60,7 +60,8 @@ LOCATORS = {
     "signin_pg_pw_rule_following_num": (By.CSS_SELECTOR, 'ul > li:nth-child(2) > div > ul > li:nth-child(3) > span'),
     "signin_pg_pw_rule_following_special_char": (By.CSS_SELECTOR, 'ul > li:nth-child(2) > div > ul > li:nth-child(4) > span'),
     
-    "signin_pg_pw_btn_continue": (By.CSS_SELECTOR, 'button.c1085a438'),
+    "signin_pg_btn_continue": (By.CSS_SELECTOR, 'button.c1085a438'),
+    
 
     # [권한 요청 페이지]
     "authorize_pg_title": (By.CLASS_NAME, 'ca90b15ee'),
@@ -87,7 +88,8 @@ LOCATORS = {
     "profile_pg_name_placeholder" : (By.CSS_SELECTOR, 'div:nth-child(1) > div > input'),
   
     "profile_pg_team_title" : (By.CSS_SELECTOR, 'div:nth-child(2) > p'),
-    "profile_pg_team_dropdown" : (By.CSS_SELECTOR, 'div:nth-child(2) > div > button'),
+    "profile_pg_team_btn" : (By.CSS_SELECTOR, 'div:nth-child(2) > div > button'),
+    "profile_pg_team_selector" : (By.CSS_SELECTOR, 'div:nth-child(2) > div > select'),
     
     "profile_pg_taste_title" : (By.CSS_SELECTOR, 'div:nth-child(3) > p'),
     "profile_pg_taste_slider_sweetness" : (By.CSS_SELECTOR, 'div:nth-child(3) > div > section:nth-child(1) > div'),
@@ -98,7 +100,7 @@ LOCATORS = {
     "profile_pg_like_title" : (By.CSS_SELECTOR, 'div:nth-child(4) > div > div:nth-child(1) > p'),
     "profile_pg_like_input" : (By.CSS_SELECTOR, 'div:nth-child(4) > div > div:nth-child(1) > div > textarea'),
     "profile_pg_dislike_title" : (By.CSS_SELECTOR, 'div:nth-child(4) > div > div:nth-child(2) > p'),
-    "profile_pg_dislike_input" : (By.CSS_SELECTOR, 'div:nth-child(4) > div > div:nth-child(1) > div > textarea'),
+    "profile_pg_dislike_input" : (By.CSS_SELECTOR, 'div:nth-child(4) > div > div:nth-child(2) > div > textarea'),
     
     "profile_pg_btn_submit" : (By.CLASS_NAME, 'bg-main'),
     
@@ -121,10 +123,20 @@ LOCATORS = {
     "history_pg_list": (By.CLASS_NAME, 'shadow-md'),
     "history_pg_list_1": (By.CSS_SELECTOR, 'section > div:nth-child(2)'),
     "history_pg_list_10": (By.CSS_SELECTOR, 'section > div:nth-child(11)'),
+    "history_pg_list_11": (By.CSS_SELECTOR, 'section > div:nth-child(12)'),
     "history_pg_list_20": (By.CLASS_NAME, 'section > div:nth-child(21)'),
+    "history_pg_list_21": (By.CLASS_NAME, 'section > div:nth-child(22)'),
+
     "history_pg_btn_before_review": (By.CSS_SELECTOR, 'button.bg-main-black'),
     "history_pg_btn_after_review": (By.CSS_SELECTOR, 'button.bg-main'),
 
     # [후기 등록 페이지]
     "review_pg_btn_exit": (By.CLASS_NAME, 'text-2xl'),
+    "review_pg_btn_radio_alone": (By.ID, '혼밥'),
+    "review_pg_btn_radio_group": (By.ID, '그룹'),
+    "review_pg_btn_radio_team": (By.ID, '회식'),
+    "review_pg_input_menu": (By.CSS_SELECTOR, 'input[name~=menu]'),
+    "review_pg_drop_down_category": (By.CSS_SELECTOR, '#modal-root > div > div.flex-1.overflow-auto > section > form > div:nth-child(4) > button > span'),
+    "review_pg_input_review": (By.CSS_SELECTOR, 'input[name~=menu]'),
+    
 }
