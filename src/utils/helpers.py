@@ -170,7 +170,8 @@ class WebUtils():
         btn_submit = self.driver.find_element(By.NAME, 'action')
         btn_submit.click()
         time.sleep(1)
-
+        
+    # 슬라이더 임시 코드
     def slider_sweet(self):
         taste_tendency_area = self.driver.find_element(By.CLASS_NAME, "space-y-6")
         sweet_bar = taste_tendency_area.find_elements(By.CSS_SELECTOR, "[dir='ltr']")[0]    # 단 맛 슬라이더 바 요소
