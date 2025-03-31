@@ -61,47 +61,47 @@ class WebUtils():
 
     # 새로운 후기 등록하기 - 카테고리 드롭다운 클릭
     def review_category(self):
-        review_category_btn = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/button')
+        review_category_btn = self.driver.find_element(By.CSS_SELECTOR, '[role="combobox"]')
         review_category_btn.click()
 
-    # 새로운 후기 등록하기 - 카테고리 드롭다운 한식
+    # 새로운 후기 등록하기 - 카텍고리 드롭다운 한식
     def category_korean_food(self):
-        korean_food_btn = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/select/option[1]')
+        korean_food_btn = self.driver.find_element(By.CSS_SELECTOR, '[value="한식"]')
         korean_food_btn.click()
 
-    # 새로운 후기 등록하기 - 카테고리 드롭다운 중식
+    # 새로운 후기 등록하기 - 카텍고리 드롭다운 중식
     def category_chinese_food(self):
-        chinese_food_btn = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/select/option[2]')
+        chinese_food_btn = self.driver.find_element(By.CSS_SELECTOR, '[value="중식"]')
         chinese_food_btn.click()
 
-    # 새로운 후기 등록하기 - 카테고리 드롭다운 양식
+    # 새로운 후기 등록하기 - 카텍고리 드롭다운 양식
     def category_western_food(self):
-        western_food_btn = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/select/option[3]')
+        western_food_btn = self.driver.find_element(By.CSS_SELECTOR, '[value="양식"]')
         western_food_btn.click()
 
-    # 새로운 후기 등록하기 - 카테고리 드롭다운 일식
+    # 새로운 후기 등록하기 - 카텍고리 드롭다운 일식
     def category_japan_food(self):
-        japan_food_btn = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/select/option[4]')
+        japan_food_btn = self.driver.find_element(By.CSS_SELECTOR, '[value="일식"]')
         japan_food_btn.click()
 
-    # 새로운 후기 등록하기 - 카테고리 드롭다운 분식
+    # 새로운 후기 등록하기 - 카텍고리 드롭다운 분식
     def category_school_food(self):
-        school_food_btn = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/select/option[6]')
+        school_food_btn = self.driver.find_element(By.CSS_SELECTOR, '[value="분식"]')
         school_food_btn.click()
 
-    # 새로운 후기 등록하기 - 카테고리 드롭다운 아시안
+    # 새로운 후기 등록하기 - 카텍고리 드롭다운 아시안
     def category_asian_food(self):
-        asian_food_btn = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/select/option[5]')
+        asian_food_btn = self.driver.find_element(By.CSS_SELECTOR, '[value="아시안"]')
         asian_food_btn.click()
 
-    # 새로운 후기 등록하기 - 카테고리 드롭다운 패스트푸드
+    # 새로운 후기 등록하기 - 카텍고리 드롭다운 패스트푸드
     def category_fast_food(self):
-        fast_food_btn = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/select/option[7]')
+        fast_food_btn = self.driver.find_element(By.CSS_SELECTOR, '[value="패스트푸드"]')
         fast_food_btn.click()
 
-    # 새로운 후기 등록하기 - 카테고리 드롭다운 기타
+    # 새로운 후기 등록하기 - 카텍고리 드롭다운 기타
     def category_etc_food(self):
-        etc_food_btn = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[4]/select/option[8]')
+        etc_food_btn = self.driver.find_element(By.CSS_SELECTOR, '[value="기타"]')
         etc_food_btn.click()
 
     # 새로운 후기 등록하기 - 별점 1~5 버튼 클릭
