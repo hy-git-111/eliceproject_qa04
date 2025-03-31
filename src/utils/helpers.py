@@ -5,6 +5,7 @@ from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver import ChromeOptions
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException
 from src.resources.testdata.expected_texts import EXPECTED_TEXTS
 from src.utils.locators import LOCATORS
 
@@ -244,3 +245,36 @@ class VerifyHelpers():
             EC.presence_of_all_elements_located(LOCATORS.get(key))
         )
         return len(elem)
+    
+    def click_elem_with_infinity_scroll(self, key: str, value: str):
+        while True:
+            last_height = self.driver.execute_script("return document.body.scrollHeight")
+            time.sleep(2)
+            try:
+                target_btn_index = []
+                all_btns = self.driver.find_elements(By.TAG_NAME, "button")
+                target_btns_elems = self.driver.find_elements(key, value)
+                if target_btns_elems != []:
+                    for btn in all_btns:
+                        if btn.text == target_btns_elems[0].text:
+                            btn_index = all_btns.index(btn)
+                            target_btn_index.append(btn_index)
+
+                            self.driver.execute_script(
+                                "arguments[0].focus();", btn
+                            )
+                            time.sleep(2)
+                            self.driver.execute_script("arguments[0].click();", btn)
+                            return target_btn_index[0]
+                
+                if target_btns_elems == []:
+                    new_height = self.driver.execute_script("return document.body.scrollHeight")
+                    self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+                
+                if new_height == last_height:
+                    break
+
+                last_height = new_height
+
+            except NoSuchElementException:
+                pass
