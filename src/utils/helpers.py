@@ -13,23 +13,44 @@ class WebUtils():
     def __init__(self, driver: WebDriver):
         self.driver = driver
     
+    # 로그인 페이지 열기
     def open_url(self):
         url = "https://kdt-pt-1-pj-2-team03.elicecoding.com/"
         self.driver.get(url)
-        self.driver.implicitly_wait(5)
 
+    # 요소 존재할 때까지 기다리기
+    def wait_for_element_presence(self, by, value):
+        WebDriverWait(self.driver, 5).until(
+            EC.presence_of_element_located((by, value))
+        )
+
+    # 요소 클릭 가능할 때까지 기다리기
+    def wait_for_element_clickable(self, by, value):
+        WebDriverWait(self.driver, 5).until(
+                EC.element_to_be_clickable((by, value))
+            )
+        
+    # 요소 사라질 때까지 기다리기
+    def wait_for_element_invisible(self, by, value):
+        WebDriverWait(self.driver, 5).until(
+                    EC.invisibility_of_element_located((by, value))
+                )
+
+    # 요소 찾아 클릭
     def click_element(self, by, value):
         element = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((by, value))
         )
         element.click()
 
+    # 요소로 스크롤
     def scroll_to_element(self, by, value):
         element = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((by, value))
         )
         self.driver.execute_script("arguments[0].scrollIntoView();", element)  
 
+    # 뒤로 가기
     def click_back(self):
         back_btn = self.driver.find_element(By.CSS_SELECTOR, '.rounded-full.cursor-pointer')
         back_btn.click()
