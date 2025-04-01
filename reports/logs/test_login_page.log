@@ -1,0 +1,80 @@
+2025-04-01 00:22:48 - ERROR - ❌ test_login_035 - Message: 
+Stacktrace:
+	GetHandleVerifier [0x00007FF7B7F84C25+3179557]
+	(No symbol) [0x00007FF7B7BE88A0]
+	(No symbol) [0x00007FF7B7A791CA]
+	(No symbol) [0x00007FF7B7ACFA67]
+	(No symbol) [0x00007FF7B7ACFC9C]
+	(No symbol) [0x00007FF7B7B23627]
+	(No symbol) [0x00007FF7B7AF7C6F]
+	(No symbol) [0x00007FF7B7B202F3]
+	(No symbol) [0x00007FF7B7AF7A03]
+	(No symbol) [0x00007FF7B7AC06D0]
+	(No symbol) [0x00007FF7B7AC1983]
+	GetHandleVerifier [0x00007FF7B7FE67CD+3579853]
+	GetHandleVerifier [0x00007FF7B7FFD1D2+3672530]
+	GetHandleVerifier [0x00007FF7B7FF2153+3627347]
+	GetHandleVerifier [0x00007FF7B7D5092A+868650]
+	(No symbol) [0x00007FF7B7BF2FFF]
+	(No symbol) [0x00007FF7B7BEF4A4]
+	(No symbol) [0x00007FF7B7BEF646]
+	(No symbol) [0x00007FF7B7BDEAA9]
+	BaseThreadInitThunk [0x00007FF81542E8D7+23]
+	RtlUserThreadStart [0x00007FF816A1BF6C+44]
+
+2025-04-01 10:42:47 - ERROR - ❌ test_login_035 - Message: 
+Stacktrace:
+	GetHandleVerifier [0x00007FF7C4164C25+3179557]
+	(No symbol) [0x00007FF7C3DC88A0]
+	(No symbol) [0x00007FF7C3C591CA]
+	(No symbol) [0x00007FF7C3CAFA67]
+	(No symbol) [0x00007FF7C3CAFC9C]
+	(No symbol) [0x00007FF7C3D03627]
+	(No symbol) [0x00007FF7C3CD7C6F]
+	(No symbol) [0x00007FF7C3D002F3]
+	(No symbol) [0x00007FF7C3CD7A03]
+	(No symbol) [0x00007FF7C3CA06D0]
+	(No symbol) [0x00007FF7C3CA1983]
+	GetHandleVerifier [0x00007FF7C41C67CD+3579853]
+	GetHandleVerifier [0x00007FF7C41DD1D2+3672530]
+	GetHandleVerifier [0x00007FF7C41D2153+3627347]
+	GetHandleVerifier [0x00007FF7C3F3092A+868650]
+	(No symbol) [0x00007FF7C3DD2FFF]
+	(No symbol) [0x00007FF7C3DCF4A4]
+	(No symbol) [0x00007FF7C3DCF646]
+	(No symbol) [0x00007FF7C3DBEAA9]
+	BaseThreadInitThunk [0x00007FF81542E8D7+23]
+	RtlUserThreadStart [0x00007FF816A1BF6C+44]
+
+2025-04-01 10:43:52 - ERROR - ❌ test_login_035 - Message: 
+Stacktrace:
+	GetHandleVerifier [0x00007FF7C4164C25+3179557]
+	(No symbol) [0x00007FF7C3DC88A0]
+	(No symbol) [0x00007FF7C3C591CA]
+	(No symbol) [0x00007FF7C3CAFA67]
+	(No symbol) [0x00007FF7C3CAFC9C]
+	(No symbol) [0x00007FF7C3D03627]
+	(No symbol) [0x00007FF7C3CD7C6F]
+	(No symbol) [0x00007FF7C3D002F3]
+	(No symbol) [0x00007FF7C3CD7A03]
+	(No symbol) [0x00007FF7C3CA06D0]
+	(No symbol) [0x00007FF7C3CA1983]
+	GetHandleVerifier [0x00007FF7C41C67CD+3579853]
+	GetHandleVerifier [0x00007FF7C41DD1D2+3672530]
+	GetHandleVerifier [0x00007FF7C41D2153+3627347]
+	GetHandleVerifier [0x00007FF7C3F3092A+868650]
+	(No symbol) [0x00007FF7C3DD2FFF]
+	(No symbol) [0x00007FF7C3DCF4A4]
+	(No symbol) [0x00007FF7C3DCF646]
+	(No symbol) [0x00007FF7C3DBEAA9]
+	BaseThreadInitThunk [0x00007FF81542E8D7+23]
+	RtlUserThreadStart [0x00007FF816A1BF6C+44]
+
+2025-04-01 11:02:49 - ERROR - ❌ test_login_033 - selenium.webdriver.remote.webdriver.WebDriver.find_element() argument after * must be an iterable, not NoneType
+2025-04-01 11:03:44 - ERROR - ❌ test_login_033 - list index out of range
+2025-04-01 11:05:15 - ERROR - ❌ test_login_033 - assert ['💻 AI를 통해 음식 메뉴를 추천 받아 보세요!'] == ['AI를 통해 음식 메뉴를 추천 받아 보세요!']
+  
+  At index 0 diff: '💻 AI를 통해 음식 메뉴를 추천 받아 보세요!' != 'AI를 통해 음식 메뉴를 추천 받아 보세요!'
+  Use -v to get more diff
+2025-04-01 11:07:19 - INFO - ✅ test_login_033 성공
+2025-04-01 11:10:16 - INFO - ✅ test_login_033 성공

@@ -66,7 +66,8 @@ EXPECTED_TEXTS = {
     "profile_pg_error_dislike" : "10자 이상 입력해주세요",
        
     # [홈 페이지]
-    "home_pg_subtitle": "직원들이 가장 선호하는 음식 종류는 무엇일까요?",
+    "home_pg_subtitle_1": "AI를 통해 음식 메뉴를 추천 받아 보세요!",
+    "home_pg_subtitle_2": "직원들이 가장 선호하는 음식 종류는 무엇일까요?",
 
     # [히스토리 페이지]
     "history_pg_title": "추천 히스토리",

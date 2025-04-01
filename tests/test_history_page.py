@@ -204,7 +204,7 @@ class TestHistoryPage:
             web_utils = WebUtils(driver)
             verify_helpers = VerifyHelpers(driver)
 
-            title_key = ["home_pg_subtitle"]
+            title_key = ["home_pg_subtitle_2"]
 
             web_utils.open_url()
             web_utils.login(login_data["no_review_email"], login_data["password"])

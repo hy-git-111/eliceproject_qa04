@@ -1,0 +1,16 @@
+2025-04-01 00:22:07,824 - INFO - ➡️ test_home_004 테스트 시작
+2025-04-01 00:22:11,900 - ERROR - ❗ [ERROR] 알 수 없는 예외 발생 - 스크린샷 저장: C:\Users\GB\Desktop\KHY\REPOS\eliceproject_qa04\reports\screenshots\test_home_004_Fail_20250401_002211_TypeError.png
+Traceback (most recent call last):
+  File "C:\Users\GB\Desktop\KHY\REPOS\eliceproject_qa04\tests\test_home_page.py", line 122, in test_home_004
+    web_utils.login()
+TypeError: WebUtils.login() missing 2 required positional arguments: 'id' and 'pw'
+2025-04-01 00:22:11,902 - ERROR - ❌ test_home_004 테스트 실패
+2025-04-01 00:22:14,464 - INFO - ✅ test_home_004 테스트 성공
+2025-04-01 00:22:14,466 - INFO - ➡️ test_home_005 테스트 시작
+2025-04-01 00:22:18,020 - ERROR - ❗ [ERROR] 알 수 없는 예외 발생 - 스크린샷 저장: C:\Users\GB\Desktop\KHY\REPOS\eliceproject_qa04\reports\screenshots\test_home_005_Fail_20250401_002217_TypeError.png
+Traceback (most recent call last):
+  File "C:\Users\GB\Desktop\KHY\REPOS\eliceproject_qa04\tests\test_home_page.py", line 154, in test_home_005
+    web_utils.login()
+TypeError: WebUtils.login() missing 2 required positional arguments: 'id' and 'pw'
+2025-04-01 00:22:18,021 - ERROR - ❌ test_home_005 테스트 실패
+2025-04-01 00:22:24,409 - INFO - ✅ test_home_005 테스트 성공
