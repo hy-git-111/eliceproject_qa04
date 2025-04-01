@@ -1,4 +1,4 @@
-import time
+import random
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
@@ -17,34 +17,17 @@ class MyPage():
         mypage_btn = self.driver.find_element(By.XPATH, '//*[@id="root"]/div[1]/div/ul/li[4]/a')
         mypage_btn.click()
 
-    # def profile_image(self):
-        # try:
-        #     img_src = profile_img.get_attribute("src")
-        #
-        #     # URL에서 마지막 '/' 이후의 파일명 추출
-        #     if img_src:
-        #         return img_src.split("/")[-1]
-        #     return None
-        # except:
-        #     return None
-
     # 프로필 수정하기 버튼 클릭- 너무 안눌림..
     def profile_setup(self):
-        container = self.driver.find_element(By.CSS_SELECTOR, "div.container-class")
-        profile_setup_btn = container.find_elements(By.CSS_SELECTOR, "cursor-pointer")[1]
+        profile_setup_btn = WebDriverWait(self.driver, 5).until(
+            EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/div[1]/main/section/section/section/div[1]/div[2]/div/svg'))
+        )
         profile_setup_btn.click()
 
     # 프로필 정보 수정 - 이미지 첨부 버튼 클릭
     def image_attach(self):
         image_attach_btn = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[1]/div/button')
         image_attach_btn.click()
-
-    # 프로필 정보 수정 - 단 맛 슬라이더
-    # 이건 진짜 으어어어어엉어어ㅓ어어어어어어어
-
-    # 프로필 정보 수정 - 짠 맛 슬라이더
-
-    # 프로필 정보 수정 - 매운 맛 슬라이더
 
     # 프로필 수정 완료 버튼 클릭
     def profile_setup_completed(self):
@@ -56,10 +39,9 @@ class MyPage():
         my_food_add_btn = WebDriverWait(self.driver, 5).until(
             EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/div[1]/main/section/section/div[2]/div[1]/button'))
         )
-        # my_food_add_btn = self.driver.find_element(By.CSS_SELECTOR, "button.bg-main-black.text-white")
         my_food_add_btn.click()
 
-        # 요소를 중앙에 위치하게 스크롤
+    # 요소를 중앙에 위치하게 스크롤
     def scroll_to_element(self, by, value):
         element = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((by, value))
@@ -67,6 +49,29 @@ class MyPage():
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
         WebDriverWait(self.driver, 5).until(EC.element_to_be_clickable((by, value))).click()
 
+    # 메뉴명 입력
+    def menu_name_input(self, text):
+        review_food_name = self.driver.find_element(By.XPATH, '//input[@placeholder="메뉴 명을 입력해주세요."]')
+        review_food_name.send_keys(text)
+
+    # 음식 카테고리 랜덤 선택
+    def food_combobox_random(self):  # index : 선택할 팀 특정
+        food_lists = self.driver.find_elements(By.CSS_SELECTOR, "[role='option']")
+        foods = len(food_lists)
+        food_index = random.randint(0, foods-1)
+        food_lists[food_index].click()
+
+    # 후기 텍스트 입력
+    def review_input(self, text):
+        review_food_detail = self.driver.find_element(By.XPATH, '//textarea[@placeholder="후기를 등록 입력해주세요."]')
+        review_food_detail.send_keys(text)
+
+    # 별점 랜덤 클릭
+    def review_star_random(self):
+        review_stars = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.w-10.h-10.cursor-pointer.text-gray-300'))
+        )
+        random.choice(review_stars).click()
 
     # 같은 메뉴 먹기 버튼 클릭
     def same_food_review(self):
