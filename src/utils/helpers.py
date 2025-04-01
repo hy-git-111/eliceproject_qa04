@@ -5,6 +5,7 @@ from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver import ChromeOptions
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException
 from src.resources.testdata.expected_texts import EXPECTED_TEXTS
 from src.utils.locators import LOCATORS
 
@@ -85,42 +86,42 @@ class WebUtils():
         review_category_btn = self.driver.find_element(By.CSS_SELECTOR, '[role="combobox"]')
         review_category_btn.click()
 
-    # 새로운 후기 등록하기 - 카텍고리 드롭다운 한식
+    # 새로운 후기 등록하기 - 카테고리 드롭다운 한식
     def category_korean_food(self):
         korean_food_btn = self.driver.find_element(By.CSS_SELECTOR, '[value="한식"]')
         korean_food_btn.click()
 
-    # 새로운 후기 등록하기 - 카텍고리 드롭다운 중식
+    # 새로운 후기 등록하기 - 카테고리 드롭다운 중식
     def category_chinese_food(self):
         chinese_food_btn = self.driver.find_element(By.CSS_SELECTOR, '[value="중식"]')
         chinese_food_btn.click()
 
-    # 새로운 후기 등록하기 - 카텍고리 드롭다운 양식
+    # 새로운 후기 등록하기 - 카테고리 드롭다운 양식
     def category_western_food(self):
         western_food_btn = self.driver.find_element(By.CSS_SELECTOR, '[value="양식"]')
         western_food_btn.click()
 
-    # 새로운 후기 등록하기 - 카텍고리 드롭다운 일식
+    # 새로운 후기 등록하기 - 카테고리 드롭다운 일식
     def category_japan_food(self):
         japan_food_btn = self.driver.find_element(By.CSS_SELECTOR, '[value="일식"]')
         japan_food_btn.click()
 
-    # 새로운 후기 등록하기 - 카텍고리 드롭다운 분식
+    # 새로운 후기 등록하기 - 카테고리 드롭다운 분식
     def category_school_food(self):
         school_food_btn = self.driver.find_element(By.CSS_SELECTOR, '[value="분식"]')
         school_food_btn.click()
 
-    # 새로운 후기 등록하기 - 카텍고리 드롭다운 아시안
+    # 새로운 후기 등록하기 - 카테고리 드롭다운 아시안
     def category_asian_food(self):
         asian_food_btn = self.driver.find_element(By.CSS_SELECTOR, '[value="아시안"]')
         asian_food_btn.click()
 
-    # 새로운 후기 등록하기 - 카텍고리 드롭다운 패스트푸드
+    # 새로운 후기 등록하기 - 카테고리 드롭다운 패스트푸드
     def category_fast_food(self):
         fast_food_btn = self.driver.find_element(By.CSS_SELECTOR, '[value="패스트푸드"]')
         fast_food_btn.click()
 
-    # 새로운 후기 등록하기 - 카텍고리 드롭다운 기타
+    # 새로운 후기 등록하기 - 카테고리 드롭다운 기타
     def category_etc_food(self):
         etc_food_btn = self.driver.find_element(By.CSS_SELECTOR, '[value="기타"]')
         etc_food_btn.click()
@@ -179,6 +180,7 @@ class WebUtils():
         tab_home.click()
         time.sleep(1)
 
+    # id, pw값 입력해서 로그인하기
     def login(self, id, pw):
         btn_login = self.driver.find_element(By.XPATH, '//button[contains(@class, "bg-main")]')
         btn_login.click()
@@ -219,17 +221,14 @@ class VerifyHelpers():
     def __init__(self, driver: WebDriver):
         self.driver = driver
     
-    # 헬퍼함수 / elems = [d,d,d,d] 선언하고 사용
-    # 공통사용시 LOCATORS 부분, key 부분만 바꾸면 됨
-    def check_existence(self, keys):
-        elements = []
-        for key in keys:
-            element = WebDriverWait(self.driver, 5).until(
-                EC.presence_of_element_located(LOCATORS.get(key))
-            )
-            elements.append(element)
-        return elements
+    # 요소가 나타날때까까지 기다린 후, 해당 요소 반환하기
+    def check_existence(self, by, value):
+        element = WebDriverWait(self.driver, 5).until(
+            EC.presence_of_element_located(by, value)
+        )
+        return element
     
+    # 특정 요소를 기준으로 하위요소가 있는지 확인하기
     def check_children_existence(self, parent_key: str, children_keys: list):
         elements = []
         parent = self.driver.find_element(*LOCATORS.get(parent_key))
@@ -239,6 +238,7 @@ class VerifyHelpers():
             elements.append(element)
         return elements
         
+    # 특정 요소를 기준으로 하위 요소의 텍스트 추출하기
     def get_children_text(self, parent_key: list, children_keys: list):
         texts = []
         parent = self.driver.find_element(*LOCATORS.get(parent_key))
@@ -248,10 +248,13 @@ class VerifyHelpers():
             texts.append(element.text)
         return texts
 
-    def get_elems_texts(self, elems: list):
-        texts = []
-        for elem in elems:
-            texts.append(elem.text)
+    def get_elem_text(self, by, value):
+        element = WebDriverWait(self.driver, 5).until(
+            EC.presence_of_element_located(LOCATORS.get(key))
+        )
+
+        for element in elements:
+            texts.append(key.text)
         return texts
     
     def get_expected_texts(self, keys: list):
@@ -261,7 +264,40 @@ class VerifyHelpers():
         return titles
     
     def cnt_elements(self, key: str):
-        elem = WebDriverWait(self.driver, 5).until(
+        element = WebDriverWait(self.driver, 5).until(
             EC.presence_of_all_elements_located(LOCATORS.get(key))
         )
-        return len(elem)
+        return len(element)
+    
+    def click_elem_with_infinity_scroll(self, key: str, value: str):
+        while True:
+            last_height = self.driver.execute_script("return document.body.scrollHeight")
+            time.sleep(2)
+            try:
+                target_btn_index = []
+                all_btns = self.driver.find_elements(By.TAG_NAME, "button")
+                target_btns_elems = self.driver.find_elements(key, value)
+                if target_btns_elems != []:
+                    for btn in all_btns:
+                        if btn.text == target_btns_elems[0].text:
+                            btn_index = all_btns.index(btn)
+                            target_btn_index.append(btn_index)
+
+                            self.driver.execute_script(
+                                "arguments[0].focus();", btn
+                            )
+                            time.sleep(2)
+                            self.driver.execute_script("arguments[0].click();", btn)
+                            return target_btn_index[0]
+                
+                if target_btns_elems == []:
+                    new_height = self.driver.execute_script("return document.body.scrollHeight")
+                    self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+                
+                if new_height == last_height:
+                    break
+
+                last_height = new_height
+
+            except NoSuchElementException:
+                pass

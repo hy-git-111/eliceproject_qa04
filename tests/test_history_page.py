@@ -1,14 +1,10 @@
 import time
 import pytest
-import random
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.select import Select
 from selenium.common.exceptions import TimeoutException
 from src.utils.helpers import WebUtils, VerifyHelpers
-from src.pages.login_page import LoginPage
-from src.resources.testdata.expected_texts import EXPECTED_TEXTS
 from src.utils.locators import LOCATORS
-from src.resources.testdata.user_data import login_data, signin_data
+from src.resources.testdata.user_data import login_data, review_data
 
 from src.utils.log_util import LogUtils
 
@@ -23,7 +19,8 @@ class TestHistoryPage:
 
             btn_key = ["history_pg_btn_back"]
             title_key = ["history_pg_title"]
-
+            
+            # 사전조건
             web_utils.open_url()
             web_utils.login(login_data["empty_email"], login_data["password"])
 
@@ -38,6 +35,8 @@ class TestHistoryPage:
 
             assert btn_elem != None
             assert list(title[0])[-len(expected_title[0]):] == list(expected_title[0])
+
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
@@ -68,6 +67,8 @@ class TestHistoryPage:
 
             assert list(title[0])[-len(expected_title[0]):] == list(expected_title[0])
 
+            LogUtils.log_success()
+
         except Exception as e:
             LogUtils.log_error(e, driver)
             raise
@@ -84,8 +85,7 @@ class TestHistoryPage:
             food_list_key = ["history_pg_list"]
 
             web_utils.open_url()
-            web_utils.login("test@elice.com", "xptmxmrlagP0!")  # 임시용
-            # web_utils.login(login_data["no_review_email"], login_data["password"])    데이터 세팅 불가로 주석처리
+            web_utils.login(login_data["no_review_email"], login_data["password"])
 
             web_utils.click_tab_history()
 
@@ -94,12 +94,13 @@ class TestHistoryPage:
                 try:
                     web_utils.scroll_to_element(*LOCATORS.get(before_review_btn_key))
                     before_review_btn_elems = verify_helpers.check_existence(before_review_btn_key)
-                    time.sleep(2)
+                    time.sleep(2)   # 없으면 에러남
                     
                 except TimeoutException:
                     web_utils.scroll_to_element(*LOCATORS.get(before_review_btn_key))
                     before_review_btn_elems = verify_helpers.check_existence(before_review_btn_key)
-                    time.sleep(2)           
+                    time.sleep(2)   # 없으면 에러남
+
             btn_text = verify_helpers.get_elems_texts(before_review_btn_elems)            
 
             title_elem = verify_helpers.check_existence(title_key)
@@ -113,6 +114,8 @@ class TestHistoryPage:
             assert food_list_elem != None
             assert list(title[0])[-len(expected_title[0]):] == list(expected_title[0])
             assert btn_text == expected_btn_text
+
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
@@ -130,30 +133,22 @@ class TestHistoryPage:
             food_list_key = ["history_pg_list"]
 
             web_utils.open_url()
-            web_utils.login("test@elice.com", "xptmxmrlagP0!")  # 임시용
-            # web_utils.login(login_data["no_review_email"], login_data["password"])    데이터 세팅 불가로 주석처리
+            web_utils.login(login_data["review_email"], login_data["password"])
 
             web_utils.click_tab_history()
-
-
-
-            # 리뷰 등록 코드 추가
-            # 리뷰 등록 코드 추가
-            # 리뷰 등록 코드 추가
-            # 리뷰 등록 코드 추가
-
 
             after_review_btn_elems = verify_helpers.check_existence(after_review_btn_key)
             if after_review_btn_elems == None:
                 try:
                     web_utils.scroll_to_element(*LOCATORS.get(after_review_btn_key))
                     after_review_btn_elems = verify_helpers.check_existence(after_review_btn_key)
-                    time.sleep(2)
+                    time.sleep(2)   # 없으면 에러남
                     
                 except TimeoutException:
                     web_utils.scroll_to_element(*LOCATORS.get(after_review_btn_key))
                     after_review_btn_elems = verify_helpers.check_existence(after_review_btn_key)
-                    time.sleep(2)           
+                    time.sleep(2)   # 없으면 에러남
+
             btn_text = verify_helpers.get_elems_texts(after_review_btn_elems)            
 
             title_elem = verify_helpers.check_existence(title_key)
@@ -167,6 +162,8 @@ class TestHistoryPage:
             assert food_list_elem != None
             assert list(title[0])[-len(expected_title[0]):] == list(expected_title[0])
             assert btn_text == expected_btn_text
+
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
@@ -194,6 +191,8 @@ class TestHistoryPage:
             assert "history" in driver.current_url
             assert subtitle_text != expected_texts
 
+            LogUtils.log_success()
+
         except Exception as e:
             LogUtils.log_error(e, driver)
             raise
@@ -208,8 +207,7 @@ class TestHistoryPage:
             title_key = ["home_pg_subtitle"]
 
             web_utils.open_url()
-            web_utils.login("test@elice.com", "xptmxmrlagP0!")  # 임시용
-            # web_utils.login(login_data["no_review_email"], login_data["password"])    데이터 세팅 불가로 주석처리
+            web_utils.login(login_data["no_review_email"], login_data["password"])
 
             web_utils.click_tab_history()
             web_utils.click_element(*LOCATORS.get("history_pg_btn_back"))
@@ -222,49 +220,11 @@ class TestHistoryPage:
             assert not "history" in driver.current_url
             assert list(title[0])[-len(expected_title[0]):] == list(expected_title[0])
 
-        except Exception as e:
-            LogUtils.log_error(e, driver)
-            raise
-
-# 1번 리스트의 그룹, 유형, 메뉴명 비교하는 코드 작성하기
-# [히스토리 페이지] 추천받은 메뉴 기록 확인
-    @pytest.mark.skip(reason="미완성")
-    def test_history_007(self, driver):
-        try:
-            web_utils = WebUtils(driver)
-            verify_helpers = VerifyHelpers(driver)
-
-            first_food_list = ["history_pg_list_1"] 
-
-            web_utils.open_url()
-            web_utils.login("test@elice.com", "xptmxmrlagP0!")  # 임시용
-            # web_utils.login(login_data["no_review_email"], login_data["password"])    데이터 세팅 불가로 주석처리
-
-
-            ## 추천받기 어디서 떼오자
-            ## 추천받기 어디서 떼오자
-            ## 추천받기 어디서 떼오자
-            ## 추천받기 어디서 떼오자
-
-
-
-            web_utils.click_tab_history()
-            web_utils.click_element(*LOCATORS.get("history_pg_btn_back"))
-
-            title_elem = verify_helpers.check_existence(title_key)
-            title = verify_helpers.get_elems_texts(title_elem)
-
-            expected_title = verify_helpers.get_expected_texts(title_key)
-            
-            assert not "history" in driver.current_url
-            assert list(title[0])[-len(expected_title[0]):] == list(expected_title[0])
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
             raise
-
-
-
 
 # [히스토리 페이지] 무한 스크롤 확인
     @pytest.mark.skip(reason="test pass")
@@ -276,20 +236,27 @@ class TestHistoryPage:
             food_list_key = "history_pg_list"
 
             web_utils.open_url()
-            web_utils.login("test@elice.com", "xptmxmrlagP0!")  # 임시용
-            # web_utils.login(login_data["no_review_email"], login_data["password"])    데이터 세팅 불가로 주석처리
+            web_utils.login(login_data["no_review_email"], login_data["password"])
 
             web_utils.click_tab_history()
 
-            cnt_list_before = verify_helpers.cnt_elements(food_list_key)
+            cnt = []
+            try:
+                for _ in range(3):
+                    cnt_list = verify_helpers.cnt_elements(food_list_key)
+                    cnt.append(cnt_list)
 
-            web_utils.scroll_to_element(*LOCATORS.get("history_pg_list_10"))
-            time.sleep(3)   # 없으면 오류남
-
-            cnt_list_after = verify_helpers.cnt_elements(food_list_key)
+                    web_utils.scroll_to_element(*LOCATORS.get("history_pg_list_10"))
+                    print("스크롤")
+                    time.sleep(3)   # 없으면 오류남
+            except:
+                print("스크롤 완료")         
             
-            assert cnt_list_before == 10
-            assert cnt_list_after == 20
+            assert cnt[0] == 10
+            assert cnt[1] == 20
+            assert cnt[2] <= 30
+
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
@@ -302,72 +269,63 @@ class TestHistoryPage:
             web_utils = WebUtils(driver)
             verify_helpers = VerifyHelpers(driver)
 
-            before_review_btn_key = ["history_pg_btn_before_review"]
-            exit_btn_key = ["review_pg_btn_exit"]
+            radio_btns_keys = ["review_pg_btn_radio_alone", "review_pg_btn_radio_group", "review_pg_btn_radio_team"]
+            menu_input_key = ["review_pg_input_menu"]
+            category_key = ["review_pg_drop_down_category"]
 
             web_utils.open_url()
-            web_utils.login("test@elice.com", "xptmxmrlagP0!")  # 임시용
-            # web_utils.login(login_data["no_review_email"], login_data["password"])    데이터 세팅 불가로 주석처리
+            web_utils.login(login_data["no_review_email"], login_data["password"])
 
-            web_utils.click_tab_history()
+            web_utils.click_tab_history()            
+            verify_helpers.click_elem_with_infinity_scroll(By.CSS_SELECTOR, 'button.bg-main-black')
+            
+            radio_btns_elems = verify_helpers.check_existence(radio_btns_keys)
+            menu_input_elem = verify_helpers.check_existence(menu_input_key)
 
-            list_elements = verify_helpers.check_existence(before_review_btn_key)
-            for element in list_elements:
-                element.click()
-                time.sleep(2)
-                return
-            
-            upload_btn_elem = verify_helpers.check_existence(exit_btn_key)
-            
-            assert upload_btn_elem != None
+            category_elem = verify_helpers.check_existence(category_key)
+            category_text = verify_helpers.get_elems_texts(category_elem)
+
+            assert radio_btns_elems[0].get_attribute("aria-checked") == "true"  or radio_btns_elems[1].get_attribute("aria-checked") =="true" or radio_btns_elems[2].get_attribute("aria-checked") == "true"
+            assert menu_input_elem[0].get_attribute("value") != ""
+            assert category_text != ""
+
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
             raise
 
 # [히스토리 페이지] 후기 등록
-    @pytest.mark.skip(reason="미완성")
+    @pytest.mark.skip(reason="test pass")
     def test_history_010(self, driver):
         try:
             web_utils = WebUtils(driver)
             verify_helpers = VerifyHelpers(driver)
 
-            before_review_btn_key = ["history_pg_btn_before_review"]
             after_review_btn_key = ["history_pg_btn_after_review"]
  
             web_utils.open_url()
-            web_utils.login("test@elice.com", "xptmxmrlagP0!")  # 임시용
-            # web_utils.login(login_data["no_review_email"], login_data["password"])    데이터 세팅 불가로 주석처리
-
+            web_utils.login(login_data["review_email"], login_data["password"])
+            
             web_utils.click_tab_history()
+            before_btn_index = verify_helpers.click_elem_with_infinity_scroll(By.CSS_SELECTOR, 'button.bg-main-black')    
 
-            before_review_btn_elems = verify_helpers.check_existence(before_review_btn_key)
-            if before_review_btn_elems == None:
-                try:
-                    web_utils.scroll_to_element(*LOCATORS.get(before_review_btn_key))
-                    before_review_btn_elems = verify_helpers.check_existence(before_review_btn_key)
-                    time.sleep(2)
-                    
-                except TimeoutException:
-                    web_utils.scroll_to_element(*LOCATORS.get(before_review_btn_key))
-                    before_review_btn_elems = verify_helpers.check_existence(before_review_btn_key)
-                    time.sleep(2)              
-                
-            for elem in before_review_btn_elems:
-                driver.execute_script("arguments[0].click();", elem)
-                return elem
-            
-            # 진입까지 완료
-            # 후기 등록 추가 필요
-            # 토스트팝업도 검증할건지 생각해보기
+            web_utils.review_image_upload()
+            time.sleep(2)   # 없으면 에러남
+            driver.find_element(By.CLASS_NAME, 'resize-none').send_keys(review_data["review"])
+            web_utils.star_review_four_click()
+            web_utils.review_completed()
+            time.sleep(2)
 
-            
-            after_review_btn_elem = elem.find_element(By.TAG_NAME, "button")
-            after_review_btn_text = verify_helpers.get_elems_texts(after_review_btn_elem)
-            
+            all_btns = driver.find_elements(By.TAG_NAME, "button")
+            clicked_btn_elem = all_btns[before_btn_index]
+            after_btn_text = clicked_btn_elem.text
+
             expected_text = verify_helpers.get_expected_texts(after_review_btn_key)
 
-            assert after_review_btn_text == expected_text
+            assert after_btn_text == expected_text[0]
+              
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
@@ -381,32 +339,20 @@ class TestHistoryPage:
             verify_helpers = VerifyHelpers(driver)
 
             exit_btn_key = ["review_pg_btn_exit"]
-            after_review_btn_key = ["history_pg_btn_after_review"]
 
             web_utils.open_url()
-            web_utils.login("test@elice.com", "xptmxmrlagP0!")  # 임시용
-            # web_utils.login(login_data["no_review_email"], login_data["password"])    데이터 세팅 불가로 주석처리
+            web_utils.login(login_data["review_email"], login_data["password"])
 
             web_utils.click_tab_history()
 
-            after_review_btns_elems = verify_helpers.check_existence(after_review_btn_key)
             time.sleep(2)
-            if after_review_btns_elems == None:
-                try:
-                    web_utils.scroll_to_element(*LOCATORS.get(after_review_btn_key))
-                    after_review_btns_elems = verify_helpers.check_existence(after_review_btn_key)
-                    time.sleep(2)
-                    
-                except TimeoutException:
-                    web_utils.scroll_to_element(*LOCATORS.get(after_review_btn_key))
-                    after_review_btns_elems = verify_helpers.check_existence(after_review_btn_key)
-                    time.sleep(2)              
-                
-            for elem in after_review_btns_elems:
-                driver.execute_script("arguments[0].click();", elem)
+
+            verify_helpers.click_elem_with_infinity_scroll(By.CSS_SELECTOR, 'button.bg-main') # 로케이터 쓰면 못찾음
 
             with pytest.raises(TimeoutException):
                 verify_helpers.check_existence(exit_btn_key)
+
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
