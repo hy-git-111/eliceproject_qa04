@@ -292,7 +292,7 @@ class TestHomePage:
 
             # Expected Result
             assert driver.current_url == "https://kdt-pt-1-pj-2-team03.elicecoding.com/selectoptions/alone"
-            assert verify.get_elem_text(*LOCATOR.get("dropdown_text")) == "음식 카테고리를 설정해주세요"
+            assert verify.get_elem_text(*LOCATORS.get("dropdown_text")) == "음식 카테고리를 설정해주세요"
             assert driver.find_element(*LOCATORS.get("done_btn")).get_attribute("disabled") is not None
 
             LogUtils.log_success()

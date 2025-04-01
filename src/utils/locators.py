@@ -116,6 +116,9 @@ LOCATORS = {
     "home_pg_subtitle_1": (By.CSS_SELECTOR, 'p.pb-4.text-sub-2'),
     "home_pg_subtitle_2": (By.CLASS_NAME, 'py-1'),
 
+    "home_pg_subtitle_1": (By.CSS_SELECTOR, 'p.pb-4.text-sub-2'),
+    "home_pg_subtitle_2": (By.CLASS_NAME, 'py-1'),
+
     "eat_alone_btn": (By.CSS_SELECTOR, 'button.cursor-pointer:nth-of-type(1)'),
     "eat_together_btn": (By.CSS_SELECTOR, 'button.cursor-pointer:nth-of-type(2)'),
     "eat_team_btn": (By.CSS_SELECTOR, 'button.cursor-pointer:nth-of-type(3)'),
