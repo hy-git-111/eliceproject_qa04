@@ -156,100 +156,6 @@ class WebUtils():
         review_completed_btn = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/button')
         review_completed_btn.click()
 
-    # 새로운 후기 등록하기 - 식사 유형 그룹
-    def ate_group(self):
-        atd_group_btn = self.driver.find_element(By.XPATH, 'button[value="그룹"]')
-        atd_group_btn.click()
-
-    # 새로운 후기 등록하기 - 식사 유형 회식
-    def ate_party(self):
-        ate_party_btn = self.driver.find_element(By.CSS_SELECTOR, 'button[value="회식"]')
-        ate_party_btn.click()
-
-    # 새로운 후기 등록하기 - 후기 사진 버튼 선택
-    def review_image_attach(self):
-        review_image_attach = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[2]/div/button')
-        review_image_attach.click()
-        
-    # 새로운 후기 등록하기 - 메뉴 명 입력
-    def review_title_write(self, menu_text):
-        self.driver.find_element(By.NAME, "menu").send_keys(menu_text)
-
-    # 새로운 후기 등록하기 - 카테고리 드롭다운 클릭
-    def review_category(self):
-        review_category_btn = self.driver.find_element(By.CSS_SELECTOR, '[role="combobox"]')
-        review_category_btn.click()
-
-    # 새로운 후기 등록하기 - 카텍고리 드롭다운 한식
-    def category_korean_food(self):
-        korean_food_btn = self.driver.find_element(By.CSS_SELECTOR, '[value="한식"]')
-        korean_food_btn.click()
-
-    # 새로운 후기 등록하기 - 카텍고리 드롭다운 중식
-    def category_chinese_food(self):
-        chinese_food_btn = self.driver.find_element(By.CSS_SELECTOR, '[value="중식"]')
-        chinese_food_btn.click()
-
-    # 새로운 후기 등록하기 - 카텍고리 드롭다운 양식
-    def category_western_food(self):
-        western_food_btn = self.driver.find_element(By.CSS_SELECTOR, '[value="양식"]')
-        western_food_btn.click()
-
-    # 새로운 후기 등록하기 - 카텍고리 드롭다운 일식
-    def category_japan_food(self):
-        japan_food_btn = self.driver.find_element(By.CSS_SELECTOR, '[value="일식"]')
-        japan_food_btn.click()
-
-    # 새로운 후기 등록하기 - 카텍고리 드롭다운 분식
-    def category_school_food(self):
-        school_food_btn = self.driver.find_element(By.CSS_SELECTOR, '[value="분식"]')
-        school_food_btn.click()
-
-    # 새로운 후기 등록하기 - 카텍고리 드롭다운 아시안
-    def category_asian_food(self):
-        asian_food_btn = self.driver.find_element(By.CSS_SELECTOR, '[value="아시안"]')
-        asian_food_btn.click()
-
-    # 새로운 후기 등록하기 - 카텍고리 드롭다운 패스트푸드
-    def category_fast_food(self):
-        fast_food_btn = self.driver.find_element(By.CSS_SELECTOR, '[value="패스트푸드"]')
-        fast_food_btn.click()
-
-    # 새로운 후기 등록하기 - 카텍고리 드롭다운 기타
-    def category_etc_food(self):
-        etc_food_btn = self.driver.find_element(By.CSS_SELECTOR, '[value="기타"]')
-        etc_food_btn.click()
-
-    # 새로운 후기 등록하기 - 별점 1~5 버튼 클릭
-    def star_review_one_click(self):
-        star_review_one = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[6]/div/div[1]')
-        star_review_one.click()
-
-    def star_review_two_click(self):
-        star_review_two = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[6]/div/div[2]')
-        star_review_two.click()
-
-    def star_review_three_click(self):
-        star_review_three = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[6]/div/div[3]')
-        star_review_three.click()
-
-    def star_review_four_click(self):
-        star_review_four = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[6]/div/div[4]')
-        star_review_four.click()
-
-    def star_review_five_click(self):
-        star_review_five = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[6]/div/div[5]')
-        star_review_five.click()
-
-    # 새로운 후기 등록하기 - 후기 내용 입력
-    def review_comment_write(self, comment_text):
-        self.driver.find_element(By.NAME, "comment").send_keys(comment_text)
-
-    # 새로운 후기 등록하기 - 후기 작성 완료 버튼 클릭
-    def review_completed(self):
-        review_completed_btn = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/button')
-        review_completed_btn.click()
-
     def click_tab_home(self):
         navigation_bar = self.driver.find_element(By.CSS_SELECTOR, ".bottom-0")
         tab_home = navigation_bar.find_elements(By.TAG_NAME,"a")[0]
@@ -274,6 +180,7 @@ class WebUtils():
         tab_home.click()
         time.sleep(1)
 
+    # id, pw값 입력해서 로그인하기
     def login(self, id, pw):
         btn_login = self.driver.find_element(By.XPATH, '//button[contains(@class, "bg-main")]')
         btn_login.click()
@@ -314,17 +221,14 @@ class VerifyHelpers():
     def __init__(self, driver: WebDriver):
         self.driver = driver
     
-    # 헬퍼함수 / elems = [d,d,d,d] 선언하고 사용
-    # 공통사용시 LOCATORS 부분, key 부분만 바꾸면 됨
-    def check_existence(self, keys):
-        elements = []
-        for key in keys:
-            element = WebDriverWait(self.driver, 5).until(
-                EC.presence_of_element_located(LOCATORS.get(key))
-            )
-            elements.append(element)
-        return elements
+    # 요소가 나타날때까까지 기다린 후, 해당 요소 반환하기
+    def check_existence(self, by, value):
+        element = WebDriverWait(self.driver, 5).until(
+            EC.presence_of_element_located(by, value)
+        )
+        return element
     
+    # 특정 요소를 기준으로 하위요소가 있는지 확인하기
     def check_children_existence(self, parent_key: str, children_keys: list):
         elements = []
         parent = self.driver.find_element(*LOCATORS.get(parent_key))
@@ -334,6 +238,7 @@ class VerifyHelpers():
             elements.append(element)
         return elements
         
+    # 특정 요소를 기준으로 하위 요소의 텍스트 추출하기
     def get_children_text(self, parent_key: list, children_keys: list):
         texts = []
         parent = self.driver.find_element(*LOCATORS.get(parent_key))
