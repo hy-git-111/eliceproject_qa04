@@ -116,6 +116,72 @@ LOCATORS = {
     "home_pg_subtitle_1": (By.CSS_SELECTOR, 'p.pb-4.text-sub-2'),
     "home_pg_subtitle_2": (By.CLASS_NAME, 'py-1'),
 
+    "home_pg_subtitle_1": (By.CSS_SELECTOR, 'p.pb-4.text-sub-2'),
+    "home_pg_subtitle_2": (By.CLASS_NAME, 'py-1'),
+
+    "eat_alone_btn": (By.CSS_SELECTOR, 'button.cursor-pointer:nth-of-type(1)'),
+    "eat_together_btn": (By.CSS_SELECTOR, 'button.cursor-pointer:nth-of-type(2)'),
+    "eat_team_btn": (By.CSS_SELECTOR, 'button.cursor-pointer:nth-of-type(3)'),
+
+    "header_text": (By.CSS_SELECTOR, 'header span.text-title'),
+    "ai_recommendation_text": (By.CSS_SELECTOR, 'p.text-body'),
+    "eat_alone_text": (By.CSS_SELECTOR, 'div.flex.items-center:nth-of-type(1) p'),
+    "eat_together_text": (By.CSS_SELECTOR, 'div.flex.items-center:nth-of-type(2) p'),
+    "eat_team_text": (By.CSS_SELECTOR, 'div.flex.items-center:nth-of-type(3) p'),
+    "employee_preference_text": (By.CSS_SELECTOR, 'span.text-body'),
+    "preference_analysis_chart": (By.CSS_SELECTOR, 'canvas[role=\'img\']'),
+    "menu_suggestion_text": (By.CSS_SELECTOR, 'h1.text-body.text-sub-2'),
+    "menu_suggestion_subtext": (By.CSS_SELECTOR, 'div.pb-4 > h2.text-lg.text-dark-gray'),
+    "my_preference_text": (By.CSS_SELECTOR, 'span.text-body.font-bold.text-sub-2:not(.py-1)'),
+    "my_preference_subtext": (By.XPATH, '//h2[contains(text(), \'취향 데이터\')]'),
+    "navigation_bar": (By.CSS_SELECTOR, 'div.fixed.bottom-0'),
+    "navigation_home_icon": (By.CSS_SELECTOR, 'a.text-main path'),
+    "navigation_home_text": (By.CSS_SELECTOR, 'a.text-main span'),
+
+    # [홈 > 추천 옵션 선택 페이지]
+    "dropdown": (By.CSS_SELECTOR, 'button[role=\'combobox\']'),
+    "dropdown_text" : (By.CSS_SELECTOR, 'button[role=\'combobox\'] > span'),
+    "options": (By.CSS_SELECTOR, 'div[role=\'option\']'),
+    "selected_option_text": (By.CSS_SELECTOR, 'span[style=\'pointer-events: none;\']'),
+    "colleague": (By.CSS_SELECTOR, 'div.flex.flex-col.gap-2.py-2'),
+    "colleagues": (By.CSS_SELECTOR, 'div.flex.items-center.gap-6'),
+    "search_field": (By.CSS_SELECTOR, 'input.text-body'),
+    "done_btn": (By.XPATH, '//button[text()=\'선택 완료\']'),
+
+    "select_category_text": (By.CSS_SELECTOR, 'span.font-bold.text-sub-2.text-title'),
+    "eating_people_text": (By.XPATH, '//span[contains(text(), \'인원\')]'),
+    "eating_people": (By.CSS_SELECTOR, 'div.scrollbar-hide'),
+    "eating_people_profie_image" : (By.CSS_SELECTOR, 'div.scrollbar-hide img.aspect-square'),
+    "profile_image": (By.CSS_SELECTOR, 'img.aspect-square'),
+    "profile_name": (By.CSS_SELECTOR, 'div.font-semibold'),
+    "profile_team": (By.CSS_SELECTOR, 'div.text-gray-500'),
+    "profile_checkbox": (By.CSS_SELECTOR, 'input[type=\'checkbox\']'),
+    "profile_cancel_btn": (By.CSS_SELECTOR, 'svg.absolute'),
+    "team": (By.CSS_SELECTOR, 'div.bg-sub-2'),
+    "division": (By.CSS_SELECTOR, 'div.border-t'),
+    "search_field": (By.CSS_SELECTOR, 'input[type=\'text\']'),
+    "user_list": (By.CSS_SELECTOR, 'div.flex.items-center.justify-between'),
+    "searched_user": (By.CSS_SELECTOR, 'ul.absolute'),
+    "searched_user_first_one": (By.CSS_SELECTOR, 'ul.absolute:nth-of-type(1)'),
+    "searched_profile_image": (By.CSS_SELECTOR, 'img.rounded-full'),
+    "searched_profile_name": (By.TAG_NAME, 'h2'),
+    "searched_profile_team": (By.CSS_SELECTOR, 'h2.text-subbody'),
+
+    # [홈 > 메뉴 추천 페이지]
+    "refresh_recommendation_btn": (By.XPATH, '//button[text()=\'다시 추천 받기\']'),
+    "accept_recommendation_btn": (By.XPATH, '//button[text()=\'추천 수락하기\']'),
+
+    "menu_recommendation_text": (By.CSS_SELECTOR, 'span.font-bold.text-body'),
+    "menu_text": (By.CSS_SELECTOR, 'span.text-main'),
+    "food_image": (By.CSS_SELECTOR, 'img.rounded-lg'),
+    "ai_analysis_text": (By.XPATH, '//span[contains(text(), \'분석\')]'),
+    "ai_analysis_percentage": (By.CSS_SELECTOR, 'div.text-xs'),
+    "restaurant_list_text": (By.CSS_SELECTOR, 'div.gap-2 > span.text-body'),
+    "restaurant_list": (By.CSS_SELECTOR, 'div.swiper-wrapper'),
+    "no_search_result_section": (By.CSS_SELECTOR, 'section.border-light-gray'),
+    "no_search_result_text": (By.CSS_SELECTOR, 'h1.text-body'),
+    "no_search_result_image": (By.TAG_NAME, 'rect'),
+
     # [히스토리 페이지]
     "history_pg_btn_back": (By.CSS_SELECTOR, 'header > div > svg'),
     "history_pg_title": (By.CSS_SELECTOR, 'header > div > span'),
@@ -130,6 +196,10 @@ LOCATORS = {
 
     "history_pg_btn_before_review": (By.CSS_SELECTOR, 'button.bg-main-black'),
     "history_pg_btn_after_review": (By.CSS_SELECTOR, 'button.bg-main'),
+
+    "history_food_image": (By.CSS_SELECTOR, 'img.rounded-lg'),
+    "history_tag": (By.CSS_SELECTOR, 'div.text-xs'),
+    "history_menu_text": (By.CSS_SELECTOR, 'div.font-bold'),
 
     # [후기 등록 페이지]
     "review_pg_btn_exit": (By.CLASS_NAME, 'text-2xl'),
