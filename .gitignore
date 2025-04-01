@@ -1,0 +1,8 @@
+user_data.py
+.idea/
+
+__pycache__/
+*.pyc
+*.pyo
+
+.DS_Store
