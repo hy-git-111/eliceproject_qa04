@@ -57,6 +57,7 @@ class WebUtils():
         back_btn.click()
         time.sleep(1)
 
+    # 창 닫기
     def click_close(self):
         close_btn = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[1]/button')
         close_btn.click()
@@ -161,24 +162,28 @@ class WebUtils():
         review_completed_btn = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/button')
         review_completed_btn.click()
 
+    # 홈 탭 클릭
     def click_tab_home(self):
         navigation_bar = self.driver.find_element(By.CSS_SELECTOR, ".bottom-0")
         tab_home = navigation_bar.find_elements(By.TAG_NAME,"a")[0]
         tab_home.click()
         time.sleep(1)
 
+    # 팀 피드 탭 클릭
     def click_tab_team(self):
         navigation_bar = self.driver.find_element(By.CSS_SELECTOR, ".bottom-0")
         tab_home = navigation_bar.find_elements(By.TAG_NAME,"a")[1]
         tab_home.click()
         time.sleep(1)
 
+    # 히스토리 탭 클릭
     def click_tab_history(self):
         navigation_bar = self.driver.find_element(By.CSS_SELECTOR, ".bottom-0")
         tab_home = navigation_bar.find_elements(By.TAG_NAME,"a")[2]
         tab_home.click()
         time.sleep(1)
 
+    # 개인 피드 탭 클릭
     def click_tab_personal(self):
         navigation_bar = self.driver.find_element(By.CSS_SELECTOR, ".bottom-0")
         tab_home = navigation_bar.find_elements(By.TAG_NAME,"a")[3]
@@ -215,12 +220,14 @@ class WebUtils():
         hot_bar = taste_tendency_area.find_elements(By.CSS_SELECTOR, "[dir='ltr']")[2]     # 매운 맛 슬라이더 바 요소
         hot_bar.click()   # 해당 요소의 정중앙 클릭 > 2.5
 
+    # 리뷰 이미지 업로드
     def review_image_upload(self):
         current_file_dir = os.path.dirname(os.path.abspath(__file__))
         img_source = os.path.abspath(os.path.join(current_file_dir,"../resources/testdata/review_photo.jpg")) # 이미지 소스 경로
 
         upload_input = self.driver.find_element(By. CSS_SELECTOR, 'input.hidden')
         upload_input.send_keys(img_source)
+
 
 class VerifyHelpers():
     def __init__(self, driver: WebDriver):
