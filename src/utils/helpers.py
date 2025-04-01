@@ -40,14 +40,19 @@ class WebUtils():
         close_btn.click()
         time.sleep(1)
 
-    # 새로운 후기 등록하기 - 식사 유형 그룹
-    def ate_group(self):
-        atd_group_btn = self.driver.find_element(By.XPATH, 'button[value="그룹"]')
-        atd_group_btn.click()
+    # 후기 등록하기 - 식사 유형 혼밥
+    def ate_alone(self):
+        ate_alone_btn = self.driver.find_element(By.XPATH, '//*[@id="혼밥"]')
+        ate_alone_btn.click()
 
-    # 새로운 후기 등록하기 - 식사 유형 회식
+    # 후기 등록하기 - 식사 유형 그룹
+    def ate_group(self):
+        ate_group_btn = self.driver.find_element(By.XPATH, '//*[@id="그룹"]')
+        ate_group_btn.click()
+
+    # 후기 등록하기 - 식사 유형 회식
     def ate_party(self):
-        ate_party_btn = self.driver.find_element(By.CSS_SELECTOR, 'button[value="회식"]')
+        ate_party_btn = self.driver.find_element(By.XPATH, '//*[@id="회식"]')
         ate_party_btn.click()
 
     # 새로운 후기 등록하기 - 후기 사진 버튼 선택
