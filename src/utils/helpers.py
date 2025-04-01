@@ -224,80 +224,66 @@ class VerifyHelpers():
     # 요소가 나타날때까까지 기다린 후, 해당 요소 반환하기
     def check_existence(self, by, value):
         element = WebDriverWait(self.driver, 5).until(
-            EC.presence_of_element_located(by, value)
+            EC.presence_of_element_located((by, value))
         )
         return element
     
-    # 특정 요소를 기준으로 하위요소가 있는지 확인하기
-    def check_children_existence(self, parent_key: str, children_keys: list):
-        elements = []
-        parent = self.driver.find_element(*LOCATORS.get(parent_key))
-
-        for key in children_keys:
-            element = parent.find_element(*LOCATORS.get(key))
-            elements.append(element)
-        return elements
+    # 특정 요소를 기준으로 하위요소를 찾아 반환하기
+    def check_children_existence(self, parent_by, parent_value, child_by, child_value):
+        parent = self.driver.find_element(parent_by, parent_value)
+        child = parent.find_element(child_by, child_value)
+        return child
         
-    # 특정 요소를 기준으로 하위 요소의 텍스트 추출하기
-    def get_children_text(self, parent_key: list, children_keys: list):
-        texts = []
-        parent = self.driver.find_element(*LOCATORS.get(parent_key))
-
-        for key in children_keys:
-            element = parent.find_element(*LOCATORS.get(key))
-            texts.append(element.text)
-        return texts
-
+    # 특정 요소를 기준으로 하위 요소의 텍스트 반환하기
+    def get_children_text(self, parent_by, parent_value, child_by, child_value):
+        parent = self.driver.find_element(parent_by, parent_value)
+        child = parent.find_element(child_by, child_value)
+        return child.texts
+    
+    # 요소가 나타날때까지 기다린 후 텍스트값 반환하기
     def get_elem_text(self, by, value):
         element = WebDriverWait(self.driver, 5).until(
-            EC.presence_of_element_located(LOCATORS.get(key))
+            EC.presence_of_element_located((by, value))
         )
-
-        for element in elements:
-            texts.append(key.text)
-        return texts
+        return element.text
     
-    def get_expected_texts(self, keys: list):
-        titles = []
-        for key in keys:
-            titles.append(EXPECTED_TEXTS.get(key))
-        return titles
-    
-    def cnt_elements(self, key: str):
+    def cnt_elements(self, by, value):
         element = WebDriverWait(self.driver, 5).until(
-            EC.presence_of_all_elements_located(LOCATORS.get(key))
+            EC.presence_of_all_elements_located((by, value))
         )
         return len(element)
     
-    def click_elem_with_infinity_scroll(self, key: str, value: str):
+    # 무한스크롤하며 특정 버튼이 있는지 찾고, 특정 버튼이 있다면 전체 버튼이 중 특정 버튼의 인덱스값 반환하기   
+    def click_elem_with_infinity_scroll(self, target_by, target_value):
         while True:
-            last_height = self.driver.execute_script("return document.body.scrollHeight")
+            last_height = self.driver.execute_script("return document.body.scrollHeight")   # 스크롤을 위해 현재 페이지의 height값 저장
             time.sleep(2)
             try:
-                target_btn_index = []
-                all_btns = self.driver.find_elements(By.TAG_NAME, "button")
-                target_btns_elems = self.driver.find_elements(key, value)
-                if target_btns_elems != []:
-                    for btn in all_btns:
-                        if btn.text == target_btns_elems[0].text:
-                            btn_index = all_btns.index(btn)
-                            target_btn_index.append(btn_index)
+                target_index = []
+                all_elements = self.driver.find_elements(By.TAG_NAME, "button")
+                target_elements = self.driver.find_elements(target_by, target_value)
+
+                if target_elements != []:   # 현재 화면에 특정 버튼이 있는 경우
+                    for element in all_elements:    # 전체 버튼이를 순회하며 타겟 텍스트와 일치하는지 확인
+                        if element.text == target_elements[0].text:
+                            btn_index = all_elements.index(element)
+                            target_index.append(btn_index)  # 전체 버튼이 리스트에서 타겟 텍스트가 있는 인덱스 번호를 target_index[]에 추가
 
                             self.driver.execute_script(
-                                "arguments[0].focus();", btn
+                                "arguments[0].focus();", element    # target_index[]에 인덱스 추가한 버튼이 화면에 보이도록 포커스 이동동
                             )
-                            time.sleep(2)
-                            self.driver.execute_script("arguments[0].click();", btn)
-                            return target_btn_index[0]
+                            time.sleep(1)
+                            self.driver.execute_script("arguments[0].click();", element)    # target_index[]에 인덱스 추가한 버튼이 클릭
+                            return target_index[0]
                 
-                if target_btns_elems == []:
-                    new_height = self.driver.execute_script("return document.body.scrollHeight")
-                    self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+                if target_elements == []:   # 현재 화면에 특정 버튼이 없는 경우
+                    self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")   # 화면 스크롤
+                    new_height = self.driver.execute_script("return document.body.scrollHeight")    # 스크롤 후 height값 변수에 저장
                 
-                if new_height == last_height:
+                if new_height == last_height:   # 스크롤 전/후 height값이 같으면 함수 종료
                     break
 
-                last_height = new_height
+                last_height = new_height    # 변경된 화면 height값 last_height에 업데이트
 
-            except NoSuchElementException:
+            except NoSuchElementException:  # try문에서 target_elements가 없는 경우 pass
                 pass
