@@ -11,7 +11,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 @pytest.mark.usefixtures("driver")
 class TestTeamFeedPage:
-    @pytest.mark.skip(reason="tested > passed")
+    #@pytest.mark.skip(reason="tested > passed")
     def test_team_001(self, driver:WebDriver):      # 팀 피드 진입 확인하기
         try:
             # Settings & Precondition & Steps - 테스트를 위한 세팅 및 팀 피드 진입 실행
@@ -31,7 +31,7 @@ class TestTeamFeedPage:
             LogUtils.log_error(e, driver)
             raise
 
-    @pytest.mark.skip(reason="tested > passed")
+    #@pytest.mark.skip(reason="tested > passed")
     def test_team_002(self, driver:WebDriver):      # 팀 피드 진입 후 뒤로가기 시 메인(홈)페이지로 이동 확인
        try:
             # Settings & Precondition & Steps - 테스트를 위한 세팅 및 팀 피드 진입 실행
@@ -52,7 +52,7 @@ class TestTeamFeedPage:
            LogUtils.log_error(e, driver)
            raise
       
-    @pytest.mark.skip(reason="tested > failed")
+    #@pytest.mark.skip(reason="tested > failed")
     def test_team_003(self, driver:WebDriver):      # 팀 피드 진입 후 팀 변경 > 뒤로 가기 시 내 팀 정보 제공되는지 확인
         try:
             # Settings - 테스트를 위한 세팅
@@ -86,7 +86,7 @@ class TestTeamFeedPage:
            LogUtils.log_error(e, driver)
            raise
 
-    @pytest.mark.skip(reason="tested > passed")
+    #@pytest.mark.skip(reason="tested > passed")
     def test_team_005(self, driver:WebDriver):      # 내 팀 외 다른 팀(개발 1팀) 진입 시에 프로필 편집 버튼 미제공 확인
         try:
             # Settings & Precondition & Steps - 테스트를 위한 세팅 및 팀 피드 진입 실행
@@ -110,7 +110,7 @@ class TestTeamFeedPage:
            LogUtils.log_error(e, driver)
            raise
 
-    @pytest.mark.skip(reason="tested > passed")
+    #@pytest.mark.skip(reason="tested > passed")
     def test_team_006(self, driver:WebDriver):      # 내 팀 선택 상태에서 프로필 수정 버튼 제공 확인
         try:
             # Settings - 테스트를 위한 세팅
@@ -136,7 +136,7 @@ class TestTeamFeedPage:
            LogUtils.log_error(e, driver)
            raise
 
-    @pytest.mark.skip(reason="tested > passed")
+    #@pytest.mark.skip(reason="tested > passed")
     def test_team_007(self, driver:WebDriver):      # 내 팀 외 다른 팀(개발 1팀) 진입 시에 팀이 먹은 메뉴 추가 버튼 미제공 확인
         try:
             # Settings - 테스트를 위한 세팅
@@ -165,7 +165,7 @@ class TestTeamFeedPage:
            LogUtils.log_error(e, driver)
            raise
 
-    @pytest.mark.skip(reason="tested > passed")
+    #@pytest.mark.skip(reason="tested > passed")
     def test_team_008(self, driver:WebDriver):      # 내 팀 선택 상태에서 팀이 먹는 메뉴 추가 버튼 제공 확인
         try:
             # Settings - 테스트를 위한 세팅
@@ -188,7 +188,7 @@ class TestTeamFeedPage:
            LogUtils.log_error(e, driver)
            raise
 
-    @pytest.mark.skip(reason="tested > passed")
+    #@pytest.mark.skip(reason="tested > passed")
     def test_team_010(self, driver:WebDriver):      # 리뷰 32자 이상일 시 접기/펼치기 제공 여부 확인
         try:
             # Settings - 테스트를 위한 세팅
@@ -253,7 +253,7 @@ class TestTeamFeedPage:
            LogUtils.log_error(e, driver)
            raise
 
-    @pytest.mark.skip(reason="tested > passed")
+    #@pytest.mark.skip(reason="tested > passed")
     def test_team_018(self, driver:WebDriver):      # 팀 프로필 수정 내용 저장 시 프로필 영역 반영되는 지 확인
         try:
             # Settings - 테스트 실행을 위한 세팅
@@ -318,7 +318,7 @@ class TestTeamFeedPage:
            LogUtils.log_error(e, driver)
            raise
 
-    @pytest.mark.skip(reason="tested > passed")
+    #@pytest.mark.skip(reason="tested > passed")
     def test_team_020_1(self, driver:WebDriver):    # 선호 텍스트 10자 미만일 때 저장 시도 시 Error Alert Text 제공하는지 확인
         try:
             # Settings - 테스트를 위한 세팅
@@ -356,7 +356,7 @@ class TestTeamFeedPage:
            LogUtils.log_error(e, driver)
            raise
 
-    @pytest.mark.skip(reason="tested > passed")
+    #@pytest.mark.skip(reason="tested > passed")
     def test_team_020_2(self, driver:WebDriver):    # 비선호 텍스트 10자 미만일 때 저장 시도 시 Error Alert Text 제공하는지 확인
         try:
             # Settings - 테스트를 위한 세팅
@@ -391,7 +391,7 @@ class TestTeamFeedPage:
            LogUtils.log_error(e, driver)
            raise
 
-    @pytest.mark.skip(reason="tested > passed")
+    #@pytest.mark.skip(reason="tested > passed")
     def test_team_020_3(self, driver:WebDriver):    # 선호 / 비선호 텍스트 모두 10자 미만일 때 저장 시도 시 Error Alert Text 제공하는지 확인
         try:
             # Settings - 테스트를 위한 세팅
