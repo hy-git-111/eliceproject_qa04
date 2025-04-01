@@ -113,7 +113,8 @@ LOCATORS = {
     "profile_pg_error_dislike" : (By.CSS_SELECTOR, 'div:nth-child(4) > div > div:nth-child(2) > div > div > p'),
    
     # [홈 페이지]
-    "home_pg_subtitle": (By.CLASS_NAME, 'py-1'),
+    "home_pg_subtitle_1": (By.CSS_SELECTOR, 'p.pb-4.text-sub-2'),
+    "home_pg_subtitle_2": (By.CLASS_NAME, 'py-1'),
 
     # [히스토리 페이지]
     "history_pg_btn_back": (By.CSS_SELECTOR, 'header > div > svg'),
