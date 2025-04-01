@@ -12,7 +12,7 @@ from src.pages.my_page import MyPage
 
 
 class TestMyPage:
-    @pytest.mark.skip
+    # @pytest.mark.skip
     # 개인 피드 페이지 UI 확인
     def test_my_page_001(self, driver):
         mypage_url = "https://kdt-pt-1-pj-2-team03.elicecoding.com/my"
@@ -90,7 +90,7 @@ class TestMyPage:
         # UI 확인 > 하단 스크롤 > 목록 전체 불러오기
         # 목록 추가, 내용 리스트 받아오는 코드
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
     # 내 프로필 수정하기 페이지 UI 확인
     def test_my_page_002(self, driver):
         web_utils = WebUtils(driver)
@@ -156,7 +156,7 @@ class TestMyPage:
         assert profile_modify_completed_btn.is_displayed(), "프로필 수정 완료 버튼 미노출"
 
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
     # 새로운 후기 등록하기 페이지 UI 확인
     def test_my_page_003(self, driver):
         web_utils = WebUtils(driver)
@@ -223,7 +223,7 @@ class TestMyPage:
         assert review_write_completed.is_displayed(), "후기 작성 완료 버튼 미노출"
 
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
     # 프로필 수정 기능 테스트
     def test_my_page_004(self, driver):
         # 입력 텍스트값 정의
@@ -261,7 +261,7 @@ class TestMyPage:
         # 입력값 결과 비교
 
 
-    @pytest.mark.skip(reason = "pass but not yet info check")
+    # @pytest.mark.skip(reason = "pass but not yet info check")
     # 혼밥 후기 작성
     def test_my_page_005(self, driver):
         # 로그인 진행
@@ -313,7 +313,7 @@ class TestMyPage:
         #
         # assert menu_info == expected_data, f"Expected {expected_data}, but got {menu_info}"
 
-    @pytest.mark.skip(reason = "pass, but not yet info check")
+    # @pytest.mark.skip(reason = "pass, but not yet info check")
     # 그룹 후기 추가 케이스
     def test_my_page_006(self, driver):
         # 로그인 진행
@@ -375,7 +375,7 @@ class TestMyPage:
         #
         # assert menu_info == expected_data, f"Expected {expected_data}, but got {menu_info}"
 
-    @pytest.mark.skip(reason = "same")
+    # @pytest.mark.skip(reason = "same")
     # 회식 후기 작성
     def test_my_page_007(self, driver):
         # 로그인 진행
@@ -431,7 +431,7 @@ class TestMyPage:
         # assert menu_info == expected_data, f"Expected {expected_data}, but got {menu_info}"
 
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
     # 또 먹은 후기 혼밥으로 등록하기
     def test_my_page_008(self, driver):
         # 로그인 진행
@@ -470,7 +470,7 @@ class TestMyPage:
         #
         # assert menu_info == expected_data, f"Expected {expected_data}, but got {menu_info}"
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
     # 또 먹은 메뉴 후기 그룹 등록
     def test_my_page_009(self, driver):
         # 로그인 진행
@@ -520,7 +520,7 @@ class TestMyPage:
         #
         # assert menu_info == expected_data, f"Expected {expected_data}, but got {menu_info}"
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
     # 또 먹은 메뉴 후기 회식 등록
     def test_my_page_010(self, driver):
         # 로그인 진행
