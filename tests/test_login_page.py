@@ -2,10 +2,12 @@ import time
 import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from src.utils.helpers import WebUtils, VerifyHelpers
 from src.pages.login_page import LoginPage
-from src.resources.testdata.locators import LOCATORS
-from src.resources.testdata.user_data import user_data, signin_email
+from src.utils.locators import LOCATORS
+from src.resources.testdata.user_data import login_data, signin_data
 from src.utils.log_util import LogUtils
 
 @pytest.mark.usefixtures("driver")
@@ -30,6 +32,7 @@ class TestLoginPage:
 
             assert titles_texts != expected_texts
             assert btns_elemss != None
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
@@ -63,6 +66,7 @@ class TestLoginPage:
             assert titles == expected_titles
             assert input_boxes_elems != None
             assert placeholders == expected_placeholders
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
@@ -101,6 +105,7 @@ class TestLoginPage:
             assert input_boxes_elems != None
             assert placeholders == expected_placeholders
             assert btns_elems != None
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
@@ -121,7 +126,7 @@ class TestLoginPage:
             web_utils.click_element(*LOCATORS.get("login_pg_login_btn"))   # "로그인 하기 버튼" 클릭
             web_utils.click_element(*LOCATORS.get("login_input_pg_link_reset_pwd"))    # '비밀번호를 잊으셨나요? 링크' 클릭
 
-            login_page.input_email(*LOCATORS.get("pwd_reset_pg_input_email"), user_data["email"])
+            login_page.input_email(*LOCATORS.get("pwd_reset_pg_input_email"), login_data["valid_email"])
             web_utils.click_element(*LOCATORS.get("pwd_reset_pg_btn_continue"))    # 이메일 전송
 
             titles_elems = verify_helpers.check_existence(titles_keys)
@@ -132,6 +137,7 @@ class TestLoginPage:
 
             assert titles == expected_titles
             assert btns_elems != None
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
@@ -171,6 +177,7 @@ class TestLoginPage:
             assert input_boxes_elems != None
             assert placeholders == expected_placeholders
             assert btns_elems != None
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
@@ -184,7 +191,6 @@ class TestLoginPage:
             login_page = LoginPage(driver)
             verify_helpers = VerifyHelpers(driver)
 
-            email = signin_email
             title_key = ["authorize_pg_title"]   # 타이틀 확인
             form_key = "authorize_pg_form"
             texts_keys = ["authorize_pg_subtitle", "authorize_pg_requested_authorize"]# "authorize_pg_email",
@@ -193,10 +199,10 @@ class TestLoginPage:
             web_utils.open_url()    # 웹사이트 진입
             web_utils.click_element(*LOCATORS.get("login_pg_signin_btn"))   # "회원가입 버튼" 클릭
 
-            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), email)    # 이메일 입력
-            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), user_data["password"])  # 비밀번호 입력
+            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), signin_data["email"])    # 이메일 입력
+            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), signin_data["password"])  # 비밀번호 입력
             time.sleep(3)
-            web_utils.click_element(*LOCATORS.get("signin_pg_pw_btn_continue"))# "계속하기 버튼" 클릭
+            web_utils.click_element(*LOCATORS.get("signin_pg_btn_continue"))# "계속하기 버튼" 클릭
 
 
             titles_elems = verify_helpers.check_existence(title_key)
@@ -212,6 +218,7 @@ class TestLoginPage:
             assert title == expected_title
             assert texts == expected_texts
             assert btns_elems != None
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
@@ -231,9 +238,9 @@ class TestLoginPage:
             web_utils.open_url()    # 웹사이트 진입
             web_utils.click_element(*LOCATORS.get("login_pg_signin_btn"))   # "회원가입 버튼" 클릭
 
-            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), signin_email)    # 이메일 입력
-            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), user_data["password"])  # 비밀번호 입력
-            web_utils.click_element(*LOCATORS.get("signin_pg_pw_btn_continue"))# "계속하기 버튼" 클릭
+            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), signin_data["email"])    # 이메일 입력
+            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), signin_data["password"])  # 비밀번호 입력
+            web_utils.click_element(*LOCATORS.get("signin_pg_btn_continue"))# "계속하기 버튼" 클릭
 
             web_utils.click_element(*LOCATORS.get("authorize_pg_btn_decline"))  # "거절 버튼" 클릭
 
@@ -246,6 +253,7 @@ class TestLoginPage:
 
             assert titles == expected_titles
             assert btn_elem != None
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
@@ -258,8 +266,6 @@ class TestLoginPage:
             web_utils = WebUtils(driver)
             login_page = LoginPage(driver)
             verify_helpers = VerifyHelpers(driver)
-
-            email = signin_email
 
             titles_keys = ["profile_pg_title", "profile_pg_name_title", "profile_pg_team_title", 
                          "profile_pg_taste_title", "profile_pg_preference_title", 
@@ -274,9 +280,9 @@ class TestLoginPage:
             web_utils.open_url()    # 웹사이트 진입
             web_utils.click_element(*LOCATORS.get("login_pg_signin_btn"))   # "회원가입 버튼" 클릭
             time.sleep(2)
-            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), email)    # 이메일 입력
-            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), user_data["password"])  # 비밀번호 입력
-            web_utils.click_element(*LOCATORS.get("signin_pg_pw_btn_continue")) # "계속하기 버튼" 클릭
+            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), signin_data["email"])    # 이메일 입력
+            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), signin_data["password"])  # 비밀번호 입력
+            web_utils.click_element(*LOCATORS.get("signin_pg_btn_continue")) # "계속하기 버튼" 클릭
             time.sleep(2)   # 없으면 오류남
 
             web_utils.click_element(*LOCATORS.get("authorize_pg_btn_accept"))  # "승인 버튼" 클릭
@@ -309,6 +315,7 @@ class TestLoginPage:
             assert input_boxes_elems != None
             assert sliders_elems != None
             assert btn_elem != None
+            LogUtils.log_success()
             
         except Exception as e:
             LogUtils.log_error(e, driver)
@@ -319,21 +326,25 @@ class TestLoginPage:
     @pytest.mark.skip(reason="test pass")
     def test_login_010(self, driver):
         try:
+            # Settings & Precondition
             web_utils = WebUtils(driver)
             verify_helpers = VerifyHelpers(driver)
 
             subtitle_key = ["login_pg_subtitle"]
 
+            # Steps
             web_utils.open_url()    # 웹사이트 진입
 
+            # Expected Result
             subtitle_elem = verify_helpers.check_existence(subtitle_key)
             subtitle = verify_helpers.get_elems_texts(subtitle_elem)
 
             expected_subtitle = verify_helpers.get_expected_texts(subtitle_key)
-
+            
             time.sleep(1)   # 없으면 에러남
             assert "signin" in driver.current_url
             assert subtitle == expected_subtitle
+            LogUtils.log_success()
             
         except Exception as e:
             LogUtils.log_error(e, driver)
@@ -359,6 +370,7 @@ class TestLoginPage:
             time.sleep(1)   # 없으면 오류남
             assert "login?" in driver.current_url
             assert subtitle == expected_subtitle
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
@@ -367,7 +379,7 @@ class TestLoginPage:
 # TC LOGIN-012 ~ LOGIN-013 누락
 
 # [로그인 정보 입력 페이지] 로그인
-    #@pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_014(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -387,13 +399,14 @@ class TestLoginPage:
 
             assert not "login" in driver.current_url and not "signin" in driver.current_url
             assert subtitle == expected_subtitle   
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
             raise                      
 
 # [비밀번호 초기화 페이지] 진입 확인
-    #@pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_015(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -412,13 +425,14 @@ class TestLoginPage:
 
             assert subtitle == expected_subtitle
             assert "reset-password/request" in driver.current_url
+            LogUtils.log_success()
         
         except Exception as e:
             LogUtils.log_error(e, driver)
             raise
 
 # [비밀번호 초기화 페이지] 비밀번호 초기화
-    #@pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_016(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -431,7 +445,7 @@ class TestLoginPage:
             web_utils.click_element(*LOCATORS.get("login_pg_login_btn"))   # "로그인 하기 버튼" 클릭
             web_utils.click_element(*LOCATORS.get("login_input_pg_link_reset_pwd"))    # '비밀번호를 잊으셨나요? 링크' 클릭
 
-            login_page.input_email(*LOCATORS.get("pwd_reset_pg_input_email"), user_data["email"])   # 이메일 입력
+            login_page.input_email(*LOCATORS.get("pwd_reset_pg_input_email"), login_data["valid_email"])   # 이메일 입력
             web_utils.click_element(*LOCATORS.get("pwd_reset_pg_btn_continue"))    # "계속 버튼" 클릭
 
             title_elem = verify_helpers.check_existence(title_key)
@@ -440,13 +454,14 @@ class TestLoginPage:
             expected_title = verify_helpers.get_expected_texts(title_key)
 
             assert title == expected_title
+            LogUtils.log_success()
         
         except Exception as e:
             LogUtils.log_error(e, driver)
             raise
 
 # 이메일 재 전송
-    #@pytest.mark.skip(reason="test fail")
+    @pytest.mark.skip(reason="test fail")
     def test_login_017(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -459,7 +474,7 @@ class TestLoginPage:
             web_utils.click_element(*LOCATORS.get("login_pg_login_btn"))   # "로그인 하기 버튼" 클릭
             web_utils.click_element(*LOCATORS.get("login_input_pg_link_reset_pwd"))    # '비밀번호를 잊으셨나요? 링크' 클릭
 
-            login_page.input_email(*LOCATORS.get("pwd_reset_pg_input_email"), user_data["email"])   # 이메일 입력
+            login_page.input_email(*LOCATORS.get("pwd_reset_pg_input_email"), login_data["valid_email"])   # 이메일 입력
             web_utils.click_element(*LOCATORS.get("pwd_reset_pg_btn_continue"))    # "계속 버튼" 클릭
             
             web_utils.click_element(*LOCATORS.get("send_mail_pg_btn_resend"))   # 이메일 재 전송
@@ -473,6 +488,7 @@ class TestLoginPage:
 
             assert input_boxes_keys_value == ""
             assert subtitle == expected_subtitle
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
@@ -481,7 +497,7 @@ class TestLoginPage:
 # TC LOGIN-018 ~ LOGIN-019 누락
 
 # [비밀번호 초기화 페이지]에서 [로그인 정보 입력 페이지] 진입 확인
-    #@pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_020(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -502,13 +518,14 @@ class TestLoginPage:
 
             assert "login?" in driver.current_url
             assert subtitle == expected_subtitle
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
             raise
 
 # [로그인 정보 입력 페이지]에서 [회원가입 페이지]로 이동 확인
-    #@pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_021(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -528,13 +545,14 @@ class TestLoginPage:
             time.sleep(1)   # 없으면 에러남
             assert "signup?" in driver.current_url
             assert subtitle == expected_subtitle
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
             raise
 
 # [로그인 페이지]에서 [회원가입 페이지] 진입 확인
-    #@pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_022(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -553,13 +571,14 @@ class TestLoginPage:
             time.sleep(1)   # 없으면 에러남
             assert "signup?" in driver.current_url
             assert subtitle == expected_subtitle
+            LogUtils.log_success()
             
         except Exception as e:
                 LogUtils.log_error(e, driver)
                 raise
 
 # [회원가입 페이지] 비밀번호 입력
-    #@pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_025(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -574,20 +593,21 @@ class TestLoginPage:
             web_utils.open_url()    # 웹사이트 진입
             web_utils.click_element(*LOCATORS.get("login_pg_signin_btn"))   # "회원가입 버튼" 클릭
 
-            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), user_data["password"])  # 비밀번호 입력
+            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), signin_data["password"])  # 비밀번호 입력
 
             rules = verify_helpers.get_children_text(text_section_key, rules_keys)
 
             expected_rules = verify_helpers.get_expected_texts(rules_keys)
 
             assert rules == expected_rules
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
             raise
 
 # [권한 요청 페이지] 진입
-    #@pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_026(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -600,36 +620,36 @@ class TestLoginPage:
             web_utils.open_url()    # 웹사이트 진입
             web_utils.click_element(*LOCATORS.get("login_pg_signin_btn"))   # "회원가입 버튼" 클릭
 
-            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), signin_email)    # 이메일 입력
-            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), user_data["password"])  # 비밀번호 입력
-            web_utils.click_element(*LOCATORS.get("signin_pg_pw_btn_continue"))# "계속하기 버튼" 클릭
+            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), signin_data["email"])    # 이메일 입력
+            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), signin_data["password"])  # 비밀번호 입력
+            web_utils.click_element(*LOCATORS.get("signin_pg_btn_continue"))# "계속하기 버튼" 클릭
 
             btns_elems = verify_helpers.check_children_existence(form_key, btns_keys)
 
             assert "consent?" in driver.current_url
             assert btns_elems != None
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
             raise
 
 # [로그인 오류 페이지] 진입
-   #@pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_027(self, driver):
         try:
             web_utils = WebUtils(driver)
             login_page = LoginPage(driver)
             verify_helpers = VerifyHelpers(driver)
 
-            email = signin_email
             btn_key = ["error_pg_btn_retry"]
 
             web_utils.open_url()    # 웹사이트 진입
             web_utils.click_element(*LOCATORS.get("login_pg_signin_btn"))   # "회원가입 버튼" 클릭
 
-            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), email)    # 이메일 입력
-            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), user_data["password"])  # 비밀번호 입력
-            web_utils.click_element(*LOCATORS.get("signin_pg_pw_btn_continue")) # "계속하기 버튼" 클릭
+            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), signin_data["email"])    # 이메일 입력
+            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), signin_data["password"])  # 비밀번호 입력
+            web_utils.click_element(*LOCATORS.get("signin_pg_btn_continue")) # "계속하기 버튼" 클릭
 
             web_utils.click_element(*LOCATORS.get("authorize_pg_btn_decline"))  # "거절 버튼" 클릭
 
@@ -637,28 +657,28 @@ class TestLoginPage:
 
             assert "signin" in driver.current_url
             assert btn_elems != None
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
             raise
 
 # "다시 시도하기 버튼" 동작 확인
-    #@pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_028(self, driver):
         try:
             web_utils = WebUtils(driver)
             login_page = LoginPage(driver)
             verify_helpers = VerifyHelpers(driver)
 
-            email = signin_email
             subtitle_key = ["login_pg_subtitle"]
 
             web_utils.open_url()    # 웹사이트 진입
             web_utils.click_element(*LOCATORS.get("login_pg_signin_btn"))   # "회원가입 버튼" 클릭
 
-            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), email)    # 이메일 입력
-            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), user_data["password"])  # 비밀번호 입력
-            web_utils.click_element(*LOCATORS.get("signin_pg_pw_btn_continue")) # "계속하기 버튼" 클릭
+            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), signin_data["email"])    # 이메일 입력
+            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), signin_data["password"])  # 비밀번호 입력
+            web_utils.click_element(*LOCATORS.get("signin_pg_btn_continue")) # "계속하기 버튼" 클릭
 
             web_utils.click_element(*LOCATORS.get("authorize_pg_btn_decline"))  # "거절 버튼" 클릭
 
@@ -671,29 +691,29 @@ class TestLoginPage:
 
             assert "signin" in driver.current_url
             assert text == expected_text
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
             raise
 
 # [권한 요청 페이지] 재 진입
-    #@pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_029(self, driver):
         try:
             web_utils = WebUtils(driver)
             login_page = LoginPage(driver)
             verify_helpers = VerifyHelpers(driver)
 
-            email = signin_email
             form_key = "authorize_pg_form"
             btns_keys = ["authorize_pg_btn_accept", "authorize_pg_btn_decline"]
 
             web_utils.open_url()    # 웹사이트 진입
             web_utils.click_element(*LOCATORS.get("login_pg_signin_btn"))   # "회원가입 버튼" 클릭
 
-            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), email)    # 이메일 입력
-            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), user_data["password"])  # 비밀번호 입력
-            web_utils.click_element(*LOCATORS.get("signin_pg_pw_btn_continue")) # "계속하기 버튼" 클릭
+            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), signin_data["email"])    # 이메일 입력
+            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), signin_data["password"])  # 비밀번호 입력
+            web_utils.click_element(*LOCATORS.get("signin_pg_btn_continue")) # "계속하기 버튼" 클릭
 
             web_utils.click_element(*LOCATORS.get("authorize_pg_btn_decline"))  # "거절 버튼" 클릭
 
@@ -705,29 +725,29 @@ class TestLoginPage:
 
             assert "consent?" in driver.current_url
             assert btns_elems != None
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
             raise
 
 # [권한 요청 페이지] 재 진입
-    #@pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_030(self, driver):
         try:
             web_utils = WebUtils(driver)
             login_page = LoginPage(driver)
             verify_helpers = VerifyHelpers(driver)
 
-            email = signin_email
             form_key = "authorize_pg_form"
             btns_keys = ["authorize_pg_btn_accept", "authorize_pg_btn_decline"]
 
             web_utils.open_url()    # 웹사이트 진입
             web_utils.click_element(*LOCATORS.get("login_pg_signin_btn"))   # "회원가입 버튼" 클릭
 
-            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), email)    # 이메일 입력
-            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), user_data["password"])  # 비밀번호 입력
-            web_utils.click_element(*LOCATORS.get("signin_pg_pw_btn_continue")) # "계속하기 버튼" 클릭
+            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), signin_data["email"])    # 이메일 입력
+            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), signin_data["password"])  # 비밀번호 입력
+            web_utils.click_element(*LOCATORS.get("signin_pg_btn_continue")) # "계속하기 버튼" 클릭
 
             web_utils.click_element(*LOCATORS.get("authorize_pg_btn_decline"))  # "거절 버튼" 클릭
 
@@ -739,29 +759,28 @@ class TestLoginPage:
 
             assert "consent?" in driver.current_url
             assert btns_elems != None
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
             raise
 
 # [권한 요청 페이지] 권한 요청 승인
-    #@pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_031(self, driver):
         try:
             web_utils = WebUtils(driver)
             login_page = LoginPage(driver)
             verify_helpers = VerifyHelpers(driver)
 
-            email = signin_email
-
             title_key = ["profile_pg_title"]
 
             web_utils.open_url()    # 웹사이트 진입
             web_utils.click_element(*LOCATORS.get("login_pg_signin_btn"))   # "회원가입 버튼" 클릭
             time.sleep(2)
-            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), email)    # 이메일 입력
-            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), user_data["password"])  # 비밀번호 입력
-            web_utils.click_element(*LOCATORS.get("signin_pg_pw_btn_continue")) # "계속하기 버튼" 클릭
+            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), signin_data["email"])    # 이메일 입력
+            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), signin_data["password"])  # 비밀번호 입력
+            web_utils.click_element(*LOCATORS.get("signin_pg_btn_continue")) # "계속하기 버튼" 클릭
             time.sleep(2)   # 없으면 오류남
 
             web_utils.click_element(*LOCATORS.get("authorize_pg_btn_accept"))  # "승인 버튼" 클릭
@@ -774,6 +793,7 @@ class TestLoginPage:
 
             assert "welcome" in driver.current_url
             assert list(expected_title[0]) == list(title[0])[2:]
+            LogUtils.log_success()
 
         except Exception as e:
             LogUtils.log_error(e, driver)
@@ -787,8 +807,6 @@ class TestLoginPage:
             login_page = LoginPage(driver)
             verify_helpers = VerifyHelpers(driver)
 
-            email = signin_email
-
             err_msgs_keys = ["profile_pg_error_name", "profile_pg_error_team", 
                            "profile_pg_error_sweetness", "profile_pg_error_salty", "profile_pg_error_spicy",
                            "profile_pg_error_like", "profile_pg_error_dislike"]
@@ -796,9 +814,9 @@ class TestLoginPage:
             web_utils.open_url()    # 웹사이트 진입
             web_utils.click_element(*LOCATORS.get("login_pg_signin_btn"))   # "회원가입 버튼" 클릭
             time.sleep(2)
-            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), email)    # 이메일 입력
-            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), user_data["password"])  # 비밀번호 입력
-            web_utils.click_element(*LOCATORS.get("signin_pg_pw_btn_continue")) # "계속하기 버튼" 클릭
+            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), signin_data["email"])    # 이메일 입력
+            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), signin_data["password"])  # 비밀번호 입력
+            web_utils.click_element(*LOCATORS.get("signin_pg_btn_continue")) # "계속하기 버튼" 클릭
             time.sleep(2)   # 없으면 오류남
 
             web_utils.click_element(*LOCATORS.get("authorize_pg_btn_accept"))  # "승인 버튼" 클릭
@@ -816,6 +834,7 @@ class TestLoginPage:
             print(test.text)
 
             assert err_msgs == expected_errors
+            LogUtils.log_success()
             time.sleep(1)
 
         except Exception as e:
@@ -830,29 +849,30 @@ class TestLoginPage:
             login_page = LoginPage(driver)
             verify_helpers = VerifyHelpers(driver)
 
-            email = signin_email
             subtitle_key = ["login_pg_subtitle"]
 
             web_utils.open_url()    # 웹사이트 진입
             web_utils.click_element(*LOCATORS.get("login_pg_signin_btn"))   # "회원가입 버튼" 클릭
             time.sleep(2)
-            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), email)    # 이메일 입력
-            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), user_data["password"])  # 비밀번호 입력
-            web_utils.click_element(*LOCATORS.get("signin_pg_pw_btn_continue")) # "계속하기 버튼" 클릭
+            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), signin_data["email"])    # 이메일 입력
+            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), signin_data["password"])  # 비밀번호 입력
             time.sleep(2)   # 없으면 오류남
+            web_utils.click_element(*LOCATORS.get("signin_pg_btn_continue")) # "계속하기 버튼" 클릭
 
             web_utils.click_element(*LOCATORS.get("authorize_pg_btn_accept"))  # "승인 버튼" 클릭
             time.sleep(2)   # 없으면 오류남            
 
-            login_page.input_text(*LOCATORS.get("profile_pg_name_input"), user_data["name"])
+            login_page.input_text(*LOCATORS.get("profile_pg_name_input"), signin_data["name"])
 
             select = Select(verify_helpers.check_existence("profile_pg_team_dropdown"))
-            select.select_by_value(user_data["team"])
+            select.select_by_value(signin_data["team"])
 
-            # 슬라이더 조절만 추가하면 됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            web_utils.slider_sweet()
+            web_utils.slider_salty()
+            web_utils.slider_hot()
 
-            login_page.input_text(*LOCATORS.get("profile_pg_like_input"), user_data["like"])
-            login_page.input_text(*LOCATORS.get("profile_pg_dislike_input"), user_data["dislike"])
+            login_page.input_text(*LOCATORS.get("profile_pg_like_input"), signin_data["like"])
+            login_page.input_text(*LOCATORS.get("profile_pg_dislike_input"), signin_data["dislike"])
 
             web_utils.click_element(*LOCATORS.get("profile_pg_btn_submit")) # "제출하기 버튼" 클릭
 
@@ -863,6 +883,7 @@ class TestLoginPage:
 
             assert "signin" in driver.current_url
             assert text == expected_text
+            LogUtils.log_success()
             time.sleep(1)
 
         except Exception as e:
@@ -877,29 +898,30 @@ class TestLoginPage:
             login_page = LoginPage(driver)
             verify_helpers = VerifyHelpers(driver)
 
-            email = signin_email
             subtitle_key = ["login_input_pg_subtitle"]
 
             web_utils.open_url()    # 웹사이트 진입
             web_utils.click_element(*LOCATORS.get("login_pg_signin_btn"))   # "회원가입 버튼" 클릭
             time.sleep(2)
-            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), email)    # 이메일 입력
-            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), user_data["password"])  # 비밀번호 입력
-            web_utils.click_element(*LOCATORS.get("signin_pg_pw_btn_continue")) # "계속하기 버튼" 클릭
+            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), signin_data["email"])    # 이메일 입력
+            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), signin_data["password"])  # 비밀번호 입력
             time.sleep(2)   # 없으면 오류남
+            web_utils.click_element(*LOCATORS.get("signin_pg_btn_continue")) # "계속하기 버튼" 클릭
 
             web_utils.click_element(*LOCATORS.get("authorize_pg_btn_accept"))  # "승인 버튼" 클릭
             time.sleep(2)   # 없으면 오류남            
 
-            login_page.input_text(*LOCATORS.get("profile_pg_name_input"), user_data["name"])
+            login_page.input_text(*LOCATORS.get("profile_pg_name_input"), signin_data["name"])
 
             select = Select(verify_helpers.check_existence("profile_pg_team_dropdown"))
-            select.select_by_value(user_data["team"])
+            select.select_by_value(signin_data["team"])
 
-            # 슬라이더 조절만 추가하면 됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            web_utils.slider_sweet()
+            web_utils.slider_salty()
+            web_utils.slider_hot()
 
-            login_page.input_text(*LOCATORS.get("profile_pg_like_input"), user_data["like"])
-            login_page.input_text(*LOCATORS.get("profile_pg_dislike_input"), user_data["dislike"])
+            login_page.input_text(*LOCATORS.get("profile_pg_like_input"), signin_data["like"])
+            login_page.input_text(*LOCATORS.get("profile_pg_dislike_input"), signin_data["dislike"])
 
             web_utils.click_element(*LOCATORS.get("profile_pg_btn_submit")) # "제출하기 버튼" 클릭
 
@@ -912,6 +934,7 @@ class TestLoginPage:
 
             assert "login?" in driver.current_url
             assert subtitle == expected_subtitle
+            LogUtils.log_success()
             time.sleep(1)
 
         except Exception as e:
@@ -919,36 +942,58 @@ class TestLoginPage:
             raise
 
 # 회원가입 직후 [회원가입 페이지] 진입 시도
-    @pytest.mark.skip(reason="test 못함!")
+    #@pytest.mark.skip(reason="test 못함!")
     def test_login_035(self, driver):
         try:
             web_utils = WebUtils(driver)
             login_page = LoginPage(driver)
             verify_helpers = VerifyHelpers(driver)
 
-            email = signin_email
             subtitle_key = ["login_input_pg_subtitle"]
 
             web_utils.open_url()    # 웹사이트 진입
             web_utils.click_element(*LOCATORS.get("login_pg_signin_btn"))   # "회원가입 버튼" 클릭
-            time.sleep(2)
-            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), email)    # 이메일 입력
-            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), user_data["password"])  # 비밀번호 입력
-            web_utils.click_element(*LOCATORS.get("signin_pg_pw_btn_continue")) # "계속하기 버튼" 클릭
-            time.sleep(2)   # 없으면 오류남
 
+            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), signin_data["email"])    # 이메일 입력
+            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), signin_data["password"])  # 비밀번호 입력
+
+            web_utils.click_element(*LOCATORS.get("signin_pg_btn_continue")) # "계속하기 버튼" 클릭
+
+
+
+
+            time.sleep(1)
             web_utils.click_element(*LOCATORS.get("authorize_pg_btn_accept"))  # "승인 버튼" 클릭
-            time.sleep(2)   # 없으면 오류남            
+ 
 
-            login_page.input_text(*LOCATORS.get("profile_pg_name_input"), user_data["name"])
+            login_page.input_text(*LOCATORS.get("profile_pg_name_input"), signin_data["name"])
 
-            select = Select(verify_helpers.check_existence("profile_pg_team_dropdown"))
-            select.select_by_value(user_data["team"])
 
-            # 슬라이더 조절만 추가하면 됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            web_utils.click_element(*LOCATORS.get("profile_pg_team_btn"))
+            time.sleep(5)
 
-            login_page.input_text(*LOCATORS.get("profile_pg_like_input"), user_data["like"])
-            login_page.input_text(*LOCATORS.get("profile_pg_dislike_input"), user_data["dislike"])
+            team_name = signin_data["team"]
+
+            # 드롭다운 안의 항목 중 텍스트가 일치하는 항목 클릭
+            team_option = WebDriverWait(driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, f"//div[contains(text(), '{team_name}')]"))
+            )
+            team_option.click()
+
+
+            # select = Select(verify_helpers.check_existence("profile_pg_team_selector"))
+            # select.select_by_value(signin_data["team"])
+
+            web_utils.slider_sweet()
+            time.sleep(2)
+            web_utils.slider_salty()
+            time.sleep(2)
+            web_utils.slider_hot()
+            time.sleep(2)
+            
+
+            login_page.input_text(*LOCATORS.get("profile_pg_like_input"), signin_data["like"])
+            login_page.input_text(*LOCATORS.get("profile_pg_dislike_input"), signin_data["dislike"])
 
             web_utils.click_element(*LOCATORS.get("profile_pg_btn_submit")) # "제출하기 버튼" 클릭
 
@@ -961,6 +1006,7 @@ class TestLoginPage:
 
             assert "signup?" in driver.current_url
             assert subtitle == expected_subtitle
+            LogUtils.log_success()
             time.sleep(1)
 
         except Exception as e:
