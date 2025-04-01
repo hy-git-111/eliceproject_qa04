@@ -228,7 +228,7 @@ class VerifyHelpers():
     def __init__(self, driver: WebDriver):
         self.driver = driver
     
-    # 요소가 나타날 때까지 기다린 후, 해당 요소 반환하기
+    # 요소가 나타날때까까지 기다린 후, 해당 요소 반환하기
     def check_existence(self, by, value):
         element = WebDriverWait(self.driver, 5).until(
             EC.presence_of_element_located((by, value))
