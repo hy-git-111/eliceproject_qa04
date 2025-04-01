@@ -27,7 +27,6 @@ class TestMyPage:
         assert current_url == mypage_url, f"URL 불일치"
         time.sleep(3)
 
-        # UI 확인
         # 헤더 텍스트
         header_element = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.XPATH, '//header//span'))
@@ -91,7 +90,7 @@ class TestMyPage:
         # UI 확인 > 하단 스크롤 > 목록 전체 불러오기
         # 목록 추가, 내용 리스트 받아오는 코드
 
-    @pytest.mark.order
+    @pytest.mark.skip
     # 내 프로필 수정하기 페이지 UI 확인
     def test_my_page_002(self, driver):
         web_utils = WebUtils(driver)
@@ -227,18 +226,39 @@ class TestMyPage:
     @pytest.mark.skip
     # 프로필 수정 기능 테스트
     def test_my_page_004(self, driver):
+        # 입력 텍스트값 정의
+        favorite_text = "좋아하는 음식 작성 텍스트 비교용 1"
+        least_favorite_text = "싫어하는 음식 작성 텍스트 비교용"
+
+        # 페이지 호출 및 로그인
         web_utils = WebUtils(driver)
         web_utils.open_url()
-        web_utils.login()
+        web_utils.login("qa04@ruu.kr", "1234Qwer!")
+
+        # 개인 피드 페이지 진입
         web_utils.click_tab_personal()
-        time.sleep(1)
 
         my_page = MyPage(driver)
 
+        # 프로필 수정 버튼 클릭
         my_page.profile_setup()
         time.sleep(1)
 
-        # 프로필 수정 진입 불가
+        # 이미지 업로드
+        web_utils.review_image_upload()
+
+        # 슬라이더 조작
+
+
+        # 음식 선호 입력 필드 작성
+        my_page.favorite_food_input(favorite_text)
+        my_page.least_favorite_food_input(least_favorite_text)
+
+        # 프로필 수정 완료 버튼 클릭
+        my_page.profile_setup_completed()
+        time.sleep(1)
+
+        # 입력값 결과 비교
 
 
     @pytest.mark.skip(reason = "pass but not yet info check")

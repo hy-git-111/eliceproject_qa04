@@ -1,8 +1,11 @@
 import random
+import time
+
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support.ui import WebDriverWait
 
 from tests.conftest import driver
 
@@ -10,6 +13,7 @@ from tests.conftest import driver
 
 class MyPage():
     def __init__(self, driver:WebDriver):
+        self.wait = WebDriverWait(driver, 10)
         self.driver = driver
 
     # 개인 피드 버튼 클릭
@@ -17,18 +21,32 @@ class MyPage():
         mypage_btn = self.driver.find_element(By.XPATH, '//*[@id="root"]/div[1]/div/ul/li[4]/a')
         mypage_btn.click()
 
-    # 프로필 수정하기 버튼 클릭- 너무 안눌림..
     def profile_setup(self):
-        # profile_setup_btn = WebDriverWait(self.driver, 5).until(
-        #     EC.element_to_be_clickable((By.XPATH, "//svg/path[contains(@d, 'M200-200h57l391-391')]"))
-        # )
-        profile_setup_btn = self.driver.find_elements(By.CSS_SELECTOR, '[class="cursor-pointer"]')
-        profile_setup_btn[2].click()
+        parent_div = self.wait.until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, "div.flex.items-center.justify-between.text-subbody")))
+        child_elements = parent_div.find_elements(By.XPATH, "./*")  # 부모 기준 모든 직계 자식
+        child_svg = child_elements[1]
+        child_svg.click()
 
     # 프로필 정보 수정 - 이미지 첨부 버튼 클릭
     def image_attach(self):
         image_attach_btn = self.driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[1]/div/button')
         image_attach_btn.click()
+
+    # 음식 성향 - 단 맛 슬라이더 변경
+    def profile_sweet_slider(self):
+        sweet_slider = self.driver.find_elements(By.CSS_SELECTOR, 'span[data-orientation="horizontal"].relative.h-2.w-full')
+
+
+    # 좋아하는 음식 입력 필드 작성
+    def favorite_food_input(self, favorite_text):
+        favorite_input = self.driver.find_element(By.CSS_SELECTOR, 'textarea[name="pros"]')
+        favorite_input.send_keys(favorite_text)
+
+    # 싫어하는 음식 입력 필드 작성
+    def least_favorite_food_input(self, least_favorite_text):
+        least_favorite_input = self.driver.find_element(By.CSS_SELECTOR, 'textarea[name="cons"]')
+        least_favorite_input.send_keys(least_favorite_text)
 
     # 프로필 수정 완료 버튼 클릭
     def profile_setup_completed(self):
