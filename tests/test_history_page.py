@@ -228,7 +228,7 @@ class TestHistoryPage:
 
 # [히스토리 페이지] 무한 스크롤 확인
     @pytest.mark.skip(reason="test pass")
-    def test_history_008(self, driver):
+    def test_history_007(self, driver):
         try:
             web_utils = WebUtils(driver)
             verify_helpers = VerifyHelpers(driver)
@@ -264,7 +264,7 @@ class TestHistoryPage:
 
 # [히스토리 페이지] "추천 후기 등록하기 버튼" 확인
     @pytest.mark.skip(reason="test pass")
-    def test_history_009(self, driver):
+    def test_history_008(self, driver):
         try:
             web_utils = WebUtils(driver)
             verify_helpers = VerifyHelpers(driver)
@@ -297,7 +297,7 @@ class TestHistoryPage:
 
 # [히스토리 페이지] 후기 등록
     @pytest.mark.skip(reason="test pass")
-    def test_history_010(self, driver):
+    def test_history_009(self, driver):
         try:
             web_utils = WebUtils(driver)
             verify_helpers = VerifyHelpers(driver)
@@ -333,7 +333,7 @@ class TestHistoryPage:
 
 # [히스토리 페이지] "후기 등록 완료 버튼" 확인
     @pytest.mark.skip(reason="pass")
-    def test_history_011(self, driver):
+    def test_history_010(self, driver):
         try:
             web_utils = WebUtils(driver)
             verify_helpers = VerifyHelpers(driver)
