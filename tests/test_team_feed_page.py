@@ -127,7 +127,7 @@ class TestTeamFeedPage:
             
             team_feed.select_modify_team_profile_icon()
             webutils.wait_for_element_presence(By.CSS_SELECTOR, ".text-main-black.font-semibold")
-            assert "프로필 정보 수정" == driver.find_element(By.ID, "modal-root").find_element(By.TAG_NAME, "span").text
+            assert "프로필 정보 수정" == driver.find_element(By.ID, "modal-root").find_element(By.CSS_SELECTOR, "span.text-main-black.font-semibold").text
             print("✅ 프로필 정보 수정 모달이 정상 제공되었습니다.")
             
             LogUtils.log_success()
@@ -151,8 +151,9 @@ class TestTeamFeedPage:
             team_feed.open_team_combobox()
             team_feed.select_team_combobox(0)
             
-            # 팀이 먹은 메뉴 존재하는 위치로 스크롤
-            webutils.scroll_to_element(By.XPATH, "//span[contains(text(), '팀이 먹은 메뉴')]")
+            # 팀이 먹은 메뉴 존재하는 위치로 이동
+            webutils.wait_for_element_presence(By.CSS_SELECTOR, "div.flex.items-center.gap-4")
+            webutils.scroll_to_element(By.XPATH, "//*[@id='root']/div[1]/main/section/section/div[2]/canvas")
 
             # Expected Result - 팀이 먹은 메뉴 추가 버튼 미제공 확인
             teams_menu_title_area = driver.find_element(By.CSS_SELECTOR, "div.flex.items-center.gap-4")
@@ -372,7 +373,7 @@ class TestTeamFeedPage:
             # Steps
             # 비선호 텍스트 입력
             in_modal_hate_text = "양식 중식 싫어요"
-            team_feed.modify_team_favorite_text(in_modal_hate_text)   
+            team_feed.modify_team_hate_text(in_modal_hate_text)   
             
             # 프로필 수정 완료 버튼 클릭
             team_feed.click_team_profile_modify_done()
