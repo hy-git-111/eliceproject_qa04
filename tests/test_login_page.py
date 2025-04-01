@@ -12,7 +12,7 @@ from src.utils.log_util import LogUtils
 @pytest.mark.usefixtures("driver")
 class TestLoginPage:
 # [로그인 페이지] UI 확인
-    @pytest.mark.skip(reason="test pass")
+    # @pytest.mark.skip(reason="test pass")
     def test_login_001(self, driver):
         try:
             # Settings & Precondition
@@ -35,7 +35,7 @@ class TestLoginPage:
             raise
 
 # [로그인 정보 입력 페이지] UI확인
-    @pytest.mark.skip(reason="test pass")
+    # @pytest.mark.skip(reason="test pass")
     def test_login_002(self, driver):
         try:
             # Settings & Precondition
@@ -62,7 +62,7 @@ class TestLoginPage:
             raise
 
 # [비밀번호 초기화 페이지] UI 확인
-    @pytest.mark.skip(reason="test pass")
+    # @pytest.mark.skip(reason="test pass")
     def test_login_003(self, driver):
         try:
             # Settings & Precondition
@@ -90,7 +90,7 @@ class TestLoginPage:
             raise
 
 # [이메일 전송 완료 페이지] UI 확인
-    @pytest.mark.skip(reason="test pass")
+    # @pytest.mark.skip(reason="test pass")
     def test_login_004(self, driver):
         try:
             # Settings & Precondition
@@ -120,7 +120,7 @@ class TestLoginPage:
 # TC LOGIN-005 메뉴얼 테스트
 
 # [회원가입 페이지] UI 확인
-    @pytest.mark.skip(reason="test pass")
+    # @pytest.mark.skip(reason="test pass")
     def test_login_006(self, driver):
         try:
             # Settings & Precondition
@@ -149,7 +149,7 @@ class TestLoginPage:
             raise
 
 # [권한 요청 페이지] UI 확인
-    @pytest.mark.skip(reason="test pass")
+    # @pytest.mark.skip(reason="test pass")
     def test_login_007(self, driver):
         try:
             # Settings & Precondition
@@ -180,7 +180,7 @@ class TestLoginPage:
             raise
 
 # [로그인 오류 페이지] UI 확인
-    @pytest.mark.skip(reason="test pass")
+    # @pytest.mark.skip(reason="test pass")
     def test_login_008(self, driver):
         try:
             # Settings & Precondition
@@ -210,7 +210,7 @@ class TestLoginPage:
             raise
 
 # [프로필 입력 페이지] UI 확인
-    @pytest.mark.skip(reason="test pass")
+    # @pytest.mark.skip(reason="test pass")
     def test_login_009(self, driver):
         try:
             # Settings & Precondition
@@ -266,7 +266,7 @@ class TestLoginPage:
             raise
 
 # [로그인 페이지] 진입 확인
-    @pytest.mark.skip(reason="test pass")
+    # @pytest.mark.skip(reason="test pass")
     def test_login_010(self, driver):
         try:
             # Settings & Precondition
@@ -287,7 +287,7 @@ class TestLoginPage:
             raise
 
 # [로그인 페이지] 진입 확인
-    @pytest.mark.skip(reason="test pass")
+    # @pytest.mark.skip(reason="test pass")
     def test_login_011(self, driver):
         try:
             # Settings & Precondition
@@ -312,7 +312,7 @@ class TestLoginPage:
 # TC LOGIN-012 ~ LOGIN-013 메뉴얼 테스트
 
 # [로그인 정보 입력 페이지] 로그인
-    #@pytest.mark.skip(reason="test pass")
+    ## @pytest.mark.skip(reason="test pass")
     def test_login_014(self, driver):
         try:
             # Settings & Precondition
@@ -337,7 +337,7 @@ class TestLoginPage:
             raise                      
 
 # [비밀번호 초기화 페이지] 진입 확인
-    @pytest.mark.skip(reason="test pass")
+    # @pytest.mark.skip(reason="test pass")
     def test_login_015(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -363,7 +363,7 @@ class TestLoginPage:
             raise
 
 # [비밀번호 초기화 페이지] 비밀번호 초기화
-    @pytest.mark.skip(reason="test pass")
+    # @pytest.mark.skip(reason="test pass")
     def test_login_016(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -392,7 +392,7 @@ class TestLoginPage:
             raise
 
 # 이메일 재 전송
-    @pytest.mark.skip(reason="test fail")
+    # @pytest.mark.skip(reason="test fail")
     def test_login_017(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -428,7 +428,7 @@ class TestLoginPage:
 # TC LOGIN-018 ~ LOGIN-019 누락
 
 # [비밀번호 초기화 페이지]에서 [로그인 정보 입력 페이지] 진입 확인
-    @pytest.mark.skip(reason="test pass")
+    # @pytest.mark.skip(reason="test pass")
     def test_login_020(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -456,7 +456,7 @@ class TestLoginPage:
             raise
 
 # [로그인 정보 입력 페이지]에서 [회원가입 페이지]로 이동 확인
-    @pytest.mark.skip(reason="test pass")
+    # @pytest.mark.skip(reason="test pass")
     def test_login_021(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -483,7 +483,7 @@ class TestLoginPage:
             raise
 
 # [로그인 페이지]에서 [회원가입 페이지] 진입 확인
-    @pytest.mark.skip(reason="test pass")
+    # @pytest.mark.skip(reason="test pass")
     def test_login_022(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -509,7 +509,7 @@ class TestLoginPage:
                 raise
 
 # [회원가입 페이지] 비밀번호 입력
-    @pytest.mark.skip(reason="test pass")
+    # @pytest.mark.skip(reason="test pass")
     def test_login_025(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -538,7 +538,7 @@ class TestLoginPage:
             raise
 
 # [권한 요청 페이지] 진입
-    @pytest.mark.skip(reason="test pass")
+    # @pytest.mark.skip(reason="test pass")
     def test_login_026(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -566,7 +566,7 @@ class TestLoginPage:
             raise
 
 # [로그인 오류 페이지] 진입
-    @pytest.mark.skip(reason="test pass")
+    # @pytest.mark.skip(reason="test pass")
     def test_login_027(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -595,7 +595,7 @@ class TestLoginPage:
             raise
 
 # "다시 시도하기 버튼" 동작 확인
-    @pytest.mark.skip(reason="test pass")
+    # @pytest.mark.skip(reason="test pass")
     def test_login_028(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -629,7 +629,7 @@ class TestLoginPage:
             raise
 
 # [권한 요청 페이지] 재 진입
-    @pytest.mark.skip(reason="test pass")
+    # @pytest.mark.skip(reason="test pass")
     def test_login_029(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -663,7 +663,7 @@ class TestLoginPage:
             raise
 
 # [권한 요청 페이지] 재 진입
-    @pytest.mark.skip(reason="test pass")
+    # @pytest.mark.skip(reason="test pass")
     def test_login_030(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -697,7 +697,7 @@ class TestLoginPage:
             raise
 
 # [권한 요청 페이지] 권한 요청 승인
-    @pytest.mark.skip(reason="test pass")
+    # @pytest.mark.skip(reason="test pass")
     def test_login_031(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -731,7 +731,7 @@ class TestLoginPage:
             raise
 
 # [프로필 입력 페이지] 데이터 입력 미완료 상태에서 제출 시도
-    @pytest.mark.skip(reason="test 못함!")
+    # @pytest.mark.skip(reason="test 못함!")
     def test_login_032(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -773,7 +773,7 @@ class TestLoginPage:
             raise
 
 # [프로필 입력 페이지] 제출
-    @pytest.mark.skip(reason="test pass")
+    # @pytest.mark.skip(reason="test pass")
     def test_login_033(self, driver):
         try:
             web_utils = WebUtils(driver)
