@@ -426,44 +426,32 @@ class TestHomePage:
             util = WebUtils(driver)
             verify = VerifyHelpers(driver)
             home = HomePage(driver)
-            select_option = SelectOptionPage(driver)
 
             # Precondition
             util.open_url()
             util.login(login_data["no_review_email"], login_data["password"])
             util.wait_for_element_presence(*LOCATORS.get("eat_together_btn"))
 
+            # Steps
             home.open_eat_together()
             util.wait_for_element_presence(By.CSS_SELECTOR, '.rounded-full.cursor-pointer')
-            
-            header_text = driver.find_element(*LOCATORS.get("header_text")).text.strip()
-            assert header_text == "추천 옵션 선택"
-            
-            select_category_text = driver.find_element(*LOCATORS.get("select_category_text")).text.strip()
-            assert select_category_text == "🍽️ 추천 받고자하는 음식 카테고리"
-
-            dropdown_text = driver.find_element(*LOCATORS.get("dropdown_text")).text.strip()
-            assert dropdown_text == "음식 카테고리를 설정해주세요"
-
-            eating_people_text = driver.find_element(*LOCATORS.get("eating_people_text")).text.strip()
-            assert eating_people_text == "🙌 먹는 인원"
-
-            assert driver.find_element(*LOCATORS.get("division")).is_displayed()
-
-            assert driver.find_element(*LOCATORS.get("search_field")).is_displayed()
-
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             user_list = driver.find_elements(*LOCATORS.get("user_list"))
-            assert len(user_list) > 0
-
             random_user = random.choice(user_list)
+            
+            # Expected Result
+            assert verify.get_elem_text(*LOCATORS.get("header_text")) == "추천 옵션 선택"
+            assert verify.get_elem_text(*LOCATORS.get("select_category_text")) == "🍽️ 추천 받고자하는 음식 카테고리"
+            assert verify.get_elem_text(*LOCATORS.get("dropdown_text")) == "음식 카테고리를 설정해주세요"
+            assert verify.get_elem_text(*LOCATORS.get("eating_people_text")) == "🙌 먹는 인원"
+            assert driver.find_element(*LOCATORS.get("division")).is_displayed()
+            assert driver.find_element(*LOCATORS.get("search_field")).is_displayed()
+            assert len(user_list) > 0
             assert random_user.find_element(*LOCATORS.get("profile_image")).is_displayed()
             assert random_user.find_element(*LOCATORS.get("profile_name")).is_displayed()
             assert random_user.find_element(*LOCATORS.get("profile_team")).is_displayed()
             assert random_user.find_element(*LOCATORS.get("profile_checkbox")).is_displayed()
-
             assert driver.find_element(*LOCATORS.get("done_btn")).get_attribute("disabled") is not None
-            
             assert driver.find_element(*LOCATORS.get("navigation_bar")).is_displayed()
             
             LogUtils.log_success()

@@ -137,7 +137,7 @@ LOCATORS = {
 
     # [홈 > 추천 옵션 선택 페이지]
     "dropdown": (By.CSS_SELECTOR, 'button[role=\'combobox\']'),
-    "dropdown_text" : (By.CSS_SELECTOR, 'button[role=\'combobox\ span'),
+    "dropdown_text" : (By.CSS_SELECTOR, 'button[role=\'combobox\'] > span'),
     "options": (By.CSS_SELECTOR, 'div[role=\'option\']'),
     "selected_option_text": (By.CSS_SELECTOR, 'span[style=\'pointer-events: none;\']'),
     "colleague": (By.CSS_SELECTOR, 'div.flex.flex-col.gap-2.py-2'),
