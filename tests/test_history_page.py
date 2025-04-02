@@ -3,6 +3,7 @@ import pytest
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from src.utils.helpers import WebUtils, VerifyHelpers
+from src.pages.history_page import HistoryPage
 from src.utils.locators import LOCATORS
 from src.resources.testdata.user_data import login_data, review_data
 
@@ -179,7 +180,7 @@ class TestHistoryPage:
             subtitle_key = ["history_pg_subtitle"]
 
             web_utils.open_url()
-            web_utils.login(login_data["empty_email"], login_data["password"])
+            web_utils.login(login_data["no_review_email"], login_data["password"])
 
             web_utils.click_tab_history()
 
@@ -204,13 +205,14 @@ class TestHistoryPage:
             web_utils = WebUtils(driver)
             verify_helpers = VerifyHelpers(driver)
 
-            title_key = ["home_pg_subtitle"]
+            title_key = ["home_pg_subtitle_2"]
 
             web_utils.open_url()
             web_utils.login(login_data["no_review_email"], login_data["password"])
 
             web_utils.click_tab_history()
             web_utils.click_element(*LOCATORS.get("history_pg_btn_back"))
+            time.sleep(2)
 
             title_elem = verify_helpers.check_existence(title_key)
             title = verify_helpers.get_elems_texts(title_elem)
@@ -301,6 +303,7 @@ class TestHistoryPage:
         try:
             web_utils = WebUtils(driver)
             verify_helpers = VerifyHelpers(driver)
+            history_page = HistoryPage(driver)
 
             after_review_btn_key = ["history_pg_btn_after_review"]
  
@@ -311,9 +314,10 @@ class TestHistoryPage:
             before_btn_index = verify_helpers.click_elem_with_infinity_scroll(By.CSS_SELECTOR, 'button.bg-main-black')    
 
             web_utils.review_image_upload()
-            time.sleep(2)   # 없으면 에러남
+            time.sleep(1)
             driver.find_element(By.CLASS_NAME, 'resize-none').send_keys(review_data["review"])
-            web_utils.star_review_four_click()
+            time.sleep(1)
+            history_page.star_review_four_click()
             web_utils.review_completed()
             time.sleep(2)
 
