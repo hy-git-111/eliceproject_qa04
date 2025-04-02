@@ -12,7 +12,7 @@ from src.pages.my_page import MyPage
 
 
 class TestMyPage:
-    @pytest.mark.skip
+    # @pytest.mark.skip
     # 개인 피드 페이지 UI 확인
     def test_my_page_001(self, driver):
         try:
@@ -92,7 +92,7 @@ class TestMyPage:
             LogUtils.log_error(e, driver)
             raise
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
     # 내 프로필 수정하기 페이지 UI 확인
     def test_my_page_002(self, driver):
         try:
@@ -163,7 +163,7 @@ class TestMyPage:
             raise
 
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
     # 새로운 후기 등록하기 페이지 UI 확인
     def test_my_page_003(self, driver):
         try:
@@ -341,7 +341,7 @@ class TestMyPage:
             raise
 
 
-    @pytest.mark.skip(reason = "pass, but not yet info check")
+    # @pytest.mark.skip
     # 그룹 후기 추가 케이스
     def test_my_page_006(self, driver):
         try:
@@ -419,7 +419,7 @@ class TestMyPage:
             LogUtils.log_error(e, driver)
             raise
 
-    @pytest.mark.skip(reason = "same")
+    # @pytest.mark.skip
     # 회식 후기 작성
     def test_my_page_007(self, driver):
         try:
@@ -488,7 +488,7 @@ class TestMyPage:
             LogUtils.log_error(e, driver)
             raise
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
     # 또 먹은 후기 혼밥으로 등록하기
     def test_my_page_008(self, driver):
         try:
@@ -520,7 +520,7 @@ class TestMyPage:
             LogUtils.log_error(e, driver)
             raise
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
     # 또 먹은 메뉴 후기 그룹 등록
     def test_my_page_009(self, driver):
         try:
@@ -563,7 +563,7 @@ class TestMyPage:
             LogUtils.log_error(e, driver)
             raise
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
     # 또 먹은 메뉴 후기 회식 등록
     def test_my_page_010(self, driver):
         try:
