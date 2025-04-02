@@ -1,7 +1,4 @@
 import random
-import time
-
-from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
@@ -90,38 +87,44 @@ class MyPage():
         review_stars = WebDriverWait(self.driver, 10).until(
             EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.w-10.h-10.cursor-pointer.text-gray-300'))
         )
-        random.choice(review_stars).click()
+        selected_star = random.choice(review_stars)
+        selected_star.click()
+
+        selected_star_index = review_stars.index(selected_star) + 1
+        return selected_star_index
 
     # 같은 메뉴 먹기 버튼 클릭
     def same_food_review(self):
         same_food_review_btn = self.driver.find_element(By.XPATH, "//button[text()='같은 메뉴 먹기']")
         same_food_review_btn.click()
 
-    def get_menu_info(self):
-        recent_review = self.driver.find_elements(By.CSS_SELECTOR, ".flex.w-full.gap-6.p-4.shadow-md.rounded-2xl")
-        if not recent_review:
-            return {}
-        first_review = recent_review[0]
+    def recent_review_info(self):
+        recent_review = self.driver.find_element(By.CSS_SELECTOR, ".flex.w-full.gap-6.p-4.shadow-md.rounded-2xl")
+
+        # 이미지 파일명 가져오기
+        img_element = recent_review.find_element(By.CSS_SELECTOR, "img")
+        img_src = img_element.get_attribute("src")
+        img_filename = img_src.split("/")[-1]  # URL에서 파일명 추출
+
+        # 태그명 가져오기 (최대 3개)
+        tag_elements = recent_review.find_elements(By.CSS_SELECTOR, ".flex.gap-2 .inline-flex")[:3]
+        tags = [tag.text for tag in tag_elements]
+
+        # 메뉴명 가져오기
+        menu_name = recent_review.find_element(By.CSS_SELECTOR, ".font-bold").text
+
+        # 별점 가져오기 (★의 개수 카운트)
+        star_elements = recent_review.find_elements(By.XPATH, ".//div[contains(@class, 'flex') and contains(@class, 'gap-0.5')]/span")
+        rating = sum(1 for star in star_elements if "★" in star.text)
+
+        # 후기 내용 가져오기
+        review_text = recent_review.find_element(By.CSS_SELECTOR, ".relative p").text
 
         return {
-            "image_src": first_review.find_element(By.CSS_SELECTOR, "img.object-cover").get_attribute("src"),
-            "tags": [
-                elem.text for elem in first_review.find_elements(By.CSS_SELECTOR, ".inline-flex.items-center")
-            ],
-            "title": first_review.find_element(By.CSS_SELECTOR, ".font-bold").text,
-            "rating": "".join(
-                elem.text for elem in first_review.find_elements(By.CSS_SELECTOR, ".flex.gap-0.5 span")
-            ),
-            "review": first_review.find_element(By.CSS_SELECTOR, ".text-description").text,
+            "image_filename": img_filename,
+            "tags": tags,
+            "menu_name": menu_name,
+            "star_rating": rating,
+            "review_text": review_text
         }
-
-
-# 후기 목록 가져오기
-    # 하단 스크롤 > 요소 긁어오기 /> 로딩 > 다음 리스트 긁어오기 - 로딩까지 필요한가?
-        # user_data에 비교할 기존 리스트 추가하기
-        # page에 필요한 내용
-            # 스크롤, 동일 목록 클래스 텍스트 가져오기 (로딩 후 스크롤은 잠시 보류)
-        # test에 필요한 내용
-            # 가져온 텍스트와 기존 데이터 비교하기
-
 
