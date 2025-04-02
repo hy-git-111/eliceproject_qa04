@@ -1,7 +1,5 @@
 from src.resources.testdata.user_data import signin_data
 
-dynamic_email = signin_data["email"]
-
 EXPECTED_TEXTS = {
     # [로그인 페이지]
     "login_pg_title": "오늘 뭐 먹지?",
@@ -38,7 +36,7 @@ EXPECTED_TEXTS = {
 
     # [권한 요청 페이지]
     "authorize_pg_title": "Authorize App",
-    "authorize_pg_email": f"Hi {dynamic_email},",
+    "authorize_pg_email": f"Hi {signin_data["email"]},",
     "authorize_pg_subtitle": "Assgin-front is requesting access to your dev-aqq0w41zxvftci4m account.",
     "authorize_pg_requested_authorize": "profile: access to your profile and email",
     
