@@ -504,10 +504,11 @@ class TestLoginPage:
 
             web_utils.open_url()    
             web_utils.click_element(*LOCATORS.get("login_pg_login_btn"))   
+            time.sleep(1)
             web_utils.click_element(*LOCATORS.get("login_input_pg_link_reset_pwd"))    
             
             web_utils.click_element(*LOCATORS.get("pwd_reset_pg_link_login"))   #  '로그인 화면으로 돌아가기 링크' 클릭
-
+            time.sleep(1)
             subtitle_elem = verify_helpers.check_existence(subtitle_key)
             subtitle = verify_helpers.get_elems_texts(subtitle_elem)
 
@@ -803,7 +804,7 @@ class TestLoginPage:
             raise
 
 # [프로필 입력 페이지] 데이터 입력 미완료 상태에서 제출 시도
-    # @pytest.mark.skip(reason="test 못함!")
+    # @pytest.mark.skip(reason="test pass")
     def test_login_032(self, driver):
         try:
             web_utils = WebUtils(driver)
