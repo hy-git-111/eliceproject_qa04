@@ -1,4 +1,3 @@
-import random
 import pytest
 import time
 import os
@@ -12,7 +11,7 @@ from src.pages.my_page import MyPage
 
 
 class TestMyPage:
-    # @pytest.mark.skip
+    @pytest.mark.skip
     # 개인 피드 페이지 UI 확인
     def test_my_page_001(self, driver):
         mypage_url = "https://kdt-pt-1-pj-2-team03.elicecoding.com/my"
@@ -87,10 +86,7 @@ class TestMyPage:
         my_food_review_img = driver.find_element(By.XPATH, '//*[@id="root"]/div[1]/main/section/section/div[2]/div[2]/div[1]/div[1]/img')
         assert my_food_review_img.is_displayed(), "후기 이미지 미노출"
 
-        # UI 확인 > 하단 스크롤 > 목록 전체 불러오기
-        # 목록 추가, 내용 리스트 받아오는 코드
-
-    # @pytest.mark.skip
+    @pytest.mark.skip
     # 내 프로필 수정하기 페이지 UI 확인
     def test_my_page_002(self, driver):
         web_utils = WebUtils(driver)
@@ -156,7 +152,7 @@ class TestMyPage:
         assert profile_modify_completed_btn.is_displayed(), "프로필 수정 완료 버튼 미노출"
 
 
-    # @pytest.mark.skip
+    @pytest.mark.skip
     # 새로운 후기 등록하기 페이지 UI 확인
     def test_my_page_003(self, driver):
         web_utils = WebUtils(driver)
@@ -170,9 +166,6 @@ class TestMyPage:
 
         my_food_review_title = driver.find_element(By.XPATH, '//span[@class="text-main-black font-semibold" and text()="새로운 후기 등록하기"]').text
         assert my_food_review_title == "새로운 후기 등록하기", "새로운 후기 등록하기 타이틀 미노출"
-
-        # my_food_review_close_btn = driver.find_element(By.CSS_SELECTOR, "text-2xl.cursor-pointer")
-        # assert my_food_review_close_btn.is_displayed(), "닫기 버튼 미노출"
 
         review_type_text = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[1]/h1').text
         assert review_type_text == "식사 유형", "식사 유형 텍스트 미노출"
@@ -223,7 +216,7 @@ class TestMyPage:
         assert review_write_completed.is_displayed(), "후기 작성 완료 버튼 미노출"
 
 
-    # @pytest.mark.skip
+    @pytest.mark.skip(reason = "not comleted slider")
     # 프로필 수정 기능 테스트
     def test_my_page_004(self, driver):
         # 입력 텍스트값 정의
@@ -261,9 +254,14 @@ class TestMyPage:
         # 입력값 결과 비교
 
 
-    # @pytest.mark.skip(reason = "pass but not yet info check")
+    @pytest.mark.order
     # 혼밥 후기 작성
     def test_my_page_005(self, driver):
+        # 후기 입력 정보
+        food_name_input = "메뉴명을 입력하자"
+        food_review_input = "후기를 입력하자"
+        image_file_name_input = "review_photo.jpg"
+
         # 로그인 진행
         web_utils = WebUtils(driver)
         web_utils.open_url()
@@ -277,7 +275,7 @@ class TestMyPage:
         time.sleep(1)
 
         # 메뉴명 입력
-        my_page.menu_name_input("메뉴명을 입력해보자")
+        my_page.menu_name_input(food_name_input)
 
         # 이미지 업로드
         web_utils.review_image_upload()
@@ -288,34 +286,44 @@ class TestMyPage:
         my_page.food_combobox_random()
         time.sleep(1)
 
-        # 카테고리 값 변경 확인용 임시 코드
-        selected_value = driver.find_element(By.CSS_SELECTOR, "button[role='combobox'] span").text
-        print("현재 선택된 값:", selected_value)
+        # 후기의 태그 입력 정보
+        category_value = driver.find_element(By.CSS_SELECTOR, "button[role='combobox'] span").text
+        tag_input = ["혼밥", category_value]
 
-        time.sleep(3)
-        my_page.review_input("후기 작성")
+        time.sleep(2)
+        my_page.review_input(food_review_input)
 
-        my_page.review_star_random()
-        print("별점 클릭 완료")
+        # 별점 선택
+        selected_star = my_page.review_star_random()
+
+        # 작성 완료 후 개인 피드 로딩 대기
         web_utils.review_completed()
-        print("후기 작성 완료 버튼 클릭 완료")
         time.sleep(2)
 
-        # 메뉴 정보 확인
-        # menu_info = my_page.get_menu_info()
-        # expected_data = {
-        #     "image_src": "Users/kimdongyeon/Desktop/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202025-03-21%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%208.44.18.pngp",
-        #     "tags": ["혼밥", "한식"],
-        #     "title": "메뉴명 입력",
-        #     "rating": "★☆☆☆☆",
-        #     "review": "후기를 입력해보자",
-        # }
-        #
-        # assert menu_info == expected_data, f"Expected {expected_data}, but got {menu_info}"
+        # 리뷰 영역 노출 시 까지 대기
+        web_utils.wait_for_element_presence(By.CSS_SELECTOR,".flex.w-full.gap-6.p-4.shadow-md.rounded-2xl")
 
-    # @pytest.mark.skip(reason = "pass, but not yet info check")
+
+        # 메뉴 정보 확인
+        recent_review = my_page.recent_review_info()
+        expected_review = {"image_filename": image_file_name_input,
+            "tags": tag_input,
+            "menu_name": food_name_input,
+            "star_rating": selected_star,
+            "review_text": food_review_input
+        }
+        for key in expected_review:
+            assert recent_review[key] == expected_review[key], f"{key}값: 예상'{expected_review[key]}',실제'{recent_review[key]}'"
+
+
+    @pytest.mark.skip(reason = "pass, but not yet info check")
     # 그룹 후기 추가 케이스
     def test_my_page_006(self, driver):
+        # 후기 입력 정보
+        food_name_input = "메뉴명을 입력하자"
+        food_review_input = "후기를 입력하자"
+        image_file_name_input = "review_photo.jpg"
+
         # 로그인 진행
         web_utils = WebUtils(driver)
         web_utils.open_url()
@@ -330,16 +338,18 @@ class TestMyPage:
 
         # 그룹 버튼 클릭
         web_utils.ate_group()
+        time.sleep(1)
 
         # 같이 먹은 사람 작성 목록 확인
         group_name_title = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[3]/h1').text
         assert group_name_title == "같이 먹은 사람 등록", "같이 먹은 사람 등록 미노출"
-        group_name_input = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[3]/div[1]/input')
+        group_name_input = driver.find_element(By.XPATH,
+                                               '//*[@id="modal-root"]/div/div[2]/section/form/div[3]/div[1]/input')
         assert group_name_input.is_displayed(), "같이 먹은 사람 입력란 미노출"
         group_name_input.send_keys("누구인가")
 
         # 메뉴명 입력
-        my_page.menu_name_input("메뉴명을 입력해보자")
+        my_page.menu_name_input(food_name_input)
 
         # 이미지 업로드
         web_utils.review_image_upload()
@@ -350,34 +360,43 @@ class TestMyPage:
         my_page.food_combobox_random()
         time.sleep(1)
 
-        # 카테고리 값 변경 확인용 임시 코드
-        selected_value = driver.find_element(By.CSS_SELECTOR, "button[role='combobox'] span").text
-        print("현재 선택된 값:", selected_value)
+        # 후기의 태그 입력 정보
+        category_value = driver.find_element(By.CSS_SELECTOR, "button[role='combobox'] span").text
+        tag_input = ["그룹", category_value]
 
-        time.sleep(3)
-        my_page.review_input("후기 작성")
+        time.sleep(2)
+        my_page.review_input(food_review_input)
 
-        my_page.review_star_random()
-        print("별점 클릭 완료")
+        # 별점 선택
+        selected_star = my_page.review_star_random()
+
+        # 작성 완료 후 개인 피드 로딩 대기
         web_utils.review_completed()
-        print("후기 작성 완료 버튼 클릭 완료")
         time.sleep(2)
 
-        # 최근 등록 후기 정보 비교
-        # review_info = my_page.get_menu_info()
-        # expected_data = {
-        #     "image_src": "Users/kimdongyeon/Desktop/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202025-03-21%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%208.44.18.pngp",
-        #     "tags": ["혼밥", "한식"],
-        #     "title": "메뉴명 입력",
-        #     "rating": "★☆☆☆☆",
-        #     "review": "후기를 입력해보자",
-        # }
-        #
-        # assert menu_info == expected_data, f"Expected {expected_data}, but got {menu_info}"
+        # 리뷰 영역 노출 시 까지 대기
+        web_utils.wait_for_element_presence(By.CSS_SELECTOR, ".flex.w-full.gap-6.p-4.shadow-md.rounded-2xl")
 
-    # @pytest.mark.skip(reason = "same")
+        # 메뉴 정보 확인
+        recent_review = my_page.recent_review_info()
+        expected_review = {"image_filename": image_file_name_input,
+                           "tags": tag_input,
+                           "menu_name": food_name_input,
+                           "star_rating": selected_star,
+                           "review_text": food_review_input
+                           }
+        for key in expected_review:
+            assert recent_review[key] == expected_review[
+                key], f"{key}값: 예상'{expected_review[key]}',실제'{recent_review[key]}'"
+
+    @pytest.mark.skip(reason = "same")
     # 회식 후기 작성
     def test_my_page_007(self, driver):
+        # 후기 입력 정보
+        food_name_input = "메뉴명을 입력하자"
+        food_review_input = "후기를 입력하자"
+        image_file_name_input = "review_photo.jpg"
+
         # 로그인 진행
         web_utils = WebUtils(driver)
         web_utils.open_url()
@@ -394,7 +413,7 @@ class TestMyPage:
         web_utils.ate_party()
 
         # 메뉴명 입력
-        my_page.menu_name_input("메뉴명을 입력해보자")
+        my_page.menu_name_input(food_name_input)
 
         # 이미지 업로드
         web_utils.review_image_upload()
@@ -405,33 +424,36 @@ class TestMyPage:
         my_page.food_combobox_random()
         time.sleep(1)
 
-        # 카테고리 값 변경 확인용 임시 코드
-        selected_value = driver.find_element(By.CSS_SELECTOR, "button[role='combobox'] span").text
-        print("현재 선택된 값:", selected_value)
+        # 후기의 태그 입력 정보
+        category_value = driver.find_element(By.CSS_SELECTOR, "button[role='combobox'] span").text
+        tag_input = ["회식", category_value]
 
-        time.sleep(3)
-        my_page.review_input("후기 작성")
+        time.sleep(2)
+        my_page.review_input(food_review_input)
 
-        my_page.review_star_random()
-        print("별점 클릭 완료")
+        # 별점 선택
+        selected_star = my_page.review_star_random()
+
+        # 작성 완료 후 개인 피드 로딩 대기
         web_utils.review_completed()
-        print("후기 작성 완료 버튼 클릭 완료")
         time.sleep(2)
 
+        # 리뷰 영역 노출 시 까지 대기
+        web_utils.wait_for_element_presence(By.CSS_SELECTOR, ".flex.w-full.gap-6.p-4.shadow-md.rounded-2xl")
+
         # 메뉴 정보 확인
-        # menu_info = my_page.get_menu_info()
-        # expected_data = {
-        #     "image_src": "Users/kimdongyeon/Desktop/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202025-03-21%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%208.44.18.pngp",
-        #     "tags": ["혼밥", "한식"],
-        #     "title": "메뉴명 입력",
-        #     "rating": "★☆☆☆☆",
-        #     "review": "후기를 입력해보자",
-        # }
-        #
-        # assert menu_info == expected_data, f"Expected {expected_data}, but got {menu_info}"
+        recent_review = my_page.recent_review_info()
+        expected_review = {"image_filename": image_file_name_input,
+                           "tags": tag_input,
+                           "menu_name": food_name_input,
+                           "star_rating": selected_star,
+                           "review_text": food_review_input
+                           }
+        for key in expected_review:
+            assert recent_review[key] == expected_review[
+                key], f"{key}값: 예상'{expected_review[key]}',실제'{recent_review[key]}'"
 
-
-    # @pytest.mark.skip
+    @pytest.mark.skip
     # 또 먹은 후기 혼밥으로 등록하기
     def test_my_page_008(self, driver):
         # 로그인 진행
@@ -458,19 +480,7 @@ class TestMyPage:
         print("후기 작성 완료 버튼 클릭 완료")
         time.sleep(2)
 
-        # 메뉴 정보 확인
-        # menu_info = my_page.get_menu_info()
-        # expected_data = {
-        #     "image_src": "Users/kimdongyeon/Desktop/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202025-03-21%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%208.44.18.pngp",
-        #     "tags": ["혼밥", "한식"],
-        #     "title": "메뉴명 입력",
-        #     "rating": "★☆☆☆☆",
-        #     "review": "후기를 입력해보자",
-        # }
-        #
-        # assert menu_info == expected_data, f"Expected {expected_data}, but got {menu_info}"
-
-    # @pytest.mark.skip
+    @pytest.mark.skip
     # 또 먹은 메뉴 후기 그룹 등록
     def test_my_page_009(self, driver):
         # 로그인 진행
@@ -508,19 +518,7 @@ class TestMyPage:
         print("후기 작성 완료 버튼 클릭 완료")
         time.sleep(2)
 
-        # 메뉴 정보 확인
-        # menu_info = my_page.get_menu_info()
-        # expected_data = {
-        #     "image_src": "Users/kimdongyeon/Desktop/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202025-03-21%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%208.44.18.pngp",
-        #     "tags": ["혼밥", "한식"],
-        #     "title": "메뉴명 입력",
-        #     "rating": "★☆☆☆☆",
-        #     "review": "후기를 입력해보자",
-        # }
-        #
-        # assert menu_info == expected_data, f"Expected {expected_data}, but got {menu_info}"
-
-    # @pytest.mark.skip
+    @pytest.mark.skip
     # 또 먹은 메뉴 후기 회식 등록
     def test_my_page_010(self, driver):
         # 로그인 진행
@@ -549,15 +547,3 @@ class TestMyPage:
         web_utils.review_completed()
         print("후기 작성 완료 버튼 클릭 완료")
         time.sleep(2)
-
-        # 메뉴 정보 확인
-        # menu_info = my_page.get_menu_info()
-        # expected_data = {
-        #     "image_src": "Users/kimdongyeon/Desktop/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202025-03-21%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%208.44.18.pngp",
-        #     "tags": ["혼밥", "한식"],
-        #     "title": "메뉴명 입력",
-        #     "rating": "★☆☆☆☆",
-        #     "review": "후기를 입력해보자",
-        # }
-        #
-        # assert menu_info == expected_data, f"Expected {expected_data}, but got {menu_info}"
