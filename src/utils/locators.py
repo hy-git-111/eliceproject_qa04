@@ -88,8 +88,9 @@ LOCATORS = {
     "profile_pg_name_placeholder" : (By.CSS_SELECTOR, 'div:nth-child(1) > div > input'),
   
     "profile_pg_team_title" : (By.CSS_SELECTOR, 'div:nth-child(2) > p'),
-    "profile_pg_team_btn" : (By.CSS_SELECTOR, 'div:nth-child(2) > div > button'),
+    "profile_pg_team_dropdown" : (By.CSS_SELECTOR, '[role="combobox"'),
     "profile_pg_team_selector" : (By.CSS_SELECTOR, 'div:nth-child(2) > div > select'),
+    "profile_pg_team_btn_submmit" : (By.CSS_SELECTOR, 'button.bg-main'),
     
     "profile_pg_taste_title" : (By.CSS_SELECTOR, 'div:nth-child(3) > p'),
     "profile_pg_taste_slider_sweetness" : (By.CSS_SELECTOR, 'div:nth-child(3) > div > section:nth-child(1) > div'),
