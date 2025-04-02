@@ -10,7 +10,7 @@ from src.utils.log_util import LogUtils
 @pytest.mark.usefixtures("driver")
 class TestLoginPage:
 # [로그인 페이지] UI 확인
-    # @pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_001(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -36,7 +36,7 @@ class TestLoginPage:
             raise
 
 # [로그인 정보 입력 페이지] UI확인
-    # @pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_002(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -70,7 +70,7 @@ class TestLoginPage:
             raise
 
 # [비밀번호 초기화 페이지] UI 확인
-    # @pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_003(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -109,7 +109,7 @@ class TestLoginPage:
             raise
 
 # [이메일 전송 완료 페이지] UI 확인
-    # @pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_004(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -141,7 +141,7 @@ class TestLoginPage:
             raise
 
 # [회원가입 페이지] UI 확인
-    # @pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_006(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -179,7 +179,7 @@ class TestLoginPage:
             raise
 
 # [권한 요청 페이지] UI 확인
-    # @pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_007(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -221,7 +221,7 @@ class TestLoginPage:
             raise
 
 # [로그인 오류 페이지] UI 확인
-    # @pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_008(self, driver):
         try:
 
@@ -259,7 +259,7 @@ class TestLoginPage:
             raise
 
 # [프로필 입력 페이지] UI 확인
-    # @pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_009(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -321,7 +321,7 @@ class TestLoginPage:
             raise
 
 # [로그인 페이지] 진입 확인
-    # @pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_010(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -345,7 +345,7 @@ class TestLoginPage:
             raise
 
 # [로그인 페이지] 진입 확인
-    # @pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_011(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -371,7 +371,7 @@ class TestLoginPage:
             raise
 
 # [로그인 정보 입력 페이지] 로그인
-    # @pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_014(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -403,7 +403,7 @@ class TestLoginPage:
             raise                 
 
 # [비밀번호 초기화 페이지] 진입 확인
-    # @pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_015(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -429,7 +429,7 @@ class TestLoginPage:
             raise
 
 # [비밀번호 초기화 페이지] 비밀번호 초기화
-    # @pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_016(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -458,7 +458,7 @@ class TestLoginPage:
             raise
 
 # 이메일 재 전송
-    # @pytest.mark.skip(reason="test fail")
+    @pytest.mark.skip(reason="test fail")
     def test_login_017(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -494,7 +494,7 @@ class TestLoginPage:
 # TC LOGIN-018 ~ LOGIN-019 누락
 
 # [비밀번호 초기화 페이지]에서 [로그인 정보 입력 페이지] 진입 확인
-    # @pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_020(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -523,7 +523,7 @@ class TestLoginPage:
             raise
 
 # [로그인 정보 입력 페이지]에서 [회원가입 페이지]로 이동 확인
-    # @pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_021(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -550,7 +550,7 @@ class TestLoginPage:
             raise
 
 # [로그인 페이지]에서 [회원가입 페이지] 진입 확인
-    # @pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_022(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -576,7 +576,7 @@ class TestLoginPage:
                 raise
 
 # [회원가입 페이지] 비밀번호 입력
-    # @pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_025(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -605,7 +605,7 @@ class TestLoginPage:
             raise
 
 # [권한 요청 페이지] 진입
-    # @pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_026(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -634,7 +634,7 @@ class TestLoginPage:
             raise
 
 # [로그인 오류 페이지] 진입
-    # @pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_027(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -664,7 +664,7 @@ class TestLoginPage:
             raise
 
 # "다시 시도하기 버튼" 동작 확인
-    # @pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_028(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -699,7 +699,7 @@ class TestLoginPage:
             raise
 
 # [권한 요청 페이지] 재 진입
-    # @pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_029(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -734,7 +734,7 @@ class TestLoginPage:
             raise
 
 # [권한 요청 페이지] 재 진입
-    # @pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_030(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -769,7 +769,7 @@ class TestLoginPage:
             raise
 
 # [권한 요청 페이지] 권한 요청 승인
-    # @pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_031(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -804,7 +804,7 @@ class TestLoginPage:
             raise
 
 # [프로필 입력 페이지] 데이터 입력 미완료 상태에서 제출 시도
-    # @pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_032(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -847,7 +847,7 @@ class TestLoginPage:
             raise
 
 # [프로필 입력 페이지] 제출
-    # @pytest.mark.skip(reason="test pass")
+    @pytest.mark.skip(reason="test pass")
     def test_login_033(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -868,6 +868,68 @@ class TestLoginPage:
             web_utils.click_element(*LOCATORS.get("authorize_pg_btn_accept"))  # "승인 버튼" 클릭
       
 
+            login_page.input_text(*LOCATORS.get("profile_pg_name_input"), signin_data["name"])
+
+            team_feed.open_team_combobox()
+            team_feed.select_team_combobox(signin_data["team"])
+            
+            web_utils.slider_sweet()
+            web_utils.slider_salty()
+            web_utils.slider_hot()
+
+            login_page.input_text(*LOCATORS.get("profile_pg_like_input"), signin_data["like"])
+            login_page.input_text(*LOCATORS.get("profile_pg_dislike_input"), signin_data["dislike"])
+
+            web_utils.click_element(*LOCATORS.get("profile_pg_team_btn_submmit")) # "제출하기 버튼" 클릭
+
+            text_elem = verify_helpers.check_existence(subtitle_key)
+            text = verify_helpers.get_elems_texts(text_elem)
+
+            expected_text = verify_helpers.get_expected_texts(subtitle_key)
+
+            assert not "welcome" in driver.current_url
+
+            index_num = 0
+            for key in subtitle_key:
+                expected_chars = list(expected_text[index_num])
+                title_chars = list(text[index_num])[-len(expected_text[index_num]):]
+
+                assert title_chars == expected_chars
+                index_num += 1
+
+            LogUtils.log_success()
+            time.sleep(1)
+
+        except Exception as e:
+            LogUtils.log_error(e, driver)
+            raise
+
+
+
+#-----------------------------------------------------------
+# 1. [로그인 페이지] 회원가입 ~ [프로필 입력 페이지] 제출
+    @pytest.mark.order(1)
+    def test_login_033(self, driver):
+        try:
+            web_utils = WebUtils(driver)
+            login_page = LoginPage(driver)
+            verify_helpers = VerifyHelpers(driver)
+            team_feed = TeamFeed(driver)
+            signin_email = unique_email()
+
+            subtitle_key = ["home_pg_subtitle_2"]
+            # 웹페이지 진입
+            web_utils.open_url()    
+            # 회원가입
+            web_utils.click_element(*LOCATORS.get("login_pg_signin_btn"))   
+            time.sleep(2)
+            login_page.input_email(*LOCATORS.get("signin_pg_input_email"), signin_email)    
+            login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), signin_data["password"])  
+            web_utils.click_element(*LOCATORS.get("signin_pg_btn_continue")) 
+            # 권한 요청 승인
+            web_utils.click_element(*LOCATORS.get("authorize_pg_btn_accept"))  # "승인 버튼" 클릭
+      
+            # 프로필 데이터 제출
             login_page.input_text(*LOCATORS.get("profile_pg_name_input"), signin_data["name"])
 
             team_feed.open_team_combobox()
