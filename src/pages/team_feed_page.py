@@ -1,4 +1,5 @@
 # 팀 피드 페이지 기능
+import time
 from src.utils.helpers import WebUtils
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
@@ -21,7 +22,7 @@ class TeamFeed:
         teams[index].click()
         
     # 내 팀 음식 성향 편집 아이콘 클릭
-    def select_modify_team_profile_icon(self):
+    def click_modify_team_profile_icon(self):
         team_modify_icon = self.driver.find_elements(By.CLASS_NAME, "cursor-pointer")[1]
         team_modify_icon.click()
 
@@ -32,15 +33,114 @@ class TeamFeed:
     
     # 음식 성향 - 단 맛 슬라이더 변경
     def modify_team_sweet(self):
-       print("코드 삽입 예정")
+       modal_tendency_area = self.driver.find_element(By.ID, "modal-root").find_element(By.CLASS_NAME, "space-y-6")
+       container = modal_tendency_area.find_element(By.CSS_SELECTOR, "div.flex.items-center")
+       slider = container.find_element(By.CSS_SELECTOR, 'span[role="slider"]')
 
+       input_elem = slider.find_element(By.XPATH, './following-sibling::input')
+       value = 2.1
+
+       time.sleep(4)
+
+       valuemin = float(slider.get_attribute("aria-valuemin"))
+       valuemax = float(slider.get_attribute("aria-valuemax"))
+
+    # 2. 트랙 바(span.relative.h-2.w-full) 기준 클릭 위치 계산
+       track = container.find_element(By.CSS_SELECTOR, 'span.relative.h-2.w-full')
+       track_width = track.size['width']
+       track_height = track.size['height']
+
+       ratio = (2.1 - valuemin) / (valuemax - valuemin)
+       ratio = max(0.0, min(1.0, ratio))  # 0~1 사이 클램프
+       offset_x = int(track_width * ratio)
+       offset_y = track_height // 2
+
+    # 3. 클릭 실행
+       ActionChains(self.driver) \
+        .move_to_element_with_offset(track, offset_x, offset_y) \
+        .click() \
+        .perform()
+
+    # 4. 확인 출력
+       time.sleep(0.2)
+       actual_value = slider.get_attribute("aria-valuenow")
+       print(f":dart: 목표: {2.1} → 실제값: {actual_value}")
+       print("슬라이더 현재값:", slider.get_attribute("aria-valuenow"))
+
+       time.sleep(5)
     # 음식 성향 - 짠 맛 슬라이더 변경
     def modify_team_salty(self):
-        print("코드 삽입 예정")
+       modal_tendency_area = self.driver.find_element(By.ID, "modal-root").find_element(By.CLASS_NAME, "space-y-6")
+       container = modal_tendency_area.find_elements(By.CSS_SELECTOR, "div.flex.items-center")[1]
+       slider = container.find_element(By.CSS_SELECTOR, 'span[role="slider"]')
+
+       input_elem = slider.find_element(By.XPATH, './following-sibling::input')
+       value = 2.1
+
+       time.sleep(4)
+
+       valuemin = float(slider.get_attribute("aria-valuemin"))
+       valuemax = float(slider.get_attribute("aria-valuemax"))
+
+    # 2. 트랙 바(span.relative.h-2.w-full) 기준 클릭 위치 계산
+       track = container.find_element(By.CSS_SELECTOR, 'span.relative.h-2.w-full')
+       track_width = track.size['width']
+       track_height = track.size['height']
+
+       ratio = (2.1 - valuemin) / (valuemax - valuemin)
+       ratio = max(0.0, min(1.0, ratio))  # 0~1 사이 클램프
+       offset_x = int(track_width * ratio)
+       offset_y = track_height // 2
+
+    # 3. 클릭 실행
+       ActionChains(self.driver) \
+        .move_to_element_with_offset(track, offset_x, offset_y) \
+        .click() \
+        .perform()
+
+    # 4. 확인 출력
+       time.sleep(0.2)
+       actual_value = slider.get_attribute("aria-valuenow")
+       print(f":dart: 목표: {2.1} → 실제값: {actual_value}")
+       print("슬라이더 현재값:", slider.get_attribute("aria-valuenow"))
+
             
     # 음식 성향 - 매운 맛 슬라이더 변경
     def modify_team_hot(self):
-        print("코드 삽입 예정")
+       modal_tendency_area = self.driver.find_element(By.ID, "modal-root").find_element(By.CLASS_NAME, "space-y-6")
+       container = modal_tendency_area.find_elements(By.CSS_SELECTOR, "div.flex.items-center")[2]
+       slider = container.find_element(By.CSS_SELECTOR, 'span[role="slider"]')
+
+       input_elem = slider.find_element(By.XPATH, './following-sibling::input')
+       value = 2.1
+
+       time.sleep(4)
+
+       valuemin = float(slider.get_attribute("aria-valuemin"))
+       valuemax = float(slider.get_attribute("aria-valuemax"))
+
+    # 2. 트랙 바(span.relative.h-2.w-full) 기준 클릭 위치 계산
+       track = container.find_element(By.CSS_SELECTOR, 'span.relative.h-2.w-full')
+       track_width = track.size['width']
+       track_height = track.size['height']
+
+       ratio = (-10 - valuemin) / (valuemax - valuemin)
+       ratio = max(0.0, min(1.0, ratio))  # 0~1 사이 클램프
+       offset_x = int(track_width * ratio)
+       offset_y = track_height // 2
+
+    # 3. 클릭 실행
+       ActionChains(self.driver) \
+        .move_to_element_with_offset(track, offset_x, offset_y) \
+        .click() \
+        .perform()
+
+    # 4. 확인 출력
+       time.sleep(0.2)
+       actual_value = slider.get_attribute("aria-valuenow")
+       print(f":dart: 목표: {2.1} → 실제값: {actual_value}")
+       print("슬라이더 현재값:", slider.get_attribute("aria-valuenow"))
+
 
     # 😃 이런 음식은 좋아요! 텍스트 변경
     def modify_team_favorite_text(self, favor_text):
@@ -53,9 +153,6 @@ class TeamFeed:
         hate_text_area = self.driver.find_element(By.CSS_SELECTOR, "[name='cons']")
         hate_text_area.clear()  # 기존 내용 모두 삭제
         hate_text_area.send_keys(hate_text)
-
-    # 팀 통계 부분은 나중에 여유될 때 진행합니다. (차트 영역 확인)
-    # 테스트 코드에서 차트 요소 불러왔는지만 확인 예정
 
     # 내 팀 > 팀이 먹은 메뉴 후기 추가 버튼 클릭
     def click_add_team_menu(self):
