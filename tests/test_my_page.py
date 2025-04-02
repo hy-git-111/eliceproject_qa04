@@ -597,3 +597,80 @@ class TestMyPage:
         except Exception as e:
             LogUtils.log_error(e, driver)
             raise
+
+
+#================================================= for demo ==============================================
+    # 그룹 후기 추가 케이스
+    def for_demo_dy(self, driver):
+        try:
+            # 후기 입력 정보
+            food_name_input = "메뉴명을 입력하자"
+            food_review_input = "후기를 입력하자"
+            image_file_name_input = "review_photo.jpg"
+
+            web_utils = WebUtils(driver)
+            # 개인 피드 진입
+            web_utils.click_tab_personal()
+
+            # 후기 추가하기 버튼 클릭 및 후기 작성 페이지 진입
+            my_page = MyPage(driver)
+            my_page.scroll_to_element(By.XPATH, '//*[@id="root"]/div[1]/main/section/section/div[2]/div[1]/button')
+            time.sleep(1)
+
+            # 그룹 버튼 클릭
+            web_utils.ate_group()
+            time.sleep(1)
+
+            # 같이 먹은 사람 작성 목록 확인
+            group_name_title = driver.find_element(By.XPATH, '//*[@id="modal-root"]/div/div[2]/section/form/div[3]/h1').text
+            assert group_name_title == "같이 먹은 사람 등록", "같이 먹은 사람 등록 미노출"
+            group_name_input = driver.find_element(By.XPATH,
+                                                   '//*[@id="modal-root"]/div/div[2]/section/form/div[3]/div[1]/input')
+            assert group_name_input.is_displayed(), "같이 먹은 사람 입력란 미노출"
+            group_name_input.send_keys("누구인가")
+
+            # 메뉴명 입력
+            my_page.menu_name_input(food_name_input)
+
+            # 이미지 업로드
+            web_utils.review_image_upload()
+            time.sleep(1)
+
+            # 카테고리 랜덤 선택
+            web_utils.review_category()
+            my_page.food_combobox_random()
+            time.sleep(1)
+
+            # 후기의 태그 입력 정보
+            category_value = driver.find_element(By.CSS_SELECTOR, "button[role='combobox'] span").text
+            tag_input = ["그룹", category_value]
+
+            time.sleep(2)
+            my_page.review_input(food_review_input)
+
+            # 별점 선택
+            selected_star = my_page.review_star_random()
+
+            # 작성 완료 후 개인 피드 로딩 대기
+            web_utils.review_completed()
+            time.sleep(2)
+
+            # 리뷰 영역 노출 시 까지 대기
+            web_utils.wait_for_element_presence(By.CSS_SELECTOR, ".flex.w-full.gap-6.p-4.shadow-md.rounded-2xl")
+
+            # 메뉴 정보 확인
+            recent_review = my_page.recent_review_info()
+            expected_review = {"image_filename": image_file_name_input,
+                               "tags": tag_input,
+                               "menu_name": food_name_input,
+                               "star_rating": selected_star,
+                               "review_text": food_review_input
+                               }
+            for key in expected_review:
+                assert recent_review[key] == expected_review[
+                    key], f"{key}값: 예상'{expected_review[key]}',실제'{recent_review[key]}'"
+
+        except Exception as e:
+            LogUtils.log_error(e, driver)
+            raise
+#================================================= for demo ==============================================
