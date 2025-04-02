@@ -1,3 +1,4 @@
+import time
 import random
 import pytest
 from selenium.webdriver.chrome.webdriver import WebDriver
@@ -393,11 +394,11 @@ class TestHomePage:
             previous_menu = driver.find_element(By.CSS_SELECTOR, self.menu_text_css_selector).text.strip()
             util.scroll_to_element(By.XPATH, menu_rcm.refresh_recommendation_btn_xpath)
             util.click_element(By.XPATH, menu_rcm.refresh_recommendation_btn_xpath)
+            driver.execute_script("window.scrollTo(0, 0);")
             ws(driver, 5).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, self.food_image_css_selector))
             )
-
-            driver.execute_script("window.scrollTo(0, 0);")
+            time.sleep(1)
             new_menu = driver.find_element(By.CSS_SELECTOR, self.menu_text_css_selector).text.strip()
 
             assert previous_menu != new_menu
@@ -983,11 +984,11 @@ class TestHomePage:
             previous_menu = driver.find_element(By.CSS_SELECTOR, self.menu_text_css_selector).text.strip()
             util.scroll_to_element(By.XPATH, menu_rcm.refresh_recommendation_btn_xpath)
             util.click_element(By.XPATH, menu_rcm.refresh_recommendation_btn_xpath)
+            driver.execute_script("window.scrollTo(0, 0);")
             ws(driver, 5).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, self.food_image_css_selector))
             )
-
-            driver.execute_script("window.scrollTo(0, 0);")
+            time.sleep(1)
             new_menu = driver.find_element(By.CSS_SELECTOR, self.menu_text_css_selector).text.strip()
 
             assert previous_menu != new_menu
@@ -1395,11 +1396,11 @@ class TestHomePage:
             previous_menu = driver.find_element(By.CSS_SELECTOR, self.menu_text_css_selector).text.strip()
             util.scroll_to_element(By.XPATH, menu_rcm.refresh_recommendation_btn_xpath)
             util.click_element(By.XPATH, menu_rcm.refresh_recommendation_btn_xpath)
+            driver.execute_script("window.scrollTo(0, 0);")
             ws(driver, 5).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, self.food_image_css_selector))
             )
-
-            driver.execute_script("window.scrollTo(0, 0);")
+            time.sleep(1)
             new_menu = driver.find_element(By.CSS_SELECTOR, self.menu_text_css_selector).text.strip()
 
             assert previous_menu != new_menu
