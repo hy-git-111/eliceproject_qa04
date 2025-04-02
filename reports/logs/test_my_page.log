@@ -1,0 +1,44 @@
+2025-04-02 16:28:13 - ERROR - ❌ test_my_page_001 - assert '개발 1팀' == '디자인 1팀'
+  
+  - 디자인 1팀
+  + 개발 1팀
+2025-04-02 16:28:23 - ERROR - ❌ test_my_page_003 - Message: element click intercepted: Element <button class="cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-main-black text-white hover:bg-main-black/80 px-4 py-2 w-8 h-8">...</button> is not clickable at point (639, 841). Other element would receive the click: <span>...</span>
+  (Session info: chrome=134.0.6998.166)
+Stacktrace:
+0   chromedriver                        0x00000001049776c8 cxxbridge1$str$ptr + 2791212
+1   chromedriver                        0x000000010496fc9c cxxbridge1$str$ptr + 2759936
+2   chromedriver                        0x00000001044c1e30 cxxbridge1$string$len + 92928
+3   chromedriver                        0x000000010450ebe8 cxxbridge1$string$len + 407736
+4   chromedriver                        0x000000010450d178 cxxbridge1$string$len + 400968
+5   chromedriver                        0x000000010450af8c cxxbridge1$string$len + 392284
+6   chromedriver                        0x000000010450a388 cxxbridge1$string$len + 389208
+7   chromedriver                        0x00000001044fed8c cxxbridge1$string$len + 342620
+8   chromedriver                        0x00000001044fe818 cxxbridge1$string$len + 341224
+9   chromedriver                        0x000000010454a5f8 cxxbridge1$string$len + 651976
+10  chromedriver                        0x00000001044fd2fc cxxbridge1$string$len + 335820
+11  chromedriver                        0x000000010493c6c4 cxxbridge1$str$ptr + 2549544
+12  chromedriver                        0x000000010493f988 cxxbridge1$str$ptr + 2562540
+13  chromedriver                        0x000000010491c71c cxxbridge1$str$ptr + 2418560
+14  chromedriver                        0x00000001049401e8 cxxbridge1$str$ptr + 2564684
+15  chromedriver                        0x000000010490d750 cxxbridge1$str$ptr + 2357172
+16  chromedriver                        0x000000010495ff58 cxxbridge1$str$ptr + 2695100
+17  chromedriver                        0x00000001049600e0 cxxbridge1$str$ptr + 2695492
+18  chromedriver                        0x000000010496f910 cxxbridge1$str$ptr + 2759028
+19  libsystem_pthread.dylib             0x0000000199b6c2e4 _pthread_start + 136
+20  libsystem_pthread.dylib             0x0000000199b670fc thread_start + 8
+
+2025-04-02 16:28:34 - ERROR - ❌ test_my_page_005 - image_filename값: 예상'c8f0fdbc-eeff-4bfb-8ddb-f74650bfa9f9_review_photo.jpg',실제'fbab7c03-83b4-4e4e-956e-9a4ba5a5de7d_review_photo.jpg'
+assert 'fbab7c03-83b...iew_photo.jpg' == 'c8f0fdbc-eef...iew_photo.jpg'
+  
+  - c8f0fdbc-eeff-4bfb-8ddb-f74650bfa9f9_review_photo.jpg
+  + fbab7c03-83b4-4e4e-956e-9a4ba5a5de7d_review_photo.jpg
+2025-04-02 16:28:46 - ERROR - ❌ test_my_page_006 - image_filename값: 예상'review_photo.jpg',실제'9f36e5d9-ae35-4121-98cb-830c7c1d99e9_review_photo.jpg'
+assert '9f36e5d9-ae3...iew_photo.jpg' == 'review_photo.jpg'
+  
+  - review_photo.jpg
+  + 9f36e5d9-ae35-4121-98cb-830c7c1d99e9_review_photo.jpg
+2025-04-02 16:28:57 - ERROR - ❌ test_my_page_007 - image_filename값: 예상'review_photo.jpg',실제'ee2dc6ba-a169-4f26-9da9-2ac627332955_review_photo.jpg'
+assert 'ee2dc6ba-a16...iew_photo.jpg' == 'review_photo.jpg'
+  
+  - review_photo.jpg
+  + ee2dc6ba-a169-4f26-9da9-2ac627332955_review_photo.jpg
