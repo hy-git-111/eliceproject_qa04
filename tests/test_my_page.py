@@ -11,7 +11,7 @@ from src.pages.my_page import MyPage
 
 
 class TestMyPage:
-    @pytest.mark.skip
+    # @pytest.mark.skip
     # 개인 피드 페이지 UI 확인
     def test_my_page_001(self, driver):
         mypage_url = "https://kdt-pt-1-pj-2-team03.elicecoding.com/my"
@@ -86,7 +86,7 @@ class TestMyPage:
         my_food_review_img = driver.find_element(By.XPATH, '//*[@id="root"]/div[1]/main/section/section/div[2]/div[2]/div[1]/div[1]/img')
         assert my_food_review_img.is_displayed(), "후기 이미지 미노출"
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
     # 내 프로필 수정하기 페이지 UI 확인
     def test_my_page_002(self, driver):
         web_utils = WebUtils(driver)
@@ -152,7 +152,7 @@ class TestMyPage:
         assert profile_modify_completed_btn.is_displayed(), "프로필 수정 완료 버튼 미노출"
 
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
     # 새로운 후기 등록하기 페이지 UI 확인
     def test_my_page_003(self, driver):
         web_utils = WebUtils(driver)
@@ -254,13 +254,13 @@ class TestMyPage:
         # 입력값 결과 비교
 
 
-    @pytest.mark.order
+    # @pytest.mark.skip
     # 혼밥 후기 작성
     def test_my_page_005(self, driver):
         # 후기 입력 정보
         food_name_input = "메뉴명을 입력하자"
         food_review_input = "후기를 입력하자"
-        image_file_name_input = "review_photo.jpg"
+        image_file_name_input = "c8f0fdbc-eeff-4bfb-8ddb-f74650bfa9f9_review_photo.jpg"
 
         # 로그인 진행
         web_utils = WebUtils(driver)
@@ -316,13 +316,13 @@ class TestMyPage:
             assert recent_review[key] == expected_review[key], f"{key}값: 예상'{expected_review[key]}',실제'{recent_review[key]}'"
 
 
-    @pytest.mark.skip(reason = "pass, but not yet info check")
+    # @pytest.mark.skip
     # 그룹 후기 추가 케이스
     def test_my_page_006(self, driver):
         # 후기 입력 정보
         food_name_input = "메뉴명을 입력하자"
         food_review_input = "후기를 입력하자"
-        image_file_name_input = "review_photo.jpg"
+        image_file_name_input = "c8f0fdbc-eeff-4bfb-8ddb-f74650bfa9f9_review_photo.jpg"
 
         # 로그인 진행
         web_utils = WebUtils(driver)
@@ -389,13 +389,13 @@ class TestMyPage:
             assert recent_review[key] == expected_review[
                 key], f"{key}값: 예상'{expected_review[key]}',실제'{recent_review[key]}'"
 
-    @pytest.mark.skip(reason = "same")
+    # @pytest.mark.skip
     # 회식 후기 작성
     def test_my_page_007(self, driver):
         # 후기 입력 정보
         food_name_input = "메뉴명을 입력하자"
         food_review_input = "후기를 입력하자"
-        image_file_name_input = "review_photo.jpg"
+        image_file_name_input = "c8f0fdbc-eeff-4bfb-8ddb-f74650bfa9f9_review_photo.jpg"
 
         # 로그인 진행
         web_utils = WebUtils(driver)
@@ -453,7 +453,7 @@ class TestMyPage:
             assert recent_review[key] == expected_review[
                 key], f"{key}값: 예상'{expected_review[key]}',실제'{recent_review[key]}'"
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
     # 또 먹은 후기 혼밥으로 등록하기
     def test_my_page_008(self, driver):
         # 로그인 진행
@@ -480,7 +480,7 @@ class TestMyPage:
         print("후기 작성 완료 버튼 클릭 완료")
         time.sleep(2)
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
     # 또 먹은 메뉴 후기 그룹 등록
     def test_my_page_009(self, driver):
         # 로그인 진행
@@ -518,7 +518,7 @@ class TestMyPage:
         print("후기 작성 완료 버튼 클릭 완료")
         time.sleep(2)
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
     # 또 먹은 메뉴 후기 회식 등록
     def test_my_page_010(self, driver):
         # 로그인 진행
