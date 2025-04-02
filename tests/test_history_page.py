@@ -12,7 +12,7 @@ from src.utils.log_util import LogUtils
 @pytest.mark.usefixtures("driver")
 class TestHistoryPage:
 # [히스토리 페이지] 헤더 영역 UI 확인
-    # @pytest.mark.skip(reason="test pass")
+    #@pytest.mark.skip(reason="test pass")
     def test_history_001(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -44,7 +44,7 @@ class TestHistoryPage:
             raise
 
 # [히스토리 페이지] 수락한 메뉴가 없을때 추천 메뉴 영역 UI 확인
-    # @pytest.mark.skip(reason="test pass")
+    #@pytest.mark.skip(reason="test pass")
     def test_history_002(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -75,7 +75,7 @@ class TestHistoryPage:
             raise
 
 # [히스토리 페이지] 후기 등록 전 추천 메뉴 영역 UI 확인
-    # @pytest.mark.skip(reason="test pass")
+    #@pytest.mark.skip(reason="test pass")
     def test_history_003(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -123,7 +123,7 @@ class TestHistoryPage:
             raise
 
 # [히스토리 페이지] 후기 등록 후 추천 메뉴 영역 UI 확인
-    # @pytest.mark.skip(reason="test pass")
+    #@pytest.mark.skip(reason="test pass")
     def test_history_004(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -171,7 +171,7 @@ class TestHistoryPage:
             raise
 
 # [히스토리 페이지] 진입 확인
-    # @pytest.mark.skip(reason="test pass")
+    #@pytest.mark.skip(reason="test pass")
     def test_history_005(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -199,7 +199,7 @@ class TestHistoryPage:
             raise
 
 # [히스토리 페이지] "뒤로가기 버튼" 확인
-    # @pytest.mark.skip(reason="test pass")
+    #@pytest.mark.skip(reason="test pass")
     def test_history_006(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -229,7 +229,7 @@ class TestHistoryPage:
             raise
 
 # [히스토리 페이지] 무한 스크롤 확인
-    # @pytest.mark.skip(reason="test pass")
+    #@pytest.mark.skip(reason="test pass")
     def test_history_007(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -265,7 +265,7 @@ class TestHistoryPage:
             raise
 
 # [히스토리 페이지] "추천 후기 등록하기 버튼" 확인
-    # @pytest.mark.skip(reason="test pass")
+    #@pytest.mark.skip(reason="test pass")
     def test_history_008(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -298,7 +298,7 @@ class TestHistoryPage:
             raise
 
 # [히스토리 페이지] 후기 등록
-    # @pytest.mark.skip(reason="test pass")
+    #@pytest.mark.skip(reason="test pass")
     def test_history_009(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -336,7 +336,7 @@ class TestHistoryPage:
             raise
 
 # [히스토리 페이지] "후기 등록 완료 버튼" 확인
-    # @pytest.mark.skip(reason="pass")
+    #@pytest.mark.skip(reason="pass")
     def test_history_010(self, driver):
         try:
             web_utils = WebUtils(driver)
@@ -356,6 +356,57 @@ class TestHistoryPage:
             with pytest.raises(TimeoutException):
                 verify_helpers.check_existence(exit_btn_key)
 
+            LogUtils.log_success()
+
+        except Exception as e:
+            LogUtils.log_error(e, driver)
+            raise
+
+
+
+# __________________________________________
+# [히스토리 페이지] 후기 등록
+    #@pytest.mark.skip(reason="test pass")
+    @pytest.mark.order(3)
+    def test_history_009(self, driver):
+        try:
+            web_utils = WebUtils(driver)
+            verify_helpers = VerifyHelpers(driver)
+
+            after_review_btn_key = ["history_pg_btn_after_review"]
+            exit_btn_key = ["review_pg_btn_exit"]
+
+            # 웹페이지 진입
+            web_utils.open_url()
+            web_utils.login(login_data["review_email"], login_data["password"])
+
+            # 히스토리 버튼 클릭
+            web_utils.click_tab_history()
+
+            # 리뷰 등록
+            before_btn_index = verify_helpers.click_elem_with_infinity_scroll(By.CSS_SELECTOR, 'button.bg-main-black')    
+
+            web_utils.review_image_upload()
+            time.sleep(1)
+            driver.find_element(By.CLASS_NAME, 'resize-none').send_keys(review_data["review"])
+            time.sleep(1)
+            web_utils.star_review_four_click()
+            web_utils.review_completed()
+            time.sleep(2)
+
+            all_btns = driver.find_elements(By.TAG_NAME, "button")
+            clicked_btn_elem = all_btns[before_btn_index]
+            after_btn_text = clicked_btn_elem.text
+
+            expected_text = verify_helpers.get_expected_texts(after_review_btn_key)
+
+            verify_helpers.click_elem_with_infinity_scroll(By.CSS_SELECTOR, 'button.bg-main') # 로케이터 쓰면 못찾음
+
+            with pytest.raises(TimeoutException):
+                verify_helpers.check_existence(exit_btn_key)
+
+            assert after_btn_text == expected_text[0]
+              
             LogUtils.log_success()
 
         except Exception as e:
