@@ -125,9 +125,9 @@ class TestTeamFeedPage:
             assert driver.find_elements(By.CLASS_NAME, "cursor-pointer")[1] is not None, "❌ 프로필 편집 버튼이 존재하지 않습니다."
             print("✅ 프로필 편집 버튼이 정상 제공 되었습니다.")
             
-            team_feed.select_modify_team_profile_icon()
+            team_feed.click_modify_team_profile_icon()
             webutils.wait_for_element_presence(By.CSS_SELECTOR, ".text-main-black.font-semibold")
-            assert "프로필 정보 수정" == driver.find_element(By.ID, "modal-root").find_element(By.CSS_SELECTOR, "span").text
+            assert "프로필 정보 수정" == driver.find_element(By.ID, "modal-root").find_element(By.CSS_SELECTOR, "span.text-main-black.font-semibold").text
             print("✅ 프로필 정보 수정 모달이 정상 제공되었습니다.")
             
             LogUtils.log_success()
@@ -152,7 +152,8 @@ class TestTeamFeedPage:
             team_feed.select_team_combobox(0)
             
             # 팀이 먹은 메뉴 존재하는 위치로 스크롤
-            webutils.scroll_to_element(By.XPATH, "//span[contains(text(), '팀이 먹은 메뉴')]")
+            webutils.scroll_to_element(By.XPATH, "//*[@id='root']/div[1]/main/section/section/div[2]/canvas")
+
 
             # Expected Result - 팀이 먹은 메뉴 추가 버튼 미제공 확인
             teams_menu_title_area = driver.find_element(By.CSS_SELECTOR, "div.flex.items-center.gap-4")
@@ -262,7 +263,7 @@ class TestTeamFeedPage:
 
             # Precondition - 팀 피드 진입 후 프로필 수정 아이콘 선택하여 프로필 수정 모달 진입
             team_feed.into_team_feed()
-            team_feed.select_modify_team_profile_icon()
+            team_feed.click_modify_team_profile_icon()
 
             # Steps
             webutils.wait_for_element_presence(By.TAG_NAME, "form") # 모달 내 정보 수정 폼 나타날 때까지 대기
@@ -319,7 +320,7 @@ class TestTeamFeedPage:
            raise
 
     #@pytest.mark.skip(reason="tested > passed")
-    def test_team_020_1(self, driver:WebDriver):    # 선호 텍스트 10자 미만일 때 저장 시도 시 Error Alert Text 제공하는지 확인
+    def test_team_020(self, driver:WebDriver):    # 선호 텍스트 10자 미만일 때 저장 시도 시 Error Alert Text 제공하는지 확인
         try:
             # Settings - 테스트를 위한 세팅
             team_feed = TeamFeed(driver)
@@ -327,7 +328,7 @@ class TestTeamFeedPage:
 
             # Precondition - 팀 피드 진입하여 팀 프로필 수정 모달 진입
             team_feed.into_team_feed()
-            team_feed.select_modify_team_profile_icon()
+            team_feed.click_modify_team_profile_icon()
 
             # 모달 내 정보 수정 폼 나타날 때까지 대기
             webutils.wait_for_element_presence(By.TAG_NAME, "form")
@@ -357,7 +358,7 @@ class TestTeamFeedPage:
            raise
 
     #@pytest.mark.skip(reason="tested > passed")
-    def test_team_020_2(self, driver:WebDriver):    # 비선호 텍스트 10자 미만일 때 저장 시도 시 Error Alert Text 제공하는지 확인
+    def test_team_021(self, driver:WebDriver):    # 비선호 텍스트 10자 미만일 때 저장 시도 시 Error Alert Text 제공하는지 확인
         try:
             # Settings - 테스트를 위한 세팅
             team_feed = TeamFeed(driver)
@@ -365,14 +366,14 @@ class TestTeamFeedPage:
 
             # Precondition - 팀 피드 진입하여 팀 프로필 수정 모달 진입
             team_feed.into_team_feed()
-            team_feed.select_modify_team_profile_icon()
+            team_feed.click_modify_team_profile_icon()
 
             webutils.wait_for_element_presence(By.TAG_NAME, "form")  # 모달 내 정보 수정 폼 나타날 때까지 대기
 
             # Steps
             # 비선호 텍스트 입력
             in_modal_hate_text = "양식 중식 싫어요"
-            team_feed.modify_team_favorite_text(in_modal_hate_text)   
+            team_feed.modify_team_hate_text(in_modal_hate_text)   
             
             # 프로필 수정 완료 버튼 클릭
             team_feed.click_team_profile_modify_done()
@@ -392,15 +393,15 @@ class TestTeamFeedPage:
            raise
 
     #@pytest.mark.skip(reason="tested > passed")
-    def test_team_020_3(self, driver:WebDriver):    # 선호 / 비선호 텍스트 모두 10자 미만일 때 저장 시도 시 Error Alert Text 제공하는지 확인
+    def test_team_022(self, driver:WebDriver):    # 선호 / 비선호 텍스트 모두 10자 미만일 때 저장 시도 시 Error Alert Text 제공하는지 확인
         try:
             # Settings - 테스트를 위한 세팅
             team_feed = TeamFeed(driver)
             webutils = WebUtils(driver)
 
-            # Preconditions - 팀 피드 진입 후 팀 프로필 수정 모달 진입입
+            # Preconditions - 팀 피드 진입 후 팀 프로필 수정 모달 진입
             team_feed.into_team_feed()
-            team_feed.select_modify_team_profile_icon()
+            team_feed.click_modify_team_profile_icon()
 
             webutils.wait_for_element_presence(By.TAG_NAME, "form") # 모달 내 정보 수정 폼 나타날 때까지 대기
 
@@ -437,3 +438,49 @@ class TestTeamFeedPage:
         except Exception as e:
            LogUtils.log_error(e, driver)
            raise
+
+    def test_team_028(self,driver:WebDriver):   # 같이 먹은 메뉴 리스트 > 같은 메뉴 먹기 선택하여 또 먹은 후기 등록
+        # Setting - 테스트를 위한 세팅
+        team_feed = TeamFeed(driver)
+        webutils = WebUtils(driver)
+
+        # Precondition - 팀 피드 진입 및 팀이 먹은 메뉴 리스트 위치로 이동 > 같은 메뉴 먹기 선택하여 '또 먹은 후기 등록하기' 모달 진입입
+        team_feed.into_team_feed()
+        webutils.scroll_to_element(By.XPATH, "//*[@id='root']/div[1]/main/section/section/div[2]/canvas")
+        time.sleep(1)
+        webutils.wait_for_element_presence(By.CSS_SELECTOR, ".flex.w-full.gap-6.p-4.shadow-md.rounded-2xl")
+        
+        # 같은 메뉴 먹기 선택한 항목 값 추출
+        selected_area = driver.find_element(By.CSS_SELECTOR, "div.flex.w-full.gap-6.p-4.shadow-md.rounded-2xl")
+        selected_type = selected_area.find_element(By.CSS_SELECTOR, "div.inline-flex.inline-flex.items-center.px-2.py-1.rounded-full.text-xs.font-medium.bg-main.text-white").text
+        selected_category = selected_area.find_element(By.CSS_SELECTOR, "div.inline-flex.items-center.px-2.py-1.rounded-full.text-xs.font-medium.bg-sub.text-white").text
+        selected_menu = selected_area.find_element(By.CSS_SELECTOR, "div.font-bold").text
+
+        driver.find_element(By.XPATH, "//*[@id='root']/div[1]/main/section/section/div[3]/div[2]/div[1]/div[2]/button").click()
+        
+        # 모달 내에 불러와진 수정 불가 값 추출
+        modal = driver.find_element(By.ID, "modal-root")
+        modal_selected_type = modal.find_element(By.CSS_SELECTOR, "button[role='radio'][aria-checked='true']").get_attribute("id")
+        modal_selected_menu = modal.find_element(By.XPATH, "//*[@id='modal-root']/div/div[2]/section/form/div[4]/input").get_attribute("value")
+        modal_selected_category = driver.find_element(By.CSS_SELECTOR, "#modal-root > div > div.flex-1.overflow-auto > section > form > div:nth-child(5) > button > span").text
+
+        # 선택 항목과 모달 내의 내용 일치하는지 검증
+        assert selected_type == modal_selected_type, "❌ 선택한 항목과 식사 유형이 상이합니다."
+        print("✅ 선택한 항목과 식사 유형이 일치합니다.")
+        assert selected_menu == modal_selected_menu, "❌ 선택한 항목과 메뉴명이 상이합니다."
+        print("✅ 선택한 항목과 메뉴명이 일치합니다.")
+        # assert selected_category == modal_selected_category, "❌ 선택한 항목과 카테고리명이 상이합니다."
+        # print("✅ 선택한 항목과 카테고리명이 일치합니다.")
+
+        # Steps
+        # 1. 수정 가능 항목 수정하기
+        webutils.ate_party()
+        webutils.review_image_upload()
+        driver.find_element(By.NAME, "comment").clear()
+        webutils.review_comment_write("영업 종료하고\n레오니다스 사장님이랑 같이 참치회 먹었어요~\n완전 신선했는데 초장이랑 간장이랑만 먹어서 아쉽")
+        webutils.star_review_four_click()
+
+        # 2. 후기 작성 완료 버튼 선택
+        webutils.review_completed()
+        
+        # Expected Result - 등록한 내용대로 후기 정상 작성완료되어야 함
