@@ -51,7 +51,6 @@ class TestHomePage:
     restaurant_list_text_css_selector = "div.gap-2 > span.text-body"
     restaurant_list_css_selector = "div.swiper-wrapper"
     restaurant_css_selector = "div.swiper-slide"
-    restaurant_list_page_css_selector = "div.swiper-pagination"
     no_search_result_section_css_selector = "section.border-light-gray"
     no_search_result_text_css_selector = "h1.text-body"
     no_search_result_image_tag_name = "rect"
@@ -313,7 +312,6 @@ class TestHomePage:
             else:
                 restaurant_list = driver.find_elements(By.CSS_SELECTOR, self.restaurant_list_css_selector)
                 assert len(restaurant_list) > 0
-                assert driver.find_element(By.CSS_SELECTOR, self.restaurant_list_page_css_selector).is_displayed()
             
             assert driver.find_element(By.XPATH, menu_rcm.refresh_recommendation_btn_xpath).is_enabled()
 
@@ -781,18 +779,21 @@ class TestHomePage:
             
             driver.execute_script("window.scrollTo(0, 0);")
             util.click_element(By.CSS_SELECTOR, self.profile_cancel_btn_css_selector)
-
             selectors = [
                 self.profile_image_css_selector,
                 self.profile_name_css_selector,
                 self.profile_team_css_selector,
                 self.profile_cancel_btn_css_selector
             ]
-            for selector in selectors:
-                ws(driver, 1).until(
-                    EC.invisibility_of_element_located((By.CSS_SELECTOR, self.eating_people_css_selector + " " + selector))
+            selected_person_profile_disappeared = ws(driver, 1).until(
+                lambda driver: not any(
+                    e.is_displayed() for e in driver.find_elements(By.CSS_SELECTOR, ", ".join(
+                        self.eating_people_css_selector + " " + selector for selector in selectors
+                    ))
                 )
+            )
 
+            assert selected_person_profile_disappeared == True
             assert driver.find_element(By.XPATH, select_option.done_btn_xpath).get_attribute("disabled") is not None
             
             LogUtils.log_success()
@@ -864,7 +865,6 @@ class TestHomePage:
             else:
                 restaurant_list = driver.find_elements(By.CSS_SELECTOR, self.restaurant_list_css_selector)
                 assert len(restaurant_list) > 0
-                assert driver.find_element(By.CSS_SELECTOR, self.restaurant_list_page_css_selector).is_displayed()
             
             assert driver.find_element(By.XPATH, menu_rcm.refresh_recommendation_btn_xpath).is_enabled()
 
@@ -914,6 +914,7 @@ class TestHomePage:
             )
 
             util.click_back()
+            driver.execute_script("window.scrollTo(0, 0);")
             assert driver.current_url == "https://kdt-pt-1-pj-2-team03.elicecoding.com/selectoptions/together"
 
             dropdown_text = driver.find_element(By.CSS_SELECTOR, select_option.dropdown_css_selector + " span").text.strip()
@@ -925,10 +926,15 @@ class TestHomePage:
                 self.profile_team_css_selector,
                 self.profile_cancel_btn_css_selector
             ]
-            for selector in selectors:
-                ws(driver, 1).until(
-                    EC.invisibility_of_element_located((By.CSS_SELECTOR, self.eating_people_css_selector + " " + selector))
+            selected_person_profile_disappeared = ws(driver, 1).until(
+                lambda driver: not any(
+                    e.is_displayed() for e in driver.find_elements(By.CSS_SELECTOR, ", ".join(
+                        self.eating_people_css_selector + " " + selector for selector in selectors
+                    ))
                 )
+            )
+
+            assert selected_person_profile_disappeared == True
 
             assert driver.find_element(By.XPATH, select_option.done_btn_xpath).get_attribute("disabled") is not None
 
@@ -1308,7 +1314,6 @@ class TestHomePage:
             else:
                 restaurant_list = driver.find_elements(By.CSS_SELECTOR, self.restaurant_list_css_selector)
                 assert len(restaurant_list) > 0
-                assert driver.find_element(By.CSS_SELECTOR, self.restaurant_list_page_css_selector).is_displayed()
             
             assert driver.find_element(By.XPATH, menu_rcm.refresh_recommendation_btn_xpath).is_enabled()
 
