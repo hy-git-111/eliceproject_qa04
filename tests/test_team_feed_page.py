@@ -484,3 +484,48 @@ class TestTeamFeedPage:
         webutils.review_completed()
         
         # Expected Result - 등록한 내용대로 후기 정상 작성완료되어야 함
+        
+# ==================================================== 여기부터 데모용 TC 코드입니다 ====================================================
+
+    def for_demo_songyi(self,driver:WebDriver):   # 같이 먹은 메뉴 리스트 > 같은 메뉴 먹기 선택하여 또 먹은 후기 등록
+        # Setting - 테스트를 위한 세팅
+        team_feed = TeamFeed(driver)
+        webutils = WebUtils(driver)
+
+        # Precondition - 팀 피드 진입 및 팀이 먹은 메뉴 리스트 위치로 이동 > 같은 메뉴 먹기 선택하여 '또 먹은 후기 등록하기' 모달 진입입
+        team_feed.into_team_feed()
+        webutils.scroll_to_element(By.XPATH, "//*[@id='root']/div[1]/main/section/section/div[2]/canvas")
+        time.sleep(1)
+        webutils.wait_for_element_presence(By.CSS_SELECTOR, ".flex.w-full.gap-6.p-4.shadow-md.rounded-2xl")
+        
+        # 같은 메뉴 먹기 선택한 항목 값 추출
+        selected_area = driver.find_element(By.CSS_SELECTOR, "div.flex.w-full.gap-6.p-4.shadow-md.rounded-2xl")
+        selected_type = selected_area.find_element(By.CSS_SELECTOR, "div.inline-flex.inline-flex.items-center.px-2.py-1.rounded-full.text-xs.font-medium.bg-main.text-white").text
+        selected_category = selected_area.find_element(By.CSS_SELECTOR, "div.inline-flex.items-center.px-2.py-1.rounded-full.text-xs.font-medium.bg-sub.text-white").text
+        selected_menu = selected_area.find_element(By.CSS_SELECTOR, "div.font-bold").text
+
+        driver.find_element(By.XPATH, "//*[@id='root']/div[1]/main/section/section/div[3]/div[2]/div[1]/div[2]/button").click()
+        
+        # 모달 내에 불러와진 수정 불가 값 추출
+        modal = driver.find_element(By.ID, "modal-root")
+        modal_selected_type = modal.find_element(By.CSS_SELECTOR, "button[role='radio'][aria-checked='true']").get_attribute("id")
+        modal_selected_menu = modal.find_element(By.XPATH, "//*[@id='modal-root']/div/div[2]/section/form/div[4]/input").get_attribute("value")
+
+        # 선택 항목과 모달 내의 내용 일치하는지 검증
+        assert selected_type == modal_selected_type, "❌ 선택한 항목과 식사 유형이 상이합니다."
+        print("✅ 선택한 항목과 식사 유형이 일치합니다.")
+        assert selected_menu == modal_selected_menu, "❌ 선택한 항목과 메뉴명이 상이합니다."
+        print("✅ 선택한 항목과 메뉴명이 일치합니다.")
+
+        # Steps
+        # 1. 수정 가능 항목 수정하기
+        webutils.ate_party()
+        webutils.review_image_upload()
+        driver.find_element(By.NAME, "comment").clear()
+        webutils.review_comment_write("영업 종료하고\n레오니다스 사장님이랑 같이 참치회 먹었어요~\n완전 신선했는데 초장이랑 간장이랑만 먹어서 아쉽")
+        webutils.star_review_four_click()
+
+        # 2. 후기 작성 완료 버튼 선택
+        webutils.review_completed()
+
+# ==================================================== 여기까지 데모 코드입니다. ====================================================
