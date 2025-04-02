@@ -1508,3 +1508,176 @@ class TestHomePage:
         except Exception as e:
             LogUtils.log_error(e, driver)
             raise
+
+
+################################# for 시연 영상
+            
+            # 로그인 후 [홈 페이지]에 진입하여 UI 검증
+            ws(driver, 5).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, self.header_text_css_selector))
+            )
+            
+            header_text = driver.find_element(By.CSS_SELECTOR, self.header_text_css_selector).text.strip()
+            assert header_text == "오늘 뭐먹지 ?"
+            
+            ai_recommendation_text = driver.find_element(By.CSS_SELECTOR, self.ai_recommendation_text_css_selector).text.strip()
+            assert ai_recommendation_text == "💻 AI를 통해 음식 메뉴를 추천 받아 보세요!"
+
+            eat_alone_text = driver.find_element(By.CSS_SELECTOR, home.eat_alone_btn_css_selector).text.strip()
+            eat_together_text = driver.find_element(By.CSS_SELECTOR, home.eat_together_btn_css_selector).text.strip()
+            eat_team_text = driver.find_element(By.CSS_SELECTOR, home.eat_team_btn_css_selector).text.strip()
+            assert eat_alone_text == "혼자 먹기"
+            assert eat_together_text == "같이 먹기"
+            assert eat_team_text == "회식 하기"
+
+            employee_preference_text = driver.find_element(By.CSS_SELECTOR, self.employee_preference_text_css_selector).text.strip()
+            assert employee_preference_text == "🍽️ 직원들이 가장 선호하는 음식 종류는 무엇일까요?"
+    
+            preference_analysis_chart = driver.find_element(By.CSS_SELECTOR, self.preference_analysis_chart_css_selector)
+            assert preference_analysis_chart.is_displayed()
+
+            menu_suggestion_text = driver.find_element(By.CSS_SELECTOR, self.menu_suggestion_text_css_selector).text.strip()
+            assert menu_suggestion_text == "메뉴 추천"
+
+            menu_suggestion_subtext = driver.find_element(By.CSS_SELECTOR, self.menu_suggestion_subtext_css_selector).text.strip()
+            assert menu_suggestion_subtext == "오늘은 이런 메뉴는 어떠세요?"
+            
+            my_preference_text = driver.find_element(By.CSS_SELECTOR, self.my_preference_text_css_selector).text.strip()
+            assert my_preference_text == "💁🏻‍♂️ 나의 취향 분석"
+            
+            my_preference_subtext = driver.find_element(By.XPATH, self.my_preference_subtext_xpath).text.strip()
+            assert my_preference_subtext == "AI가 분석한 취향 데이터입니다."
+            
+            assert driver.find_element(By.CSS_SELECTOR, self.navigation_bar_css_selector).is_displayed()
+
+            navigation_home_icon_color = driver.find_element(By.CSS_SELECTOR, self.navigation_home_icon_css_selector).value_of_css_property("color")
+            navigation_home_text_color = driver.find_element(By.CSS_SELECTOR, self.navigation_home_text_css_selector).value_of_css_property("color")
+            assert navigation_home_icon_color == "rgba(255, 77, 77, 1)"
+            assert navigation_home_text_color == "rgba(255, 77, 77, 1)"
+            
+            LogUtils.log_success()
+
+            # "혼자 먹기 버튼" 클릭 후 [추천 옵션 선택 페이지] 진입하여 UI 검증
+            home.open_eat_alone()
+            ws(driver, 5).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, '.rounded-full.cursor-pointer'))
+            )
+            
+            header_text = driver.find_element(By.CSS_SELECTOR, self.header_text_css_selector).text.strip()
+            assert header_text == "추천 옵션 선택"
+            
+            select_category_text = driver.find_element(By.CSS_SELECTOR, self.select_category_text_css_selector).text.strip()
+            assert select_category_text == "🍽️ 추천 받고자하는 음식 카테고리"
+
+            dropdown_text = driver.find_element(By.CSS_SELECTOR, select_option.dropdown_css_selector + " span").text.strip()
+            assert dropdown_text == "음식 카테고리를 설정해주세요"
+
+            eating_people_text = driver.find_element(By.XPATH, self.eating_people_text_xpath).text.strip()
+            assert eating_people_text == "🙌 먹는 인원"
+
+            profile_image = driver.find_element(By.CSS_SELECTOR, self.profile_image_css_selector)
+            profile_name = driver.find_element(By.CSS_SELECTOR, self.profile_name_css_selector)
+            profile_team = driver.find_element(By.CSS_SELECTOR, self.profile_team_css_selector)
+            assert profile_image.is_displayed()
+            assert profile_name.is_displayed()
+            assert profile_team.is_displayed()
+
+            assert driver.find_element(By.XPATH, select_option.done_btn_xpath).get_attribute("disabled") is not None
+            
+            assert driver.find_element(By.CSS_SELECTOR, self.navigation_bar_css_selector).is_displayed()
+            
+            LogUtils.log_success()
+
+            # [추천 옵션 선택 페이지] 음식 카테고리 선택하고, 선택한 카테고리명이 드롭다운에 노출되는지 검증
+            select_option.click_category_dropdown()
+            select_option.click_category_dropdown_option_randomly()
+            
+            selected_option_text = driver.find_element(By.CSS_SELECTOR, "span[style='pointer-events: none;']").text.strip()
+            dropdown_text = driver.find_element(By.CSS_SELECTOR, select_option.dropdown_css_selector + " span").text.strip()
+            
+            assert selected_option_text == dropdown_text
+            assert driver.find_element(By.XPATH, select_option.done_btn_xpath).is_enabled()
+            
+            LogUtils.log_success()
+
+            # [추천 옵션 선택 페이지]의 "선택 완료 버튼" 클릭 후 [메뉴 추천 페이지] 진입하여 UI 검증
+            select_option.click_done_button()
+            ws(driver, 5).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, '.rounded-full.cursor-pointer'))
+            )
+
+            header_text = driver.find_element(By.CSS_SELECTOR, self.header_text_css_selector).text.strip()
+            assert header_text == "메뉴 추천"
+
+            menu_rcm_text = driver.find_element(By.CSS_SELECTOR, self.menu_recommendation_text_css_selector).text.strip()
+            menu_text = driver.find_element(By.CSS_SELECTOR, self.menu_text_css_selector).text.strip()
+            assert menu_rcm_text == f"오늘 메뉴는 {menu_text} 어떠세요?"
+
+            assert driver.find_element(By.CSS_SELECTOR, self.food_image_css_selector).is_displayed()
+
+            ai_analysis_text = driver.find_element(By.XPATH, self.ai_analysis_text_xpath).text.strip()
+            assert ai_analysis_text == "💻 AI가 분석한 취향 적합률"
+
+            percentage = driver.find_element(By.CSS_SELECTOR, self.ai_analysis_percentage_css_selector)
+            assert percentage.is_displayed()
+            
+            percentage = float(percentage.text.strip().replace("%", ""))
+            assert 0 < percentage < 100
+
+            restaurant_list_text = driver.find_element(By.CSS_SELECTOR, self.restaurant_list_text_css_selector).text.strip()
+            assert restaurant_list_text == f"🍽️ {menu_text}에 해당하는 맛집 리스트"
+            
+            if len(driver.find_elements(By.CSS_SELECTOR, self.no_search_result_section_css_selector)) > 0:
+                assert driver.find_element(By.CSS_SELECTOR, self.no_search_result_text_css_selector).text.strip() == "검색 결과가 없습니다!"
+                assert driver.find_element(By.TAG_NAME, self.no_search_result_image_tag_name).is_displayed()
+            else:
+                restaurant_list = driver.find_elements(By.CSS_SELECTOR, self.restaurant_list_css_selector)
+                assert len(restaurant_list) > 0
+            
+            assert driver.find_element(By.XPATH, menu_rcm.refresh_recommendation_btn_xpath).is_enabled()
+
+            assert driver.find_element(By.XPATH, menu_rcm.accept_recommendation_btn_xpath).is_enabled()
+
+            assert driver.find_element(By.CSS_SELECTOR, self.navigation_bar_css_selector).is_displayed()
+            
+            LogUtils.log_success()
+
+            # [메뉴 추천 페이지]의 "다시 추천 받기 버튼" 클릭하여 검색 결과가 새로고침되는지 검증
+            previous_menu = driver.find_element(By.CSS_SELECTOR, self.menu_text_css_selector).text.strip()
+            util.scroll_to_element(By.XPATH, menu_rcm.refresh_recommendation_btn_xpath)
+            util.click_element(By.XPATH, menu_rcm.refresh_recommendation_btn_xpath)
+            driver.execute_script("window.scrollTo(0, 0);")
+            ws(driver, 5).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, self.food_image_css_selector))
+            )
+            time.sleep(1)
+            new_menu = driver.find_element(By.CSS_SELECTOR, self.menu_text_css_selector).text.strip()
+
+            assert previous_menu != new_menu
+
+            LogUtils.log_success()
+
+            # [메뉴 추천 페이지]의 "추천 수락 하기 버튼" 클릭하여 [히스토리 페이지] 진입 후, 해당 메뉴가 최상단에 추가되었는지 검증
+            menu = driver.find_element(By.CSS_SELECTOR, self.menu_text_css_selector).text.strip()
+            food_image = driver.find_element(By.CSS_SELECTOR, self.food_image_css_selector).get_attribute("src")
+            percentage = float(driver.find_element(By.CSS_SELECTOR, self.ai_analysis_percentage_css_selector).text.strip().replace("%", ""))
+            if percentage % 1 >= 0.5:
+                percentage = int(percentage) + 1
+            else:
+                percentage = int(percentage)
+            percentage = float(percentage)
+
+            util.scroll_to_element(By.XPATH, menu_rcm.accept_recommendation_btn_xpath)
+            util.click_element(By.XPATH, menu_rcm.accept_recommendation_btn_xpath)
+            ws(driver, 5).until(
+                lambda d: d.current_url == "https://kdt-pt-1-pj-2-team03.elicecoding.com/history"
+            )
+
+            driver.execute_script("window.scrollTo(0, 0);")
+            assert driver.find_element(By.CSS_SELECTOR, self.history_food_image_css_selector).get_attribute("src") == food_image
+            assert driver.find_elements(By.CSS_SELECTOR, self.history_tag_css_selector)[0].text.strip() == "혼밥"
+            assert driver.find_elements(By.CSS_SELECTOR, self.history_tag_css_selector)[1].text.strip() == selected_option_text
+            assert driver.find_element(By.CSS_SELECTOR, self.history_menu_text_css_selector).text.strip() == menu
+            assert float(driver.find_element(By.CSS_SELECTOR, self.history_percentage_css_selector).text.strip().replace("%", "")) == percentage
+
+            LogUtils.log_success()
