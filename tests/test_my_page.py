@@ -44,7 +44,7 @@ class TestMyPage:
 
             # 프로필 - 계정 정의 필요
             team_name = driver.find_element(By.XPATH, '//*[@id="root"]/div[1]/main/section/section/section/div[1]/div[2]/div/div/span').text
-            assert team_name == "디자인 1팀"
+            assert team_name == "개발 1팀"
 
             user_name = driver.find_element(By.XPATH, '//*[@id="root"]/div[1]/main/section/section/section/div[1]/div[2]/span').text
             assert user_name == "4조_test"
