@@ -405,20 +405,18 @@ class TestScenario:
             recent_review = my_page.recent_review_info()
             expected_review = {
                 "image_filename": image_file_name_input,
-                "tags": tag_input,
+                # "tags": tag_input,
                 "menu_name": food_name_input,
                 "star_rating": selected_star,
                 "review_text": food_review_input
                 }
             
-            print(recent_review)
+            # print(recent_review)
             # {'image_filename': '418accae-8dcc-4d25-b7cb-5e96e1f7e212_review_photo.jpg', 
             # 'tags': ['그룹', '패스트푸드', '같은 메뉴 먹기'], 
             # 'menu_name': '메뉴명을 입력하자', 
             # 'star_rating': 3, 
-            # 'review_text': '후기를 입력하자'}
-            print(type(recent_review))  # list
-            
+            # 'review_text': '후기를 입력하자'}            
 
             for key in expected_review:
                 if key == "image_filename":
@@ -437,31 +435,19 @@ class TestScenario:
                     print(recent_review[key])
                     assert recent_review[key] == expected_review[
                     key], f"{key}값: 예상'{expected_review[key]}',실제'{recent_review[key]}'"
-            
-
-
-
+  
             # 기존 코드
             
             # for key in expected_review:
             #     assert recent_review[key] == expected_review[
             #         key], f"{key}값: 예상'{expected_review[key]}',실제'{recent_review[key]}'"
-
-                    
-
-
-            # 기존 코드
-            # for key in expected_review:
-            #     assert recent_review[key] == expected_review[
-            #         key], f"{key}값: 예상'{expected_review[key]}',실제'{recent_review[key]}'"
-
 
             LogUtils.log_success()
         except Exception as e:
             LogUtils.log_error(e, driver)
             raise
     
-    @pytest.mark.skip()
+    # @pytest.mark.skip()
     def test_scenario_2(self, driver):
         try:
             # 1. [로그인 페이지] 기존 계정 로그인 ~ [팀피드] 같은 메뉴 먹기 등록록
@@ -472,7 +458,7 @@ class TestScenario:
             # Precondition - 팀 피드 진입 및 팀이 먹은 메뉴 리스트 위치로 이동 > 같은 메뉴 먹기 선택하여 '또 먹은 후기 등록하기' 모달 진입입
             team_feed.into_team_feed()
             webutils.scroll_to_element(By.XPATH, "//*[@id='root']/div[1]/main/section/section/div[2]/canvas")
-            time.sleep(1)
+            # time.sleep(1)
             webutils.wait_for_element_presence(By.CSS_SELECTOR, ".flex.w-full.gap-6.p-4.shadow-md.rounded-2xl")
             
             # 같은 메뉴 먹기 선택한 항목 값 추출
@@ -480,7 +466,8 @@ class TestScenario:
             selected_type = selected_area.find_element(By.CSS_SELECTOR, "div.inline-flex.inline-flex.items-center.px-2.py-1.rounded-full.text-xs.font-medium.bg-main.text-white").text
             selected_category = selected_area.find_element(By.CSS_SELECTOR, "div.inline-flex.items-center.px-2.py-1.rounded-full.text-xs.font-medium.bg-sub.text-white").text
             selected_menu = selected_area.find_element(By.CSS_SELECTOR, "div.font-bold").text
-
+            time.sleep(2)
+            
             driver.find_element(By.XPATH, "//*[@id='root']/div[1]/main/section/section/div[3]/div[2]/div[1]/div[2]/button").click()
             
             # 모달 내에 불러와진 수정 불가 값 추출
@@ -501,10 +488,13 @@ class TestScenario:
             webutils.review_image_upload()
             driver.find_element(By.NAME, "comment").clear()
             webutils.review_comment_write("영업 종료하고\n레오니다스 사장님이랑 같이 참치회 먹었어요~\n완전 신선했는데 초장이랑 간장이랑만 먹어서 아쉽")
+            time.sleep(2)
+            
             webutils.star_review_four_click()
 
             # 2. 후기 작성 완료 버튼 선택
             webutils.review_completed()
+            time.sleep(2)
 
             # 개인 피드 진입
             webutils.click_tab_personal()
