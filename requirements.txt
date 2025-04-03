@@ -1,0 +1,6 @@
+selenium==4.10.0   # 웹 자동화 및 UI 테스트
+selenium-stealth==1.0.6   # Selenium 탐지 회피
+pytest==8.0.0   # 테스트 자동화 프레임워크
+pytest-html==4.0.0   # HTML 테스트 리포트 생성
+requests==2.31.0   # API 테스트 및 HTTP 요청
+
