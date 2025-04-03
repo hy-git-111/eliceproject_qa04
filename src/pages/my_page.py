@@ -107,7 +107,7 @@ class MyPage():
         img_filename = img_src.split("/")[-1]  # URL에서 파일명 추출
 
         # 태그명 가져오기 (최대 3개)
-        tag_elements = recent_review.find_elements(By.CSS_SELECTOR, ".flex.gap-2 .inline-flex")[:2]
+        tag_elements = recent_review.find_elements(By.CSS_SELECTOR, ".flex.gap-2 .inline-flex")[:3]
         tags = [tag.text for tag in tag_elements]
 
         # 메뉴명 가져오기
