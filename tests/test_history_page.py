@@ -318,6 +318,7 @@ class TestHistoryPage:
             driver.find_element(By.CLASS_NAME, 'resize-none').send_keys(review_data["review"])
             time.sleep(1)
             web_utils.star_review_four_click()
+            time.sleep(1)
             web_utils.review_completed()
             time.sleep(2)
 

@@ -47,7 +47,10 @@ class TestLoginPage:
             placeholders_keys = ["login_input_pg_placeholder_email", "login_input_pg_placeholder_pwd"]
 
             web_utils.open_url()    # 웹사이트 진입
+            time.sleep(2)
             web_utils.click_element(*LOCATORS.get("login_pg_login_btn"))   # 로그인 버튼 클릭
+
+            time.sleep(2)
 
             titles_elems = verify_helpers.check_existence(titles_keys)
             titles = verify_helpers.get_elems_texts(titles_elems)
@@ -121,7 +124,9 @@ class TestLoginPage:
 
             web_utils.open_url()    # 웹사이트 진입
             web_utils.click_element(*LOCATORS.get("login_pg_login_btn"))   # "로그인 하기 버튼" 클릭
+            time.sleep(1)
             web_utils.click_element(*LOCATORS.get("login_input_pg_link_reset_pwd"))    # '비밀번호를 잊으셨나요? 링크' 클릭
+            time.sleep(1)
 
             login_page.input_email(*LOCATORS.get("pwd_reset_pg_input_email"), login_data["valid_email"])
             web_utils.click_element(*LOCATORS.get("pwd_reset_pg_btn_continue"))    # 이메일 전송
@@ -154,6 +159,7 @@ class TestLoginPage:
 
             web_utils.open_url()    # 웹사이트 진입
             web_utils.click_element(*LOCATORS.get("login_pg_signin_btn"))   # "회원가입 버튼" 클릭
+            time.sleep(1)
 
             titles_elems = verify_helpers.check_existence(titles_keys)
             titles = verify_helpers.get_elems_texts(titles_elems)
@@ -194,6 +200,7 @@ class TestLoginPage:
             
             web_utils.open_url()    # 웹사이트 진입
             web_utils.click_element(*LOCATORS.get("login_pg_signin_btn"))   # "회원가입 버튼" 클릭
+            time.sleep(1)
 
             login_page.input_email(*LOCATORS.get("signin_pg_input_email"), signin_email)    # 이메일 입력
 
@@ -237,6 +244,7 @@ class TestLoginPage:
             
             ## 원래 코드
             web_utils.click_element(*LOCATORS.get("login_pg_signin_btn"))   # "회원가입 버튼" 클릭
+            time.sleep(1)
             login_page.input_email(*LOCATORS.get("signin_pg_input_email"), signin_email)    # 이메일 입력
             login_page.input_password(*LOCATORS.get("signin_pg_input_pwd"), signin_data["password"])  # 비밀번호 입력
             web_utils.click_element(*LOCATORS.get("signin_pg_btn_continue"))# "계속하기 버튼" 클릭

@@ -9,8 +9,6 @@ from src.utils.log_util import LogUtils
 from tests.conftest import driver
 from src.pages.my_page import MyPage
 
-
-
 class TestMyPage:
     # @pytest.mark.skip
     # 개인 피드 페이지 UI 확인
@@ -232,7 +230,7 @@ class TestMyPage:
             raise
 
 
-    @pytest.mark.skip(reason = "not comleted slider")
+    #@pytest.mark.skip(reason = "not comleted slider")
     # 프로필 수정 기능 테스트
     def test_my_page_004(self, driver):
         try:
